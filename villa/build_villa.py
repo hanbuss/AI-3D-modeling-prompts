@@ -16,7 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
-from lib import kit, mats, arch, furni, nature, details, assets   # noqa: E402
+from lib import kit, mats, arch, furni, nature, details, assets, gate   # noqa: E402
 import random as _r                                   # noqa: E402
 from lib.kit import GB, D, TAU, lerp                 # noqa: E402
 
@@ -117,19 +117,33 @@ def build_site():
     gb.boxb(((2.6, 4.4), (6.6, 7.6), (0.0, 0.16)), mat="M_StoneLight")
     CTX.mesh(gb, "SITE_Plinth")
 
-    # 院墙（南墙带月亮门，其余素墙压瓦）
+    # 院墙（新中式三段式：勒脚 + 墙身 + 压顶 + 筒瓦小披檐 + 壁柱 + 木格栅饰板）
     gb = GB("SITE_PerimeterWall")
-    arch.moon_gate_wall(gb, -20.0, 20.0, -17.4, 0.02, 2.85, 0.0, 1.25, t=0.40)
-    wy(gb, -20.0, -17.6, 16.0, 0.02, 2.85, 0.40, "M_WallWhite")
-    wy(gb, 20.0, -17.6, 16.0, 0.02, 2.85, 0.40, "M_WallWhite")
-    wx(gb, 16.0, -20.0, 20.0, 0.02, 2.85, 0.40, "M_WallWhite")
-    # 侧墙压顶
-    for (x0, x1, y0, y1) in ((-20.2, -19.8, -17.6, 16.2), (19.8, 20.2, -17.6, 16.2),
-                             (-20.2, 20.2, 15.8, 16.2)):
-        gb.boxb(((x0, x1), (y0, y1), (2.85, 2.95)), mat="M_Tile")
-        gb.boxb(((x0 - 0.10, x1 + 0.10), (y0 - 0.10, y1 + 0.10), (2.95, 3.02)),
-                mat="M_TileEdge")
+    H = gate.WALL_H
+    # —— 南墙（含主入口门楼 + 车行门开口）——
+    gate.wall_run(gb, "X", -17.4, -20.0, -1.10, outer_sign=-1)
+    gate.wall_run(gb, "X", -17.4, 2.70, 9.62, outer_sign=-1)
+    gate.wall_run(gb, "X", -17.4, 15.98, 20.0, outer_sign=-1)
+    # —— 东西山墙 / 北墙 ——
+    gate.wall_run(gb, "Y", -20.0, -17.4, 16.0, outer_sign=-1)
+    gate.wall_run(gb, "Y", 20.0, -17.4, 16.0, outer_sign=1)
+    gate.wall_run(gb, "X", 16.0, -20.0, 20.0, outer_sign=1)
     CTX.mesh(gb, "SITE_PerimeterWall")
+
+    # 大门构件（门楼 / 车行门 / 影壁）单独成 mesh，便于查看器分层
+    gb = GB("SITE_MainGate")
+    gate.main_gate(gb, 0.80, -17.4, w=2.60, side=-1)
+    CTX.mesh(gb, "SITE_MainGate")
+
+    gb = GB("SITE_CarGate")
+    gate.car_gate(gb, 12.80, -17.4, w=5.20, open_=0.55)
+    CTX.mesh(gb, "SITE_CarGate")
+
+    gb = GB("SITE_ScreenWall")
+    gate.screen_wall(gb, 0.80, -13.60, w=2.60, h=2.30)
+    CTX.mesh(gb, "SITE_ScreenWall")
+
+
 
     # 车道 + 停车铺装（南院东侧）
     gb = GB("SITE_Paving")
