@@ -33,6 +33,7 @@ python -m http.server 8899
 | `villa.blend` | Blender 工程 |
 | `build_villa.py` | 总装脚本（约 3 秒重建全场景） |
 | `lib/kit.py` `mats.py` `arch.py` `furni.py` `nature.py` `details.py` | 几何内核 / 材质 / 建筑构件 / 家具 / 植物 / 门窗细节 |
+| `lib/gate.py` | 院墙（三段式 + 壁柱 + 瓦檐）/ 门楼 / 影壁 / 车行门 |
 | `lib/texgen.py` + `textures/` | 12 套可平铺 PBR 贴图（albedo + normal） |
 | `prep_assets.py` + `lib/assets.py` + `assets/` | PolyHaven CC0 成品植被（树/松/花/地被）的下载、减面、实例化 |
 | `audit.py` + `walls.json` | 布局审查（浮空/穿墙/越界/穿插） |
