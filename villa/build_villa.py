@@ -173,7 +173,7 @@ def build_shell():
     # 门窗构件
     arch.glasswall(gb, -6.85, -2.45, 0.30, 2.95, BY0 - 0.06, BY0 + 0.06, "X", cols=4)
     arch.window(gb, -6.85, -2.45, 0.30, 2.95, BY0 - 0.06, BY0 + 0.06, "X", "plain", cols=4, rows=1, glass="M_Glass", sill=False, surround=True) if False else None
-    arch.door(gb, 0.10, 1.55, 0.16, 2.60, BY0 - 0.10, BY0 + 0.10, "X", "M_WoodDark", 0.8)
+    arch.double_door(gb, 0.10, 1.55, 0.20, 2.52, BY0 - 0.12, BY0 + 0.12, "X", "M_WoodDark", 0.35)
     arch.window(gb, 1.85, 2.95, 0.70, 2.60, BY0 - 0.06, BY0 + 0.06, "X", "lattice", cols=2, rows=2, surround=True)
     arch.window(gb, -7.2, -4.6, 0.90, 2.60, BY1 - 0.06, BY1 + 0.06, "X", "lattice", cols=3, rows=2, surround=True)
     arch.door(gb, -1.0, 1.0, 0.16, 2.60, BY1 - 0.10, BY1 + 0.10, "X", "M_WoodDark", 0.15)
@@ -1002,9 +1002,10 @@ def build_garden():
               -8.90 + dx, -8.60 + dy, 0.11, math.radians(rz))
     place(L2, "GARDEN_CafeCup", lambda gb: (
         gb.lathe([(0.045, 0), (0.075, 0.03), (0.078, 0.09), (0.05, 0.12)],
-                 seg=16, center=(0.10, 0.06, 0.505), mat="M_Porcelain"),
+                 seg=16, center=(0.13, 0.05, 0.443), mat="M_Porcelain"),
         gb.lathe([(0.045, 0), (0.075, 0.03), (0.078, 0.09), (0.05, 0.12)],
-                 seg=16, center=(-0.12, -0.08, 0.505), mat="M_Porcelain")),
+                 seg=16, center=(-0.14, -0.07, 0.443), mat="M_Porcelain"),
+        gb.cyl(0.055, 0.012, (0.13, 0.05, 0.437), seg=16, mat="M_Porcelain")),
         -8.90, -8.60, 0.11, 0.0)
 
     def reeds_fn(gb2):

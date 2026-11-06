@@ -111,33 +111,85 @@ def glasswall(gb, a0, a1, c0, c1, b0, b1, axis="X", cols=4, rows=1,
 
 
 def door(gb, a0, a1, c0, c1, b0, b1, axis="X", mat="M_WoodDark", open_=0.55):
-    """单扇平开门（部分开启），open_ = 开启角度的 sin 近似位移。"""
-    w = (a1 - a0) - 0.09
-    h = (c1 - c0) - 0.04
-    # 门套
-    box_axis(gb, a0, a0 + 0.045, b0 - 0.02, b1 + 0.02, c0, c1, axis, mat)
-    box_axis(gb, a1 - 0.045, a1, b0 - 0.02, b1 + 0.02, c0, c1, axis, mat)
-    box_axis(gb, a0, a1, b0 - 0.02, b1 + 0.02, c1 - 0.045, c1, axis, mat)
-    # 门扇：旋转到开启位置
-    ang = D(58 * open_)
+    """单扇平开门：门套 + 洞口内衬 + 门槛石 + 门扇（按 open_ 部分开启）。"""
+    w = (a1 - a0)
+    h = (c1 - c0)
+    # 洞口内衬（把墙体切面盖住，避免露出毛边）
+    for (u0, u1) in ((a0, a0 + 0.022), (a1 - 0.022, a1)):
+        box_axis(gb, u0, u1, b0, b1, c0, c1, axis, "M_WallWhite")
+    box_axis(gb, a0, a1, b0, b1, c1 - 0.022, c1, axis, "M_WallWhite")
+    # 门槛石
+    box_axis(gb, a0 - 0.02, a1 + 0.02, b0 - 0.04, b1 + 0.04, c0 - 0.03, c0 + 0.012,
+             axis, "M_StoneLight")
+    # 外门套（比墙面凸出一点）
+    e = 0.07
+    box_axis(gb, a0 - e, a0, b0 - 0.03, b1 + 0.03, c0, c1 + e, axis, mat)
+    box_axis(gb, a1, a1 + e, b0 - 0.03, b1 + 0.03, c0, c1 + e, axis, mat)
+    box_axis(gb, a0 - e, a1 + e, b0 - 0.03, b1 + 0.03, c1, c1 + e, axis, mat)
+    # 门扇
+    lw = w - 0.075
+    lh = h - 0.05
+    ang = D(min(38.0, 58.0 * open_))
     bm = (b0 + b1) / 2
     if axis == "X":
-        M = (Matrix.Translation((a0 + 0.045, bm, c0 + 0.02)) @
+        M = (Matrix.Translation((a0 + 0.030, bm, c0 + 0.012)) @
              Matrix.Rotation(ang, 4, "Z"))
     else:
-        M = (Matrix.Translation((bm, a0 + 0.045, c0 + 0.02)) @
+        M = (Matrix.Translation((bm, a0 + 0.030, c0 + 0.012)) @
              Matrix.Rotation(-ang, 4, "Z"))
     with gb.frame(M):
         if axis == "X":
-            gb.box((w, 0.05, h), (w / 2, 0, h / 2), mat=mat)
+            gb.box((lw, 0.05, lh), (lw / 2, 0, lh / 2), mat=mat)
             for k in range(1, 4):
-                gb.box((w, 0.058, 0.012), (w / 2, 0, h * k / 4), mat="M_Brass")
-            gb.cyl(0.028, 0.10, (w - 0.12, 0.09, h * 0.46), axis="Y", mat="M_Brass")
+                gb.box((lw - 0.06, 0.058, 0.012), (lw / 2, 0, lh * k / 4), mat="M_Brass")
+            gb.cyl(0.028, 0.10, (lw - 0.12, 0.09, lh * 0.46), axis="Y", mat="M_Brass")
         else:
-            gb.box((0.05, w, h), (0, w / 2, h / 2), mat=mat)
+            gb.box((0.05, lw, lh), (0, lw / 2, lh / 2), mat=mat)
             for k in range(1, 4):
-                gb.box((0.058, w, 0.012), (0, w / 2, h * k / 4), mat="M_Brass")
-            gb.cyl(0.028, 0.10, (0.09, w - 0.12, h * 0.46), axis="X", mat="M_Brass")
+                gb.box((0.058, lw - 0.06, 0.012), (0, lw / 2, lh * k / 4), mat="M_Brass")
+            gb.cyl(0.028, 0.10, (0.09, lw - 0.12, lh * 0.46), axis="X", mat="M_Brass")
+
+
+def double_door(gb, a0, a1, c0, c1, b0, b1, axis="X", mat="M_WoodDark", open_=0.35):
+    """双开平开门：一扇开、一扇掩着，配门套/内衬/门槛石。入户门用。"""
+    w = a1 - a0
+    h = c1 - c0
+    for (u0, u1) in ((a0, a0 + 0.022), (a1 - 0.022, a1)):
+        box_axis(gb, u0, u1, b0, b1, c0, c1, axis, "M_WallWhite")
+    box_axis(gb, a0, a1, b0, b1, c1 - 0.022, c1, axis, "M_WallWhite")
+    box_axis(gb, a0 - 0.02, a1 + 0.02, b0 - 0.05, b1 + 0.05, c0 - 0.03, c0 + 0.014,
+             axis, "M_StoneLight")
+    e = 0.085
+    box_axis(gb, a0 - e, a0, b0 - 0.035, b1 + 0.035, c0, c1 + e, axis, mat)
+    box_axis(gb, a1, a1 + e, b0 - 0.035, b1 + 0.035, c0, c1 + e, axis, mat)
+    box_axis(gb, a0 - e, a1 + e, b0 - 0.035, b1 + 0.035, c1, c1 + e, axis, mat)
+    bm = (b0 + b1) / 2
+    lw = (w - 0.06) / 2
+    lh = h - 0.05
+    for side, swing in ((-1, D(34.0 * open_ / 0.35)), (1, D(1.5))):
+        hinge = a0 + 0.030 if side < 0 else a1 - 0.030
+        if axis == "X":
+            M = (Matrix.Translation((hinge, bm, c0 + 0.014)) @
+                 Matrix.Rotation(-swing if side < 0 else swing, 4, "Z"))
+        else:
+            M = (Matrix.Translation((bm, hinge, c0 + 0.014)) @
+                 Matrix.Rotation(swing if side < 0 else -swing, 4, "Z"))
+        with gb.frame(M):
+            sgn = 1 if side < 0 else -1
+            if axis == "X":
+                gb.box((lw, 0.05, lh), (sgn * lw / 2, 0, lh / 2), mat=mat)
+                for k in range(1, 4):
+                    gb.box((lw - 0.10, 0.058, 0.012),
+                           (sgn * lw / 2, 0, lh * k / 4), mat="M_Brass")
+                gb.cyl(0.022, 0.24, (sgn * (lw - 0.10), 0.05, lh * 0.46),
+                       axis="Z", mat="M_Brass")
+            else:
+                gb.box((0.05, lw, lh), (0, sgn * lw / 2, lh / 2), mat=mat)
+                for k in range(1, 4):
+                    gb.box((0.058, lw - 0.10, 0.012),
+                           (0, sgn * lw / 2, lh * k / 4), mat="M_Brass")
+                gb.cyl(0.022, 0.24, (0.05, sgn * (lw - 0.10), lh * 0.46),
+                       axis="Z", mat="M_Brass")
 
 
 def slab(gb, x0, x1, y0, y1, z, t=0.20, mat="M_Concrete", top_mat=None,

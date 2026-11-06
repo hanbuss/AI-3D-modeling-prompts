@@ -644,41 +644,62 @@ def hanging_plant(gb, r=0.18, drop=0.55):
 
 
 def parasol(gb, r=1.55, h=2.35, panels=8, canopy="M_FabricCream"):
-    """户外遮阳伞：混凝土底座 + 铝柱 + 八片伞面 + 伞骨。"""
+    """户外遮阳伞：石座 + 铝柱 + **连续伞面**（旋转体，不留缝）+ 伞骨在伞面下 + 顶饰。"""
+    # 底座 / 立杆
     gb.box((0.62, 0.62, 0.10), (0, 0, 0.05), mat="M_StoneDark")
-    gb.cyl(0.035, h, (0, 0, h / 2), seg=12, mat="M_MetalBlack")
-    gb.cyl(0.028, 0.20, (0, 0, h + 0.10), seg=10, mat="M_Brass")
-    gb.sphere(0.055, (0, 0, h + 0.24), seg=10, rings=6, mat="M_Brass")
-    # 伞面：八片三角形，边缘下垂 0.12
-    apex = (0.0, 0.0, h + 0.16)
+    gb.cyl(0.035, h, (0, 0, h / 2), seg=14, mat="M_MetalBlack")
+    # 伞面：按半径分环的旋转体，面是平滑锥穹顶（24 扇 × 4 环，顶点共享）
+    seg = 32
+    rings = [(0.00, 0.30), (0.34, 0.215), (0.68, 0.085), (1.00, -0.045)]  # (r比例, z偏移)
+    vs, fs = [], []
+    for (rr, dz) in rings:
+        if rr == 0.0:
+            vs.append((0.0, 0.0, h + dz))
+            continue
+        for i in range(seg):
+            a_ = TAU * i / seg
+            vs.append((math.cos(a_) * r * rr, math.sin(a_) * r * rr, h + dz))
+    # 顶环扇形
+    for i in range(seg):
+        fs.append([0, 1 + i, 1 + (i + 1) % seg])
+    # 其余环带
+    for k in range(1, len(rings) - 1):
+        b0 = 1 + (k - 1) * seg
+        b1 = 1 + k * seg
+        for i in range(seg):
+            i2 = (i + 1) % seg
+            fs.append([b0 + i, b1 + i, b1 + i2, b0 + i2])
+    gb._add_faces(vs, fs, canopy)
+    # 底面（背面材质），稍微内收，避免单面
+    vs2 = [(x, y, z - 0.012) for (x, y, z) in vs]
+    gb._add_faces(vs2, fs, "M_FabricOat")
+    # 伞裙：最后一圈往下垂一小段，均匀（不做锯齿）
+    skirt = []
+    for i in range(seg):
+        a_ = TAU * i / seg
+        skirt.append((math.cos(a_) * r * 0.995, math.sin(a_) * r * 0.995, h - 0.045))
+    vs3 = vs[-seg:] + skirt
+    fs3 = []
+    for i in range(seg):
+        i2 = (i + 1) % seg
+        fs3.append([i, seg + i, seg + i2, i2])
+    gb._add_faces([(x, y, z + 0.001) for (x, y, z) in vs3], fs3, "M_FabricOat")
+    # 伞骨：从中心下方放射到每片中间（在伞面之下，不外露）
     for i in range(panels):
-        a0 = TAU * i / panels
-        a1 = TAU * (i + 1) / panels
-        p0 = (math.cos(a0) * r, math.sin(a0) * r, h - 0.10)
-        p1 = (math.cos(a1) * r, math.sin(a1) * r, h - 0.10)
-        # 中缝略起拱，避免平面感
-        m0 = (math.cos((a0 + a1) / 2) * r * 0.55,
-              math.sin((a0 + a1) / 2) * r * 0.55, h + 0.05)
-        gb._add_faces([apex, p0, m0], [[0, 1, 2]], canopy)
-        gb._add_faces([apex, m0, p1], [[0, 1, 2]], canopy)
-        # 下层（背面），让伞面有厚度感
-        apex2 = (0.0, 0.0, h + 0.10)
-        gb._add_faces([apex2, m0, p0], [[0, 1, 2]], "M_FabricOat")
-        gb._add_faces([apex2, p1, m0], [[0, 1, 2]], "M_FabricOat")
-        gb.box((0.022, 0.022, r * 0.98),
-               ((math.cos((a0 + a1) / 2) * r * 0.48),
-                (math.sin((a0 + a1) / 2) * r * 0.48), h + 0.06),
-               mat="M_MetalGrey",
-               rot=Euler((0, 0, (a0 + a1) / 2)).to_matrix())
-    # 伞裙边
-    for i in range(panels):
-        a0 = TAU * i / panels
-        a1 = TAU * (i + 1) / panels
-        gb._add_faces([(math.cos(a0) * r, math.sin(a0) * r, h - 0.10),
-                       (math.cos(a1) * r, math.sin(a1) * r, h - 0.10),
-                       (math.cos(a1) * r * 0.99, math.sin(a1) * r * 0.99, h - 0.24),
-                       (math.cos(a0) * r * 0.99, math.sin(a0) * r * 0.99, h - 0.24)],
-                      [[0, 1, 2, 3]], "M_FabricOat")
+        a_ = TAU * (i + 0.5) / panels
+        p_in = Vector((math.cos(a_) * 0.09, math.sin(a_) * 0.09, h + 0.18))
+        p_out = Vector((math.cos(a_) * r * 0.86, math.sin(a_) * r * 0.86, h - 0.105))
+        d = p_out - p_in
+        mid = (p_in + p_out) / 2
+        M = (Matrix.Translation(mid) @
+             Matrix.Rotation(math.atan2(d.y, d.x), 4, "Z") @
+             Matrix.Rotation(math.atan2(math.hypot(d.x, d.y), d.z), 4, "Y"))
+        with gb.frame(M):
+            gb.box((0.020, 0.020, d.length), (0, 0, 0), mat="M_MetalGrey")
+    # 顶端连接座 + 顶饰
+    gb.cyl(0.055, 0.05, (0, 0, h + 0.30), seg=14, mat="M_MetalBlack")
+    gb.cyl(0.030, 0.16, (0, 0, h + 0.38), seg=10, mat="M_Brass")
+    gb.sphere(0.045, (0, 0, h + 0.48), seg=12, rings=7, mat="M_Brass")
 
 
 def deck_chair(gb, w=0.56, d=0.58, mat="M_Bamboo", seat="M_FabricOat"):
@@ -698,12 +719,33 @@ def deck_chair(gb, w=0.56, d=0.58, mat="M_Bamboo", seat="M_FabricOat"):
                    mat=mat)
 
 
-def cafe_table(gb, r=0.42, h=0.44, mat="M_WoodDark"):
-    gb.cyl(r, 0.045, (0, 0, h), seg=24, mat=mat)
-    gb.cyl(r * 0.96, 0.02, (0, 0, h + 0.035), mat="M_StoneLight")
-    gb.cyl(0.045, h, (0, 0, h / 2), seg=10, mat="M_MetalBlack")
-    gb.cyl(0.30, 0.03, (0, 0, 0.015), seg=20, mat="M_MetalBlack")
-
+def cafe_table(gb, r=0.42, h=0.44, mat="M_WoodDark", hole=0.045):
+    """伞下圆桌：薄台面 + 裙边 + 中心开孔（伞杆穿过），单柱 + 底盘。"""
+    # 台面：环形（中空让伞杆穿过）
+    seg = 32
+    inner = max(hole, 0.03)
+    top_out, top_in = [], []
+    bot_out, bot_in = [], []
+    for i in range(seg):
+        a_ = TAU * i / seg
+        cx, cy = math.cos(a_), math.sin(a_)
+        top_out.append((cx * r, cy * r, h))
+        top_in.append((cx * inner, cy * inner, h))
+        bot_out.append((cx * r, cy * r, h - 0.035))
+        bot_in.append((cx * inner, cy * inner, h - 0.035))
+    fs = []
+    for i in range(seg):
+        i2 = (i + 1) % seg
+        fs.append([i, seg + i, seg + i2, i2])                      # 台面
+        fs.append([2*seg + i2, 2*seg + i, 3*seg + i, 3*seg + i2])   # 底面
+        fs.append([i, i2, 3*seg + i2, 3*seg + i])                   # 外圈
+        fs.append([seg + i2, seg + i, 2*seg + i, 2*seg + i2])       # 内圈（孔壁）
+    gb._add_faces(top_out + top_in + bot_out + bot_in, fs, mat)
+    # 台面下裙边（浅一圈）
+    gb.cyl(r * 0.90, 0.03, (0, 0, h - 0.05), seg=seg, mat=mat)
+    # 立柱 + 底盘
+    gb.cyl(0.042, h - 0.09, (0, 0, (h - 0.09) / 2), seg=14, mat="M_MetalBlack")
+    gb.cyl(0.26, 0.03, (0, 0, 0.015), seg=24, mat="M_MetalBlack")
 
 def pot(gb, r=0.26, h=0.42, mat="M_Ceramic"):
     """空花盆（陶盆 + 土），上面摆成品植物模型用。"""
