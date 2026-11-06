@@ -1,0 +1,19 @@
+# Blender / Python
+__pycache__/
+*.pyc
+*.blend1
+*.blend2
+
+# 中间产物（可由脚本重建）
+villa/villa.blend
+
+# 成品模型原始下载与预处理结果（prep_assets.py 可重新拉取）
+villa/assets/
+
+# 前端
+node_modules/
+package-lock.json
+
+# 系统
+.DS_Store
+Thumbs.db

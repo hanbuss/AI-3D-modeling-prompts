@@ -1,0 +1,277 @@
+{
+ "rooms": [
+  {
+   "id": "garden",
+   "zh": "南园 · 前庭",
+   "en": "South Garden",
+   "floor": "GARDEN",
+   "pos": [
+    0,
+    0.6,
+    11.5
+   ],
+   "area": 210,
+   "desc": "月洞门 / 睡莲池 / 竹林 / 汀步"
+  },
+  {
+   "id": "deck",
+   "zh": "木平台",
+   "en": "Timber Deck",
+   "floor": "GARDEN",
+   "pos": [
+    0,
+    0.3,
+    8.0
+   ],
+   "area": 33,
+   "desc": "整木铺装，正对客厅落地窗"
+  },
+  {
+   "id": "entry",
+   "zh": "门厅",
+   "en": "Foyer",
+   "floor": "F1",
+   "pos": [
+    0.8,
+    1.6,
+    4.9
+   ],
+   "area": 12.6,
+   "desc": "玄关条案 + 吊灯"
+  },
+  {
+   "id": "living",
+   "zh": "客厅",
+   "en": "Living Room",
+   "floor": "F1",
+   "pos": [
+    -4.4,
+    1.6,
+    1.4
+   ],
+   "area": 56.0,
+   "desc": "格栅电视墙 / 布艺沙发 / 落地窗"
+  },
+  {
+   "id": "dining",
+   "zh": "餐厅",
+   "en": "Dining Room",
+   "floor": "F1",
+   "pos": [
+    5.2,
+    1.6,
+    3.4
+   ],
+   "area": 23.0,
+   "desc": "八人长桌 + 长吊灯"
+  },
+  {
+   "id": "kitchen",
+   "zh": "厨房",
+   "en": "Kitchen",
+   "floor": "F1",
+   "pos": [
+    5.2,
+    1.6,
+    -1.6
+   ],
+   "area": 24.0,
+   "desc": "中岛 + 高柜 + 灶台"
+  },
+  {
+   "id": "tea",
+   "zh": "茶室",
+   "en": "Tea Room",
+   "floor": "F1",
+   "pos": [
+    -5.0,
+    1.7,
+    -3.6
+   ],
+   "area": 28.0,
+   "desc": "罗汉床 / 屏风 / 茶具"
+  },
+  {
+   "id": "wc1",
+   "zh": "客卫",
+   "en": "Guest Bath",
+   "floor": "F1",
+   "pos": [
+    6.6,
+    1.4,
+    -5.0
+   ],
+   "area": 5.2,
+   "desc": "台盆 + 坐便"
+  },
+  {
+   "id": "stair",
+   "zh": "楼梯间",
+   "en": "Stair Core",
+   "floor": "F1",
+   "pos": [
+    0,
+    2.0,
+    -3.6
+   ],
+   "area": 14.0,
+   "desc": "双跑木踏步 + 钢索扶手"
+  },
+  {
+   "id": "master",
+   "zh": "主卧",
+   "en": "Master Bedroom",
+   "floor": "F2",
+   "pos": [
+    -5.0,
+    5.0,
+    2.8
+   ],
+   "area": 40.0,
+   "desc": "1.95m 大床 / 羊毛地毯 / 飘窗"
+  },
+  {
+   "id": "mbath",
+   "zh": "主卫",
+   "en": "Master Bath",
+   "floor": "F2",
+   "pos": [
+    -6.2,
+    5.0,
+    -2.0
+   ],
+   "area": 12.0,
+   "desc": "独立浴缸 / 干湿分离"
+  },
+  {
+   "id": "closet",
+   "zh": "衣帽间",
+   "en": "Walk-in Closet",
+   "floor": "F2",
+   "pos": [
+    -3.2,
+    5.0,
+    -2.0
+   ],
+   "area": 9.0,
+   "desc": "U 型柜体 + 中岛"
+  },
+  {
+   "id": "kid",
+   "zh": "次卧",
+   "en": "Second Bedroom",
+   "floor": "F2",
+   "pos": [
+    5.0,
+    5.0,
+    3.2
+   ],
+   "area": 27.0,
+   "desc": "1.5m 床 + 书桌"
+  },
+  {
+   "id": "study",
+   "zh": "书房",
+   "en": "Study",
+   "floor": "F2",
+   "pos": [
+    5.6,
+    5.0,
+    -2.7
+   ],
+   "area": 22.0,
+   "desc": "整墙书架 / 单人皮椅"
+  },
+  {
+   "id": "balcony",
+   "zh": "阳台",
+   "en": "Balcony",
+   "floor": "F2",
+   "pos": [
+    0,
+    4.3,
+    7.4
+   ],
+   "area": 26.0,
+   "desc": "木栏杆 / 户外躺椅 / 花池"
+  },
+  {
+   "id": "guest",
+   "zh": "客房",
+   "en": "Guest Room",
+   "floor": "F3",
+   "pos": [
+    -5.2,
+    8.0,
+    1.6
+   ],
+   "area": 27.0,
+   "desc": "1.6m 床 + 卧榻"
+  },
+  {
+   "id": "family",
+   "zh": "家庭厅",
+   "en": "Family Lounge",
+   "floor": "F3",
+   "pos": [
+    2.2,
+    8.0,
+    1.2
+   ],
+   "area": 34.0,
+   "desc": "沙发 + 影音墙"
+  },
+  {
+   "id": "med",
+   "zh": "静室",
+   "en": "Meditation Room",
+   "floor": "F3",
+   "pos": [
+    -5.0,
+    8.0,
+    -3.4
+   ],
+   "area": 26.0,
+   "desc": "木榻 / 蒲团 / 香炉 / 屏风"
+  },
+  {
+   "id": "terrace",
+   "zh": "露台",
+   "en": "Roof Terrace",
+   "floor": "F3",
+   "pos": [
+    0,
+    7.4,
+    4.9
+   ],
+   "area": 34.0,
+   "desc": "木廊架 / 户外家具 / 石灯"
+  },
+  {
+   "id": "roof",
+   "zh": "歇山屋顶",
+   "en": "Hipped Roof",
+   "floor": "ROOF",
+   "pos": [
+    0,
+    11.0,
+    -1.2
+   ],
+   "area": 0,
+   "desc": "深灰筒瓦 / 四角起翘"
+  }
+ ],
+ "meta": {
+  "title": "新中式三层别墅 · 现代中式",
+  "units": "m",
+  "up": "Y",
+  "floors": {
+   "SITE": "场地",
+   "GARDEN": "花园",
+   "F1": "一层 · 会客与茶叙",
+   "F2": "二层 · 居寝与书房",
+   "F3": "三层 · 家庭厅与露台",
+   "ROOF": "屋顶"
+  }
+ }
+}

@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23B8442F'/%3E%3C/svg%3E" />
+<title>云顶别墅 · 交互式三维查看器</title>
+<style>
+  :root{
+    --accent:#B8442F;
+    --accent-soft:rgba(184,68,47,.16);
+    --cream:#EDE6DA;
+    --cream-dim:rgba(237,230,218,.62);
+    --cream-faint:rgba(237,230,218,.30);
+    --ink:#14171B;
+    --ink-2:#1B1F25;
+    --line:rgba(237,230,218,.13);
+    --panel-bg:rgba(18,21,25,.80);
+    --font: "PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC","WenQuanYi Micro Hei",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;margin:0;overflow:hidden;background:var(--ink);color:var(--cream);font-family:var(--font)}
+  body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  #stage{position:fixed;inset:0}
+  #vignette{position:fixed;inset:0;z-index:10;pointer-events:none;
+    background:radial-gradient(128% 108% at 50% 46%,rgba(0,0,0,0) 46%,rgba(6,8,10,.30) 78%,rgba(6,8,10,.58) 100%);
+    mix-blend-mode:multiply}
+  canvas{display:block;width:100%;height:100%;outline:none}
+
+  /* ---------- 顶部标题栏 ---------- */
+  #titlebar{position:fixed;top:0;left:0;right:0;height:62px;display:flex;align-items:center;gap:14px;
+    padding:0 22px;pointer-events:none;z-index:30;
+    background:linear-gradient(180deg,rgba(12,14,17,.72) 0%,rgba(12,14,17,.28) 62%,rgba(12,14,17,0) 100%)}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand .mark{width:11px;height:11px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft),0 0 18px rgba(184,68,47,.65)}
+  .brand .t{font-size:15.5px;font-weight:600;letter-spacing:.10em}
+  .brand .s{font-size:11px;color:var(--cream-dim);letter-spacing:.22em;margin-left:2px;padding-left:12px;
+    border-left:1px solid var(--line)}
+  #barRight{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:11px;color:var(--cream-dim);
+    letter-spacing:.10em;pointer-events:auto}
+  .pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;
+    border:1px solid var(--line);background:rgba(20,23,27,.55);backdrop-filter:blur(10px);font-size:11px;
+    color:var(--cream-dim);white-space:nowrap}
+  .pill b{color:var(--cream);font-weight:600;letter-spacing:.02em}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:#5f9e6a;box-shadow:0 0 8px #5f9e6a}
+  .pill.warn .dot{background:#c9942f;box-shadow:0 0 8px #c9942f}
+
+  /* ---------- 右侧控制面板 ---------- */
+  #panel{position:fixed;top:74px;right:18px;width:262px;z-index:40;
+    background:var(--panel-bg);border:1px solid var(--line);border-radius:16px;
+    backdrop-filter:blur(16px) saturate(120%);-webkit-backdrop-filter:blur(16px) saturate(120%);
+    box-shadow:0 18px 48px -18px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.25) inset;
+    overflow:hidden;transition:width .22s ease,height .22s ease}
+  #panel.collapsed{width:52px}
+  #panel header{display:flex;align-items:center;gap:8px;padding:13px 14px 11px;cursor:pointer;
+    border-bottom:1px solid var(--line);user-select:none}
+  #panel header .h{font-size:11.5px;letter-spacing:.20em;color:var(--cream);font-weight:600}
+  #panel header .chev{margin-left:auto;color:var(--cream-faint);font-size:11px;transition:transform .22s ease}
+  #panel.collapsed header .chev{transform:rotate(180deg)}
+  #panel.collapsed header .h{display:none}
+  #panelBody{padding:6px 14px 14px;max-height:calc(100vh - 150px);overflow-y:auto;
+    scrollbar-width:thin;scrollbar-color:rgba(237,230,218,.22) transparent}
+  #panelBody::-webkit-scrollbar{width:6px}
+  #panelBody::-webkit-scrollbar-thumb{background:rgba(237,230,218,.18);border-radius:99px}
+  #panel.collapsed #panelBody{display:none}
+  .grp{padding:11px 0 4px;border-bottom:1px solid rgba(237,230,218,.07)}
+  .grp:last-child{border-bottom:0}
+  .grp > .lab{display:flex;align-items:center;justify-content:space-between;font-size:10.5px;
+    letter-spacing:.20em;color:var(--cream-faint);margin-bottom:9px}
+  .grp > .lab span.val{letter-spacing:.04em;color:var(--cream);font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{-webkit-appearance:none;appearance:none;border:1px solid var(--line);background:rgba(237,230,218,.045);
+    color:var(--cream-dim);font-family:var(--font);font-size:11.5px;letter-spacing:.04em;
+    padding:6px 11px;border-radius:99px;cursor:pointer;transition:all .16s ease;line-height:1}
+  .chip:hover{background:rgba(237,230,218,.10);color:var(--cream);border-color:rgba(237,230,218,.24)}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff;
+    box-shadow:0 4px 14px -6px rgba(184,68,47,.9)}
+  .chip.on:hover{background:#c64d36;border-color:#c64d36}
+  .chip.master{letter-spacing:.10em}
+  .chip.master:not(.on){border-color:rgba(184,68,47,.42);color:rgba(237,230,218,.80)}
+  .row{display:flex;gap:6px}
+  .row .chip{flex:1;text-align:center;padding:7px 4px}
+  .sw{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0}
+  .sw span{font-size:11.5px;color:var(--cream-dim);letter-spacing:.04em}
+  .tog{position:relative;width:38px;height:20px;border-radius:99px;border:1px solid var(--line);
+    background:rgba(237,230,218,.07);cursor:pointer;transition:background .18s ease,border-color .18s ease;flex:0 0 auto}
+  .tog::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:rgba(237,230,218,.62);transition:transform .18s ease,background .18s ease}
+  .tog.on{background:var(--accent-soft);border-color:rgba(184,68,47,.62)}
+  .tog.on::after{transform:translateX(18px);background:var(--accent)}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:20px;background:transparent;cursor:pointer;margin:0}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:99px;
+    background:linear-gradient(90deg,var(--accent) 0%,var(--accent) var(--p,50%),rgba(237,230,218,.16) var(--p,50%),rgba(237,230,218,.16) 100%)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+    background:var(--cream);margin-top:-5px;border:2px solid var(--accent);
+    box-shadow:0 0 0 3px rgba(184,68,47,.18);transition:box-shadow .16s ease}
+  input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 5px rgba(184,68,47,.24)}
+  input[type=range]::-moz-range-track{height:3px;border-radius:99px;background:rgba(237,230,218,.16)}
+  input[type=range]::-moz-range-progress{height:3px;border-radius:99px;background:var(--accent)}
+  input[type=range]::-moz-range-thumb{width:11px;height:11px;border:2px solid var(--accent);border-radius:50%;background:var(--cream)}
+
+  /* ---------- 左下角操作提示 ---------- */
+  #hints{position:fixed;left:20px;bottom:18px;z-index:30;font-size:11px;color:var(--cream-faint);
+    letter-spacing:.05em;line-height:1.85;pointer-events:none;
+    text-shadow:0 1px 8px rgba(0,0,0,.9)}
+  #hints kbd{font-family:var(--font);font-size:10px;padding:1px 5px;border-radius:4px;
+    border:1px solid rgba(237,230,218,.20);background:rgba(20,23,27,.6);color:var(--cream-dim);letter-spacing:.02em}
+  #hints .l1{color:rgba(237,230,218,.52)}
+
+  /* ---------- 房间标注 ---------- */
+  #labels{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden;
+    contain:layout style paint}
+  .label{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;
+    display:flex;align-items:center;gap:6px;padding:2px 8px 2px 3px;border-radius:99px;
+    background:rgba(14,17,20,.62);border:1px solid rgba(237,230,218,.16);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    transition:transform .16s ease,background .16s ease,border-color .16s ease,opacity .2s ease;
+    white-space:nowrap;will-change:transform,left,top}
+  .label .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto;
+    box-shadow:0 0 0 3px rgba(184,68,47,.22),0 0 10px rgba(184,68,47,.7)}
+  .label .txt{font-size:10.5px;letter-spacing:.05em;color:rgba(237,230,218,.92)}
+  .label .txt em{font-style:normal;display:inline-block;margin-left:6px;font-size:9.5px;
+    letter-spacing:.10em;color:rgba(237,230,218,.42)}
+  .label:hover{transform:translate(-50%,-50%) scale(1.18);background:rgba(30,20,18,.86);
+    border-color:rgba(184,68,47,.72);box-shadow:0 8px 22px -10px rgba(0,0,0,.9)}
+  .label:hover .txt{color:#fff}
+  .label.dim{opacity:.62}
+  .label.hidden{display:none}
+
+  /* ---------- 加载浮层 ---------- */
+  #loader{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:20px;background:radial-gradient(120% 90% at 50% 40%,#181c22 0%,#0d0f12 62%,#08090b 100%);
+    transition:opacity .5s ease,visibility .5s ease}
+  #loader.done{opacity:0;visibility:hidden}
+  #loader .sigil{position:relative;width:64px;height:64px;border-radius:50%;
+    border:1px solid rgba(237,230,218,.10);display:grid;place-items:center}
+  #loader .sigil::before{content:"";position:absolute;inset:-1px;border-radius:50%;
+    border:1px solid transparent;border-top-color:var(--accent);border-right-color:rgba(184,68,47,.35);
+    animation:spin 1.15s linear infinite}
+  #loader .sigil i{width:9px;height:9px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 16px rgba(184,68,47,.9);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  #loader .lt{font-size:12px;letter-spacing:.34em;color:var(--cream-dim)}
+  #loader .bar{width:238px;height:2px;border-radius:99px;background:rgba(237,230,218,.10);overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#e0784f);
+    transition:width .22s ease;box-shadow:0 0 12px rgba(184,68,47,.8)}
+  #loader .pct{font-size:10.5px;letter-spacing:.26em;color:rgba(237,230,218,.42);font-variant-numeric:tabular-nums}
+
+  /* ---------- 提示条 / 调试 ---------- */
+  #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:60;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(20,23,27,.9);
+    backdrop-filter:blur(10px);font-size:11.5px;color:var(--cream-dim);letter-spacing:.05em;
+    opacity:0;transition:opacity .35s ease,transform .35s ease;pointer-events:none;white-space:nowrap;
+    box-shadow:0 14px 34px -16px rgba(0,0,0,.9)}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+  #toast b{color:var(--cream);font-weight:600}
+  #dbg{position:fixed;right:18px;bottom:16px;z-index:60;display:none;font-size:10px;letter-spacing:.08em;
+    color:var(--cream-dim);background:rgba(20,23,27,.85);border:1px solid var(--line);
+    border-radius:8px;padding:5px 9px;font-variant-numeric:tabular-nums}
+  body[data-debug="1"] #dbg{display:block}
+  #errlog{position:fixed;left:0;bottom:0;z-index:70;max-width:60vw;max-height:30vh;overflow:auto;
+    margin:0;padding:8px 12px;font:10px/1.5 ui-monospace,Menlo,Consolas,monospace;
+    color:#ff8f7a;background:rgba(40,10,8,.86);display:none;white-space:pre-wrap}
+  body[data-debug="1"] #errlog{display:block}
+  @media (max-width:720px){
+    #panel{width:224px;top:66px;right:12px}
+    #panel.collapsed{width:46px}
+    #hints{font-size:10px}
+    .brand .s{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div id="vignette"></div>
+<div id="labels"></div>
+
+<div id="titlebar">
+  <div class="brand">
+    <div class="mark"></div>
+    <div class="t">云顶别墅</div>
+    <div class="s">CLOUDCREST VILLA · 三维查看器</div>
+  </div>
+  <div id="barRight">
+    <div class="pill" id="pillModel"><i class="dot"></i><span>载入中</span></div>
+    <div class="pill" id="pillClock"><b>14:00</b><span>· 白昼</span></div>
+  </div>
+</div>
+
+<div id="panel">
+  <header id="panelHead">
+    <div class="h">控 制 台</div>
+    <div class="chev">›</div>
+  </header>
+  <div id="panelBody">
+    <div class="grp">
+      <div class="lab">分层查看</div>
+      <div class="chips" id="chipLayer">
+        <button class="chip master on" data-layer="__ALL__">全景</button>
+        <button class="chip on" data-layer="GARDEN">花园</button>
+        <button class="chip on" data-layer="F1">一层</button>
+        <button class="chip on" data-layer="F2">二层</button>
+        <button class="chip on" data-layer="F3">三层</button>
+        <button class="chip on" data-layer="ROOF">屋顶</button>
+        <button class="chip on" data-layer="SITE">场地</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="lab">昼夜时间 <span class="val" id="clockTxt">14:00</span></div>
+      <input type="range" id="timeRange" min="0" max="24" step="0.25" value="14" />
+    </div>
+
+    <div class="grp">
+      <div class="lab">水平剖切 <span class="val" id="clipTxt">关</span></div>
+      <div class="sw"><span>剖面高度</span><div class="tog" id="togClip"></div></div>
+      <input type="range" id="clipRange" min="0" max="10" step="0.05" value="10" />
+    </div>
+
+    <div class="grp">
+      <div class="lab">视角预设</div>
+      <div class="chips">
+        <button class="chip" data-view="aerial">鸟瞰</button>
+        <button class="chip" data-view="front">正立面</button>
+        <button class="chip" data-view="court">庭院</button>
+        <button class="chip" data-view="hall">室内大厅</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="lab">显示</div>
+      <div class="sw"><span>房间标注</span><div class="tog on" id="togLabels"></div></div>
+      <div class="sw"><span>阴影</span><div class="tog on" id="togShadow"></div></div>
+      <div class="sw"><span>自动旋转</span><div class="tog" id="togSpin"></div></div>
+      <div class="sw"><span>高曝光（夜景提亮）</span><div class="tog" id="togExpo"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="hints">
+  <div class="l1">操作</div>
+  <div><kbd>左键拖动</kbd> 旋转 &nbsp;·&nbsp; <kbd>滚轮</kbd> 缩放 &nbsp;·&nbsp; <kbd>右键拖动</kbd> 平移</div>
+  <div><kbd>点击标注</kbd> 飞向房间 &nbsp;·&nbsp; <kbd>H</kbd> 面板 &nbsp;·&nbsp; <kbd>R</kbd> 复位</div>
+</div>
+
+<div id="loader">
+  <div class="sigil"><i></i></div>
+  <div class="lt">正在构建场景</div>
+  <div class="bar"><i id="barFill"></i></div>
+  <div class="pct" id="loadPct">0%</div>
+</div>
+
+<div id="toast"></div>
+<div id="dbg">err 0 · warn 0 · frames 0</div>
+<pre id="errlog"></pre>
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from './vendor/OrbitControls.js';
+import { GLTFLoader } from './vendor/GLTFLoader.js';
+
+/* =========================================================================
+   0. 诊断：把 console.error / window.onerror 收进 DOM，便于无头截图核对
+   ========================================================================= */
+const DEBUG = new URLSearchParams(location.search).has('debug');
+if (DEBUG) document.body.dataset.debug = '1';
+
+const DIAG = { errors: [], warns: [], frames: 0, lastFps: 0 };
+window.__ERRORS = DIAG.errors;
+const errlog = document.getElementById('errlog');
+
+function record(level, args) {
+  const line = args.map(a => {
+    if (a instanceof Error) return (a.stack || a.message || String(a));
+    if (typeof a === 'object') { try { return JSON.stringify(a); } catch { return String(a); } }
+    return String(a);
+  }).join(' ');
+  DIAG[level].push(line);
+  if (errlog) errlog.textContent = DIAG.errors.concat(DIAG.warns).slice(-40).join('\n');
+  document.body.dataset.errCount = String(DIAG.errors.length);
+}
+const _err = console.error.bind(console);
+const _warn = console.warn.bind(console);
+console.error = (...a) => { record('errors', a); _err(...a); };
+console.warn = (...a) => { record('warns', a); _warn(...a); };
+window.addEventListener('error', e => { record('errors', ['window.onerror:', e.message, '@', e.filename + ':' + e.lineno]); });
+window.addEventListener('unhandledrejection', e => { record('errors', ['unhandledrejection:', e.reason && (e.reason.stack || e.reason.message || e.reason)]); });
+
+/* =========================================================================
+   1. 常量 / 调色板
+   ========================================================================= */
+const PALETTE = {
+  wall:    0xE2D8C8,
+  wall2:   0xD3C8B6,
+  concrete:0x9A958C,
+  stone:   0x8B877F,
+  darkStone:0x6A675E,
+  wood:    0x7A4B33,
+  glass:   0x8FB2C4,
+  water:   0x33626E,
+  leaf:    0x4C6B3F,
+  leaf2:   0x3E5A35,
+  trunk:   0x5A4030,
+  metal:   0x9EA2A6,
+  roof:    0x8C8780
+};
+
+const HOUR_DEFAULT = 14;
+const CLIP_MAX = 10;
+const SHADOW_SIZE = 2048;
+
+/* =========================================================================
+   2. 渲染器 / 场景 / 相机
+   ========================================================================= */
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.45;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.localClippingEnabled = true;   // 剖切必需
+stage.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0xa8b8c6, 0.0022);
+
+const camera = new THREE.PerspectiveCamera(46, innerWidth / innerHeight, 0.1, 5000);
+camera.position.set(22, 24, 26);
+
+/* ---------- 星空（夜间） ---------- */
+const starGeo = new THREE.BufferGeometry();
+{
+  const N = 1400, pos = new Float32Array(N * 3);
+  for (let i = 0; i < N; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(1 - 2 * (0.06 + Math.random() * 0.94));
+    const r = 1500;
+    pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+    pos[i * 3 + 1] = r * Math.cos(phi) * 0.9 + 40;
+    pos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+}
+const starMat = new THREE.PointsMaterial({
+  color: 0xdfe8ff, size: 5.2, sizeAttenuation: true, transparent: true,
+  opacity: 0, depthWrite: false, fog: false, blending: THREE.AdditiveBlending
+});
+const stars = new THREE.Points(starGeo, starMat);
+stars.frustumCulled = false;
+scene.add(stars);
+
+/* ---------- 远景地形盘（随雾渐隐） ---------- */
+const apron = new THREE.Mesh(
+  new THREE.CircleGeometry(320, 56),
+  new THREE.MeshStandardMaterial({ color: 0x6C7264, roughness: 1.0 })
+);
+apron.rotation.x = -Math.PI / 2;
+apron.position.y = -0.55;
+apron.receiveShadow = false;
+scene.add(apron);
+
+/* =========================================================================
+   3. 天空穹顶（ShaderMaterial 渐变，无贴图）
+   ========================================================================= */
+const skyUniforms = {
+  uTop:      { value: new THREE.Color(0x2a5f96) },
+  uHorizon:  { value: new THREE.Color(0xcfdcea) },
+  uGround:   { value: new THREE.Color(0x4a4a44) },
+  uSunDir:   { value: new THREE.Vector3(0.4, 0.8, 0.3) },
+  uSunColor: { value: new THREE.Color(0xfff0d6) },
+  uSunPower: { value: 1.0 },
+  uNight:    { value: 0.0 }
+};
+const skyMat = new THREE.ShaderMaterial({
+  uniforms: skyUniforms,
+  side: THREE.BackSide,
+  depthWrite: false,
+  fog: false,
+  vertexShader: /* glsl */`
+    varying vec3 vDir;
+    void main() {
+      vDir = normalize(position);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: /* glsl */`
+    uniform vec3 uTop; uniform vec3 uHorizon; uniform vec3 uGround;
+    uniform vec3 uSunDir; uniform vec3 uSunColor; uniform float uSunPower; uniform float uNight;
+    varying vec3 vDir;
+    void main() {
+      vec3 d = normalize(vDir);
+      float h = d.y;
+      // 地平线 -> 天顶
+      float t = smoothstep(-0.02, 0.72, h);
+      vec3 col = mix(uHorizon, uTop, pow(t, 0.85));
+      // 地面以下接一层雾霭
+      col = mix(col, uGround, smoothstep(0.0, -0.30, h));
+      // 太阳辉光 + 圆盘
+      float sd = max(dot(d, normalize(uSunDir)), 0.0);
+      float glow = pow(sd, 9.0) * 0.55 + pow(sd, 160.0) * 1.6 + pow(sd, 2200.0) * 6.0;
+      col += uSunColor * glow * uSunPower;
+      // 夜侧轻微提亮地平线，避免死黑
+      col += vec3(0.012, 0.017, 0.030) * uNight * (1.0 - smoothstep(0.0, 0.4, h));
+      gl_FragColor = vec4(col, 1.0);
+      #include <colorspace_fragment>
+    }
+  `
+});
+const skyDome = new THREE.Mesh(new THREE.SphereGeometry(1800, 40, 24), skyMat);
+skyDome.frustumCulled = false;
+skyDome.renderOrder = -1000;
+scene.add(skyDome);
+stars.renderOrder = 2;
+
+/* ---------- 环境贴图：程序化渐变天空 → PMREM → scene.environment ----------
+   没有这张图，GLB 的 PBR 材质（白墙/木栏杆）在直射光背面必然发灰发闷。 */
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envScene = new THREE.Scene();
+
+const envSkyMat = new THREE.ShaderMaterial({
+  uniforms: Object.assign({ uEnvGain: { value: 0.82 } }, skyUniforms),  // 与可见天穹共色，亮度单独控制
+  side: THREE.BackSide,
+  depthWrite: false,
+  fog: false,
+  vertexShader: /* glsl */`
+    varying vec3 vDir;
+    void main() {
+      vDir = normalize(position);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: /* glsl */`
+    uniform vec3 uTop; uniform vec3 uHorizon; uniform vec3 uGround;
+    uniform vec3 uSunDir; uniform vec3 uSunColor; uniform float uSunPower;
+    uniform float uEnvGain;
+    varying vec3 vDir;
+    void main() {
+      vec3 d = normalize(vDir);
+      float t = smoothstep(-0.02, 0.72, d.y);
+      vec3 col = mix(uHorizon, uTop, pow(t, 0.85));
+      col = mix(col, uGround, smoothstep(0.0, -0.30, d.y));
+      float sd = max(dot(d, normalize(uSunDir)), 0.0);
+      col += uSunColor * (pow(sd, 9.0) * 0.30 + pow(sd, 220.0) * 1.2) * uSunPower;
+      gl_FragColor = vec4(col * uEnvGain, 1.0);   // 线性直写；PMREM 内部按线性处理
+    }
+  `
+});
+const envSky = new THREE.Mesh(new THREE.SphereGeometry(40, 24, 16), envSkyMat);
+envScene.add(envSky);
+
+let envRT = null;
+let envDirty = true;
+let lastEnvAt = -1e9;
+function rebuildEnvironment() {
+  const rt = pmrem.fromScene(envScene, 0.02, 0.1, 100);
+  if (envRT) envRT.dispose();
+  envRT = rt;
+  scene.environment = rt.texture;
+  lastEnvAt = performance.now();
+  envDirty = false;
+}
+rebuildEnvironment();
+
+/* =========================================================================
+   4. 灯光（昼夜联动）
+   ========================================================================= */
+const sun = new THREE.DirectionalLight(0xfff6e8, 5.2);
+sun.castShadow = true;
+sun.shadow.mapSize.set(SHADOW_SIZE, SHADOW_SIZE);
+sun.shadow.camera.near = 1;
+sun.shadow.camera.far = 160;
+sun.shadow.camera.left = -30;
+sun.shadow.camera.right = 30;
+sun.shadow.camera.top = 30;
+sun.shadow.camera.bottom = -30;
+sun.shadow.bias = -0.0005;
+sun.shadow.normalBias = 0.02;
+scene.add(sun);
+scene.add(sun.target);
+
+const moon = new THREE.DirectionalLight(0x6f86c8, 0.0);
+scene.add(moon);
+scene.add(moon.target);
+
+const hemi = new THREE.HemisphereLight(0xd2e4f6, 0xa89a82, 2.6);
+scene.add(hemi);
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.06);
+scene.add(ambient);
+
+/* 室内暖色点光（夜间点亮） */
+const indoorLights = [];
+{
+  const spots = [
+    [ 0.0, 2.2,  0.0], [-5.0, 2.2, -3.0], [ 5.0, 2.2, -3.0],
+    [ 0.0, 5.4,  0.0], [-3.5, 5.4,  2.0], [ 3.8, 5.4, -2.0],
+    [ 0.0, 8.2,  0.0], [ 2.6, 8.2,  2.2]
+  ];
+  for (const p of spots) {
+    const l = new THREE.PointLight(0xffb066, 0, 11, 2.0);
+    l.position.set(p[0], p[1], p[2]);
+    l.castShadow = false;
+    scene.add(l);
+    indoorLights.push(l);
+  }
+}
+
+/* =========================================================================
+   5. 剖切平面（法线 -Y，保留 y < constant 的部分）
+   ========================================================================= */
+const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), CLIP_MAX);
+const clipState = { enabled: false, height: CLIP_MAX };
+
+/* =========================================================================
+   6. 状态
+   ========================================================================= */
+const state = {
+  layers: { SITE: true, GARDEN: true, F1: true, F2: true, F3: true, ROOF: true },
+  labels: true,
+  shadows: true,
+  spin: false,
+  hour: HOUR_DEFAULT,
+  loaded: false,
+  usingPlaceholder: true,
+  rooms: [],
+  labelsEl: new Map(),
+  modelRoot: null,
+  emissiveMats: [],
+  allMats: [],
+  groups: new Map(),
+  bounds: { center: new THREE.Vector3(0, 5, 0), radius: 12 }
+};
+
+/* =========================================================================
+   7. 占位模型（GLB 缺失时，绝不白屏）
+   ========================================================================= */
+function mat(color, opts = {}) {
+  return new THREE.MeshStandardMaterial(Object.assign({
+    color, roughness: 0.82, metalness: 0.0, side: THREE.FrontSide
+  }, opts));
+}
+
+function box(w, h, d, material, x, y, z, parent) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
+  m.position.set(x, y, z);
+  m.castShadow = true; m.receiveShadow = true;
+  parent.add(m);
+  return m;
+}
+
+/** 用四面墙 + 楼板拼一层，返回该层 group */
+function makeFloorGroup(name, w, d, h, y0, materials, tex) {
+  const g = new THREE.Group();
+  g.name = name;
+  const t = 0.28;
+  const { wallM, floorM, winM, trimM } = materials;
+
+  // 楼板
+  box(w + 0.5, 0.22, d + 0.5, floorM, 0, y0 + 0.11, 0, g);
+  // 四面墙
+  box(t, h, d, wallM, -w / 2 + t / 2, y0 + h / 2, 0, g);
+  box(t, h, d, wallM,  w / 2 - t / 2, y0 + h / 2, 0, g);
+  box(w - t * 2, h, t, wallM, 0, y0 + h / 2, -d / 2 + t / 2, g);
+  box(w - t * 2, h, t, wallM, 0, y0 + h / 2,  d / 2 - t / 2, g);
+  // 顶部压条
+  box(w + 0.7, 0.16, d + 0.7, trimM, 0, y0 + h + 0.02, 0, g);
+
+  // 落地窗（南立面 + 东西立面）
+  const winH = Math.min(h * 0.62, 2.0);
+  const wy = y0 + h * 0.52;
+  const cols = Math.max(2, Math.round(w / 3.4));
+  for (let i = 0; i < cols; i++) {
+    const px = -w / 2 + (w / cols) * (i + 0.5);
+    const pane = box(w / cols - 1.1, winH, 0.12, winM, px, wy, d / 2 - 0.02, g);
+    pane.castShadow = false;
+  }
+  const rows = Math.max(1, Math.round(d / 4.6));
+  for (let i = 0; i < rows; i++) {
+    const pz = -d / 2 + (d / rows) * (i + 0.5);
+    box(0.12, winH * 0.92, d / rows - 1.3, winM, -w / 2 + 0.02, wy, pz, g);
+    box(0.12, winH * 0.92, d / rows - 1.3, winM,  w / 2 - 0.02, wy, pz, g);
+  }
+  // 木格栅（南立面，遮阳感）
+  if (tex && tex.screen) {
+    for (let i = 0; i < 9; i++) {
+      const px = -w / 2 + w * (i + 0.5) / 9;
+      box(0.11, winH + 0.5, 0.16, materials.woodM, px, wy + 0.1, d / 2 + 0.16, g);
+    }
+  }
+  return g;
+}
+
+function buildPlaceholderScene() {
+  const root = new THREE.Group();
+  root.name = 'PLACEHOLDER';
+
+  const M = {
+    wallM:  mat(PALETTE.wall, { roughness: 0.88 }),
+    wall2M: mat(PALETTE.wall2, { roughness: 0.9 }),
+    floorM: mat(PALETTE.concrete, { roughness: 0.95 }),
+    trimM:  mat(PALETTE.stone, { roughness: 0.7, metalness: 0.06 }),
+    woodM:  mat(PALETTE.wood, { roughness: 0.75 }),
+    roofM:  mat(PALETTE.roof, { roughness: 0.88 }),
+    groundM:mat(PALETTE.darkStone, { roughness: 1.0 }),
+    paveM:  mat(0xC2BCAE, { roughness: 0.95 }),
+    plantM: mat(PALETTE.leaf, { roughness: 0.95 }),
+    plant2M:mat(PALETTE.leaf2, { roughness: 0.98 }),
+    trunkM: mat(PALETTE.trunk, { roughness: 0.95 }),
+    waterM: mat(PALETTE.water, { roughness: 0.08, metalness: 0.35 }),
+    stoneM: mat(PALETTE.stone, { roughness: 0.95 })
+  };
+  // 会发光的两个材质 —— 与 GLB 契约同名
+  const winM = new THREE.MeshStandardMaterial({
+    color: 0x8FB2C4, roughness: 0.14, metalness: 0.14, transparent: true, opacity: 0.52,
+    emissive: new THREE.Color(0xffa24a), emissiveIntensity: 0
+  });
+  winM.name = 'M_WinGlow';
+  const lampM = new THREE.MeshStandardMaterial({
+    color: 0xF2E4C8, roughness: 0.55, emissive: new THREE.Color(0xffb347), emissiveIntensity: 0
+  });
+  lampM.name = 'M_LampShade';
+  M.winM = winM; M.lampM = lampM;
+
+  /* ---- SITE ---- */
+  const SITE = new THREE.Group(); SITE.name = 'SITE'; root.add(SITE);
+  box(40, 0.3, 36, M.groundM, 0, -0.15, 0, SITE).receiveShadow = true;
+  box(17.6, 0.35, 13.6, M.paveM, 0, -0.14, 0, SITE);
+  box(16.4, 0.3, 0.2, M.paveM, 0, 0.02, 6.1, SITE);
+  // 围墙
+  const wallH = 1.15;
+  box(40, wallH, 0.35, M.stoneM, 0, wallH / 2, -18 + 0.175, SITE);
+  box(40, wallH, 0.35, M.stoneM, 0, wallH / 2,  18 - 0.175, SITE);
+  box(0.35, wallH, 36, M.stoneM, -20 + 0.175, wallH / 2, 0, SITE);
+  box(0.35, wallH, 36, M.stoneM,  20 - 0.175, wallH / 2, 0, SITE);
+  // 车道
+  box(6.2, 0.34, 12.6, M.paveM, 0, -0.10, 12.4, SITE);
+
+  /* ---- GARDEN ---- */
+  const GARDEN = new THREE.Group(); GARDEN.name = 'GARDEN'; root.add(GARDEN);
+  // 草坪（两块，避开建筑与水池）
+  const lawnM = new THREE.MeshStandardMaterial({ color: 0x5C7042, roughness: 1.0 });
+  lawnM.name = 'M_Lawn';
+  const lawnA = box(19.4, 0.16, 8.6, lawnM, 0.0, 0.04, 13.2, GARDEN);
+  const lawnB = box(9.6, 0.16, 21.0, lawnM, -14.6, 0.04, -1.0, GARDEN);
+  lawnA.receiveShadow = lawnB.receiveShadow = true;
+  // 水池
+  const pond = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.4, 0.18, 40), M.waterM);
+  pond.position.set(-11.5, 0.30, 8.5); pond.receiveShadow = true; GARDEN.add(pond);
+  const rim = new THREE.Mesh(new THREE.CylinderGeometry(3.7, 3.7, 0.34, 40, 1, true), M.stoneM);
+  rim.position.set(-11.5, 0.20, 8.5); GARDEN.add(rim);
+  // 树
+  const treeSpots = [[-14, -11], [-9.5, -12.5], [12.5, -10], [15.5, -5], [-15.5, 1.5], [13.5, 11], [-13, 13.5]];
+  treeSpots.forEach(([x, z], i) => {
+    const s = 1 + (i % 3) * 0.16;
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.16 * s, 0.24 * s, 3.0 * s, 8), M.trunkM);
+    trunk.position.set(x, 1.5 * s, z); trunk.castShadow = true; GARDEN.add(trunk);
+    for (let k = 0; k < 3; k++) {
+      const r = (1.35 - k * 0.26) * s;
+      const blob = new THREE.Mesh(new THREE.IcosahedronGeometry(r, 1), k === 1 ? M.plant2M : M.plantM);
+      blob.position.set(x + (k - 1) * 0.28 * s, (3.0 + k * 0.72) * s, z + (k % 2 ? 0.22 : -0.2) * s);
+      blob.castShadow = true; blob.receiveShadow = true; GARDEN.add(blob);
+    }
+  });
+  // 灌木 / 石头
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * Math.PI * 2;
+    const rx = 10.5 + Math.sin(i * 2.3) * 2.4, rz = 8.5 + Math.cos(i * 1.7) * 2.4;
+    const r = 0.42 + (i % 4) * 0.12;
+    const b = new THREE.Mesh(new THREE.IcosahedronGeometry(r, 0), i % 3 ? M.plant2M : M.plantM);
+    b.position.set(Math.cos(a) * rx, r * 0.68, Math.sin(a) * rz);
+    b.rotation.set(i * 0.7, i * 1.3, i * 0.4);
+    b.castShadow = true; GARDEN.add(b);
+  }
+  for (let i = 0; i < 7; i++) {
+    const r = 0.35 + (i % 3) * 0.24;
+    const s = new THREE.Mesh(new THREE.DodecahedronGeometry(r, 0), M.stoneM);
+    s.position.set(-16 + i * 1.9, r * 0.55, -16.2 + (i % 2) * 1.6);
+    s.rotation.set(i, i * 2.1, i * 0.5);
+    s.castShadow = true; GARDEN.add(s);
+  }
+  // 汀步
+  for (let i = 0; i < 6; i++) {
+    box(1.0, 0.1, 0.66, M.paveM, -4.4 + i * 0.2, 0.03, 10.6 + i * 1.05, GARDEN);
+  }
+  // 庭院灯
+  [[-7.5, 9.4], [7.6, 9.4], [-12.6, 3.6]].forEach(([x, z]) => {
+    box(0.09, 1.05, 0.09, M.trimM, x, 0.55, z, GARDEN);
+    const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.13, 0.28, 12), M.lampM);
+    shade.position.set(x, 1.22, z); shade.castShadow = false; GARDEN.add(shade);
+  });
+
+  /* ---- F1 / F2 / F3 ---- */
+  const F1h = 3.30, F2h = 3.10, F3h = 2.90;
+  const F1 = makeFloorGroup('F1', 16, 12, F1h, 0.0, M, { screen: true });
+  const F2 = makeFloorGroup('F2', 13.6, 10.2, F2h, F1h, M, { screen: false });
+  F2.position.set(-0.6, 0, -0.4);
+  const F3 = makeFloorGroup('F3', 10.4, 8.0, F3h, F1h + F2h, M, { screen: false });
+  F3.position.set(-1.0, 0, -0.8);
+  root.add(F1, F2, F3);
+
+  // 入口雨棚 + 门
+  box(5.4, 0.16, 2.3, M.trimM, 0, 2.72, 6.9, F1);
+  box(2.4, 2.35, 0.14, M.woodM, 0, 1.2, 6.02, F1);
+  // 露台（二层挑出）
+  box(6.4, 0.18, 3.2, M.trimM, 3.4, F1h + 0.02, 6.3, F1);
+
+  /* ---- ROOF ---- */
+  const ROOF = new THREE.Group(); ROOF.name = 'ROOF'; root.add(ROOF);
+  const ry = F1h + F2h + F3h;
+  box(11.4, 0.32, 9.0, M.roofM, -1.0, ry + 0.16, -0.8, ROOF);
+  // 女儿墙
+  box(11.4, 0.55, 0.22, M.trimM, -1.0, ry + 0.55, -0.8 + 4.4, ROOF);
+  box(11.4, 0.55, 0.22, M.trimM, -1.0, ry + 0.55, -0.8 - 4.4, ROOF);
+  box(0.22, 0.55, 9.0, M.trimM, -1.0 - 5.6, ry + 0.55, -0.8, ROOF);
+  box(0.22, 0.55, 9.0, M.trimM, -1.0 + 5.6, ry + 0.55, -0.8, ROOF);
+  // 屋顶设备箱
+  box(1.6, 1.0, 1.3, M.trimM, 1.8, ry + 0.8, -2.2, ROOF);
+  // 屋面灯
+  const shade = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 10), M.lampM);
+  shade.position.set(0.4, ry + 0.9, 1.6); ROOF.add(shade);
+
+  root.position.set(0, 0, 0);
+  return { root, materials: [M.wallM, M.wall2M, M.floorM, M.trimM, M.woodM, M.roofM,
+    M.groundM, M.paveM, M.plantM, M.plant2M, M.trunkM, M.waterM, M.stoneM, winM, lampM] };
+}
+
+/* =========================================================================
+   8. 模型装配 / 材质登记
+   ========================================================================= */
+const loaderHost = new THREE.Group();
+loaderHost.name = 'MODEL_HOST';
+scene.add(loaderHost);
+
+const mirrorRoot = new THREE.Group();  // 真实模型挂这里
+mirrorRoot.name = 'MODEL_ROOT';
+loaderHost.add(mirrorRoot);
+
+const emissiveTargets = new Map();     // material -> {day, night, color}
+
+function registerMaterial(m) {
+  if (!m || emissiveTargets.has(m)) return;
+  const name = (m.name || '');
+  const isWin = /WinGlow/i.test(name);
+  const isLamp = /LampShade/i.test(name);
+  if (isWin || isLamp) {
+    if (!m.emissive) m.emissive = new THREE.Color(0xffb066);
+    // GLB 给的 emissive 偏灰暗时，换成饱和暖色，夜间才有"屋里亮着灯"的感觉
+    const eMax = Math.max(m.emissive.r, m.emissive.g, m.emissive.b);
+    if (eMax < 0.5) m.emissive.setHex(isWin ? 0xff8a30 : 0xffa63a);
+    emissiveTargets.set(m, {
+      base: m.emissiveIntensity !== undefined ? 1 : 1,
+      day: 0.0,
+      night: isWin ? 1.55 : 2.05
+    });
+    // 玻璃：自动修正 transparent + doubleSide
+    if (isWin && 'transparent' in m) {
+      m.transparent = true;
+      if (!(m.opacity < 1)) m.opacity = 0.55;
+      m.depthWrite = true;
+      m.side = THREE.DoubleSide;
+    }
+  }
+  // 玻璃类材质（名字里带 glass / win 的普通材质）也保证双面
+  if (/glass|Glaz|Window/i.test(name) && m.side !== undefined && !isWin) {
+    m.side = THREE.DoubleSide;
+  }
+  if (m.transparent && m.opacity >= 0.99) m.transparent = false;
+
+  // 环境贴图强度：玻璃/金属更吃环境，墙体适度
+  if (m.isMeshStandardMaterial || m.isMeshPhysicalMaterial) {
+    m.envMapIntensity = isWin ? 1.15 : 1.0;
+  }
+  // GLB 里的薄面（花格、栏杆、叶子）必须双面，否则背面直接消失
+  if (m.side !== undefined) m.side = THREE.DoubleSide;
+
+  m.clippingPlanes = [clipPlane];
+  m.clipShadows = true;
+  m.needsUpdate = true;
+  if (!state.allMats.includes(m)) state.allMats.push(m);
+}
+
+const LAYER_NAMES = ['SITE', 'GARDEN', 'F1', 'F2', 'F3', 'ROOF'];
+
+function registerModel(root) {
+  state.modelRoot = root;
+  state.groups.clear();
+  root.traverse(o => {
+    if (o.isMesh) {
+      o.castShadow = true;
+      o.receiveShadow = true;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      mats.forEach(registerMaterial);
+      if (o.geometry && !o.geometry.attributes.normal && o.geometry.computeVertexNormals) {
+        o.geometry.computeVertexNormals();
+      }
+    }
+    if (o.isObject3D && LAYER_NAMES.includes(o.name) && !state.groups.has(o.name)) {
+      state.groups.set(o.name, o);
+    }
+  });
+  // 缺层兜底：把找不到的分组标记为 null，UI 会禁用对应 chip
+  LAYER_NAMES.forEach(n => { if (!state.groups.has(n)) state.groups.set(n, null); });
+
+  // 包围盒 → 相机基准
+  const b = new THREE.Box3();
+  let hasBuilding = false;
+  ['F1', 'F2', 'F3', 'ROOF'].forEach(n => {
+    const g = state.groups.get(n);
+    if (g) { b.expandByObject(g); hasBuilding = true; }
+  });
+  if (!hasBuilding) b.setFromObject(root);
+  if (b.isEmpty()) b.set(new THREE.Vector3(-8, 0, -6), new THREE.Vector3(8, 10, 6));
+  const size = b.getSize(new THREE.Vector3());
+  const center = b.getCenter(new THREE.Vector3());
+  const radius = Math.max(size.x, size.z, size.y * 2.0) * 0.5;
+  state.bounds = { center, radius: Math.max(radius, 5), size };
+}
+
+/* =========================================================================
+   9. 昼夜计算
+   ========================================================================= */
+const DAY_TOP     = new THREE.Color(0x1F5F9C);
+const DAY_HORIZON = new THREE.Color(0xCFE0EE);
+const NIGHT_TOP   = new THREE.Color(0x070B14);
+const NIGHT_HORIZON = new THREE.Color(0x121A28);
+const DUSK_TOP    = new THREE.Color(0x2A3358);
+const DUSK_HORIZON= new THREE.Color(0xD8703A);
+const GROUND_DAY  = new THREE.Color(0x767A6C);
+const GROUND_NIGHT= new THREE.Color(0x0E1116);
+
+const SUN_HIGH  = new THREE.Color(0xFFF5E2);
+const SUN_MID   = new THREE.Color(0xFFC082);
+const SUN_LOW   = new THREE.Color(0xE8562A);
+const MOON_COL  = new THREE.Color(0x93B4E6);
+
+const smoothstep = (a, b, x) => {
+  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+
+function sunDirection(hour) {
+  const t = (hour - 6) / 12;                       // 6h 日出, 18h 日落
+  const alt = Math.sin(t * Math.PI);               // -1..1，夜为负
+  const elev = alt * (Math.PI / 2) * 0.82;         // 最高约 74°
+  const az = (hour / 24) * Math.PI * 2 - Math.PI / 2;
+  const y = Math.sin(elev), r = Math.cos(elev);
+  return new THREE.Vector3(Math.cos(az) * r, y, Math.sin(az) * r).normalize();
+}
+
+const clockTxt = document.getElementById('clockTxt');
+const pillClock = document.getElementById('pillClock');
+const pillModel = document.getElementById('pillModel');
+const timeRange = document.getElementById('timeRange');
+
+function applyTime(hour, force) {
+  state.hour = hour;
+  const dir = sunDirection(hour);
+  const alt = dir.y;                               // 太阳高度（-1..1）
+  const dayK = smoothstep(-0.02, 0.42, alt);       // 白昼权重
+  const duskK = Math.exp(-Math.pow((alt - 0.035) / 0.17, 2)); // 晨昏权重
+  const nightK = 1 - smoothstep(-0.16, 0.06, alt); // 夜间权重
+
+  /* --- 太阳 --- */
+  sun.position.copy(dir).multiplyScalar(58).add(new THREE.Vector3(0, 0, 0));
+  sun.target.position.set(0, 2.5, 0);
+  sun.target.updateMatrixWorld();
+  const sunI = smoothstep(-0.03, 0.22, alt);
+  sun.intensity = sunI * 2.75 + duskK * 0.22;
+  sun.castShadow = state.shadows && sunI > 0.03;
+  const sc = new THREE.Color().copy(SUN_HIGH);
+  sc.lerp(SUN_MID, 1 - smoothstep(0.28, 0.72, Math.max(0, alt)));
+  sc.lerp(SUN_LOW, smoothstep(0.20, 0.0, Math.max(0, alt)));
+  sun.color.copy(sc);
+
+  /* --- 月光 --- */
+  const moonDir = new THREE.Vector3(-dir.x, Math.max(0.18, -alt * 0.9), -dir.z).normalize();
+  moon.position.copy(moonDir).multiplyScalar(52);
+  moon.target.position.set(0, 2, 0);
+  moon.target.updateMatrixWorld();
+  moon.intensity = nightK * 0.15;
+  moon.color.copy(MOON_COL);
+  moon.castShadow = false;
+
+  /* --- 环境 --- */
+  hemi.intensity = 0.12 + dayK * 0.42 + duskK * 0.12;
+  hemi.color.copy(new THREE.Color(0x2a3346)).lerp(new THREE.Color(0x9fc4e8), dayK).lerp(DUSK_HORIZON, duskK * 0.32);
+  hemi.groundColor.copy(new THREE.Color(0x15171c)).lerp(new THREE.Color(0x6b6255), dayK);
+  ambient.intensity = 0.04 + dayK * 0.06;
+  ambient.color.copy(new THREE.Color(0x8FA6C4).lerp(new THREE.Color(0xFFFFFF), dayK));
+
+  /* --- 天空 --- */
+  const top = new THREE.Color().copy(NIGHT_TOP).lerp(DAY_TOP, dayK);
+  top.lerp(DUSK_TOP, duskK * 0.62);
+  const horizon = new THREE.Color().copy(NIGHT_HORIZON).lerp(DAY_HORIZON, dayK);
+  horizon.lerp(DUSK_HORIZON, duskK * 0.88);
+  const ground = new THREE.Color().copy(GROUND_NIGHT).lerp(GROUND_DAY, dayK * 0.9);
+  skyUniforms.uTop.value.copy(top);
+  skyUniforms.uHorizon.value.copy(horizon);
+  skyUniforms.uGround.value.copy(ground);
+  apron.material.color.copy(horizon).lerp(ground, 0.68).multiplyScalar(0.92);
+  skyUniforms.uSunDir.value.copy(dir);
+  skyUniforms.uSunColor.value.copy(sc);
+  skyUniforms.uSunPower.value = 0.25 + sunI * 1.1 + duskK * 1.4;
+  skyUniforms.uNight.value = nightK;
+  if (scene.fog) scene.fog.color.copy(horizon).lerp(new THREE.Color(0x0A0D12), nightK * 0.55);
+
+  /* --- 星空 --- */
+  starMat.opacity = smoothstep(0.10, -0.10, alt) * 0.95;
+
+  /* --- 曝光 --- */
+  renderer.toneMappingExposure = 1.40 + nightK * 0.16 + duskK * 0.04;
+
+  /* --- 室内灯 / 自发光 --- */
+  const lampK = Math.max(nightK, smoothstep(0.22, 0.02, Math.abs(alt)) * 0.55);
+  indoorLights.forEach((l, i) => {
+    l.intensity = lampK * (i < 3 ? 7.5 : i < 6 ? 6.0 : 4.2);
+    l.distance = 12 + (i % 2) * 4;
+  });
+  emissiveTargets.forEach((conf, m) => {
+    const n = Math.max(nightK, smoothstep(0.16, 0.0, Math.abs(alt)) * 0.6);
+    m.emissiveIntensity = conf.day + (conf.night - conf.day) * n;
+  });
+
+  /* --- 顶部读数 --- */
+  const hh = Math.floor(hour % 24), mm = Math.round((hour % 1) * 60);
+  const label = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+  clockTxt.textContent = label;
+  if (pillClock) {
+    const phase = alt > 0.28 ? '白昼' : alt > -0.02 ? (hour < 12 ? '晨曦' : '暮色') : '夜间';
+    pillClock.innerHTML = `<b>${label}</b><span>· ${phase}</span>`;
+  }
+  const pct = (hour / 24) * 100;
+  timeRange.style.setProperty('--p', pct.toFixed(2) + '%');
+
+  envDirty = true;
+  requestRender();
+  if (force) updateLabels();
+}
+
+/* =========================================================================
+   10. 渲染循环（按需渲染）
+   ========================================================================= */
+let needsRender = true;
+let renderingFrames = 0;
+function requestRender() { needsRender = true; }
+
+const clock = new THREE.Clock();
+let fpsAccum = 0, fpsCount = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.1);
+
+  let moving = false;
+  if (tween.active) { tween.step(dt); moving = true; }
+  if (state.spin) { controls.autoRotate = true; moving = true; } else controls.autoRotate = false;
+  if (controls.update(dt)) moving = true;
+
+  if (envDirty && performance.now() - lastEnvAt > 280) rebuildEnvironment();
+
+  if (needsRender || moving) {
+    needsRender = false;
+    updateLabels();
+    renderer.render(scene, camera);
+    DIAG.frames++;
+    if (DEBUG) {
+      const d = document.getElementById('dbg');
+      if (d) d.textContent = `err ${DIAG.errors.length} · warn ${DIAG.warns.length} · frames ${DIAG.frames}`;
+    }
+    fpsAccum += dt; fpsCount++;
+    if (fpsAccum > 0.5) {
+      DIAG.lastFps = Math.round(fpsCount / fpsAccum);
+      fpsAccum = 0; fpsCount = 0;
+      const dbg = document.getElementById('dbg');
+      if (dbg) dbg.textContent = `err ${DIAG.errors.length} · warn ${DIAG.warns.length} · frames ${DIAG.frames}`;
+    }
+  }
+}
+
+/* 相机补间 */
+const tween = {
+  active: false, t: 0, dur: 1.0,
+  fromPos: new THREE.Vector3(), toPos: new THREE.Vector3(),
+  fromTgt: new THREE.Vector3(), toTgt: new THREE.Vector3(),
+  ease: t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  start(toPos, toTgt, dur = 1.05) {
+    this.fromPos.copy(camera.position);
+    this.fromTgt.copy(controls.target);
+    this.toPos.copy(toPos);
+    this.toTgt.copy(toTgt);
+    this.t = 0; this.dur = dur; this.active = true;
+    requestRender();
+  },
+  step(dt) {
+    this.t = Math.min(1, this.t + dt / this.dur);
+    const k = this.ease(this.t);
+    camera.position.lerpVectors(this.fromPos, this.toPos, k);
+    controls.target.lerpVectors(this.fromTgt, this.toTgt, k);
+    if (this.t >= 1) this.active = false;
+    requestRender();
+  }
+};
+
+/* =========================================================================
+   11. 控制器
+   ========================================================================= */
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.075;
+controls.rotateSpeed = 0.72;
+controls.zoomSpeed = 0.9;
+controls.panSpeed = 0.8;
+controls.screenSpacePanning = true;
+controls.minDistance = 1.4;
+controls.maxDistance = 220;
+controls.maxPolarAngle = Math.PI * 0.495;   // 禁止钻到地面以下
+controls.minPolarAngle = 0.02;
+controls.target.set(0, 3.2, 0);
+controls.addEventListener('change', requestRender);
+// r160 的 OrbitControls.update() 返回 boolean，这里包一层防止版本差异
+const _origUpdate = controls.update.bind(controls);
+let _lastCam = camera.position.clone();
+controls.update = function (dt) {
+  const r = _origUpdate(dt);
+  const moved = camera.position.distanceToSquared(_lastCam) > 1e-8;
+  if (moved) { _lastCam.copy(camera.position); }
+  return moved || r === true;
+};
+
+/* =========================================================================
+   12. 剖切
+   ========================================================================= */
+const clipRange = document.getElementById('clipRange');
+const clipTxt = document.getElementById('clipTxt');
+const togClip = document.getElementById('togClip');
+
+function applyClip() {
+  clipState.height = parseFloat(clipRange.value);
+  clipPlane.constant = clipState.enabled ? clipState.height : CLIP_MAX + 12;
+  clipPlane.normal.set(0, -1, 0);
+  clipTxt.textContent = clipState.enabled ? clipState.height.toFixed(1) + ' m' : '关';
+  clipRange.style.setProperty('--p', ((clipState.height / CLIP_MAX) * 100).toFixed(1) + '%');
+  requestRender();
+}
+clipRange.addEventListener('input', applyClip);
+togClip.addEventListener('click', () => {
+  clipState.enabled = !clipState.enabled;
+  togClip.classList.toggle('on', clipState.enabled);
+  applyClip();
+  toast(clipState.enabled ? '剖切已开启 — 拖动滑杆切掉上部结构' : '剖切已关闭');
+});
+
+/* =========================================================================
+   13. 分层
+   ========================================================================= */
+const chipLayer = document.getElementById('chipLayer');
+const layerChips = [...chipLayer.querySelectorAll('.chip')];
+
+function applyLayers() {
+  let anyOn = false;
+  for (const name of LAYER_NAMES) {
+    const g = state.groups.get(name);
+    const on = state.layers[name];
+    if (g) g.visible = on;
+    if (on) anyOn = true;
+  }
+  // chip 状态
+  layerChips.forEach(c => {
+    const k = c.dataset.layer;
+    if (k === '__ALL__') {
+      c.classList.toggle('on', LAYER_NAMES.every(n => state.layers[n]));
+    } else {
+      c.classList.toggle('on', !!state.layers[k]);
+    }
+  });
+  document.body.dataset.layers = LAYER_NAMES.filter(n => state.layers[n]).join(',');
+  requestRender();
+  updateLabels();
+  return anyOn;
+}
+
+chipLayer.addEventListener('click', e => {
+  const btn = e.target.closest('.chip');
+  if (!btn) return;
+  const key = btn.dataset.layer;
+  if (key === '__ALL__') {
+    LAYER_NAMES.forEach(n => state.layers[n] = true);
+    toast('全景 · 全部构件可见');
+  } else {
+    state.layers[key] = !state.layers[key];
+  }
+  applyLayers();
+  if (!LAYER_NAMES.some(n => state.layers[n])) toast('当前无可见图层 — 点「全景」恢复');
+});
+
+/* =========================================================================
+   14. 房间标注（自投影，不依赖 CSS2DRenderer）
+   ========================================================================= */
+const labelsRoot = document.getElementById('labels');
+const togLabels = document.getElementById('togLabels');
+
+const FALLBACK_ROOMS = {
+  rooms: [
+    { id: 'living', zh: '客厅', en: 'Living Room', floor: 'F1', pos: [0, 1.6, 2.5], area: 36.5, desc: '内置示例标注' },
+    { id: 'master', zh: '主卧', en: 'Master Suite', floor: 'F2', pos: [-2.0, 4.9, 1.0], area: 28.0, desc: '内置示例标注' },
+    { id: 'study', zh: '书房', en: 'Study', floor: 'F3', pos: [0.6, 8.0, -0.4], area: 19.4, desc: '内置示例标注' }
+  ],
+  meta: { title: '云顶别墅', floors: { F1: '一层 · 会客与茶叙', F2: '二层 · 起居', F3: '三层 · 书房与露台' } },
+  __fallback: true
+};
+
+function buildLabels(rooms) {
+  labelsRoot.innerHTML = '';
+  state.labelsEl.clear();
+  state.rooms = rooms;
+
+  rooms.forEach(r => {
+    const p = Array.isArray(r.pos) ? r.pos : [0, 0, 0];
+    const el = document.createElement('button');
+    el.className = 'label';
+    el.type = 'button';
+    el.dataset.room = r.id;
+    el.dataset.floor = r.floor || 'F1';
+    el.title = `${r.zh || r.id} · ${r.floor || ''}${r.area ? ' · ' + r.area + ' ㎡' : ''}${r.desc ? '\n' + r.desc : ''}`;
+    el.innerHTML = `<i class="dot"></i><span class="txt">${r.zh || r.id}<em>${r.floor || ''}</em></span>`;
+    el.addEventListener('click', ev => {
+      ev.stopPropagation();
+      flyToRoom(r);
+      toast(`飞向 <b>${r.zh || r.id}</b> · ${r.floor || ''}`);
+    });
+    labelsRoot.appendChild(el);
+
+    const wp = new THREE.Vector3(p[0], p[1], p[2]);
+    state.labelsEl.set(r.id, { el, wp, room: r });
+  });
+  updateLabels();
+  requestRender();
+}
+
+const _proj = new THREE.Vector3();
+const _placed = [];   // 屏幕空间已占用的矩形，用于去重叠
+
+function updateLabels() {
+  if (!state.labelsEl.size) return;
+  const w = innerWidth, h = innerHeight;
+  const showAll = state.labels;
+  _placed.length = 0;
+
+  // 收集候选（含深度），再按近→远放置，近处优先占位
+  const cands = [];
+  for (const [, item] of state.labelsEl) {
+    const { el, wp, room } = item;
+    el.classList.remove('hidden');
+    if (!showAll) { el.classList.add('hidden'); continue; }
+
+    const floor = room.floor || 'F1';
+    const floorVisible = (floor in state.layers) ? state.layers[floor] : true;
+    if (!floorVisible) { el.classList.add('hidden'); continue; }
+
+    // 剖切后高于剖面点的房间标签隐藏
+    if (clipState.enabled && wp.y > clipState.height + 0.05) { el.classList.add('hidden'); continue; }
+
+    _proj.copy(wp).project(camera);
+    if (_proj.z > 1 || _proj.z < -1) { el.classList.add('hidden'); continue; }
+    const x = (_proj.x * 0.5 + 0.5) * w;
+    const y = (-_proj.y * 0.5 + 0.5) * h;
+    if (x < -140 || x > w + 140 || y < -60 || y > h + 60) { el.classList.add('hidden'); continue; }
+
+    cands.push({ el, room, x, y, z: _proj.z, area: room.area || 0 });
+  }
+
+  cands.sort((a, b) => a.z - b.z || (b.area - a.area));
+
+  for (const c of cands) {
+    const bw = (c.el.offsetWidth || 88) + 8;
+    const bh = (c.el.offsetHeight || 24) + 6;
+    const rect = { l: c.x - bw / 2, r: c.x + bw / 2, t: c.y - bh / 2, b: c.y + bh / 2 };
+    let clash = false;
+    for (const p of _placed) {
+      if (rect.l < p.r && rect.r > p.l && rect.t < p.b && rect.b > p.t) { clash = true; break; }
+    }
+    if (clash && _placed.length >= 6) { c.el.classList.add('hidden'); continue; }
+    _placed.push(rect);
+
+    c.el.style.left = c.x.toFixed(1) + 'px';
+    c.el.style.top = c.y.toFixed(1) + 'px';
+    c.el.style.zIndex = String(Math.round((1 - c.z) * 500));
+    c.el.classList.toggle('dim', c.z > 0.62);
+  }
+}
+
+function flyToRoom(room) {
+  // 旧实现把相机放在 target + (0.62,0.46,-0.78)*d —— 朝建筑背面且只抬 0.46，
+  // 室内房间会把相机塞进墙体/楼板里，画面只剩标签（He 反馈的"空白"）。
+  // 现在：室内房间 → 只留该层 + 掀顶剖切（剖到标签高度略下），相机从斜上方看进去。
+  const p = room.pos || [0, 0, 0];
+  const target = new THREE.Vector3(p[0], p[1], p[2]);
+  const fl = room.floor || 'F1';
+  const k = viewScale();
+  const indoor = (fl === 'F1' || fl === 'F2' || fl === 'F3');
+  if (indoor) {
+    for (const n of LAYER_NAMES) state.layers[n] = (n === fl || n === 'SITE');
+    applyLayers();
+    const h = Math.max(0.4, target.y - 0.10);
+    clipRange.value = String(h);
+    clipState.enabled = true;
+    applyClip();
+    togClip.classList.add('on');
+    const pos = new THREE.Vector3(target.x + 2.0 * k, target.y + 3.4 * k,
+                                   target.z + 4.4 * k);
+    tween.start(pos, target, 1.15);
+  } else {
+    const pos = new THREE.Vector3(target.x + 4.5 * k, target.y + 5.5 * k,
+                                   target.z + 8.5 * k);
+    tween.start(pos, target, 1.15);
+  }
+  requestRender();
+}
+
+function resetLooks() {
+  // 复位：所有层可见 + 关闭剖切
+  for (const n of LAYER_NAMES) state.layers[n] = true;
+  applyLayers();
+  clipState.enabled = false;
+  applyClip();
+  togClip.classList.remove('on');
+  requestRender();
+}
+
+/* =========================================================================
+   15. 视角预设
+   ========================================================================= */
+/* 取景模型
+   坐标：Blender(x,y,z) → glTF(x, z, -y)，因此 Blender 的 -Y（花园/阳台/月洞门）
+   落在 glTF 的 **+Z**。正面 = +Z。机位以建筑 bbox 中心为锚，按模型尺度缩放。 */
+const REF_DIM = 18.3;                     // 参考模型最长边（m），用于机位自适应缩放
+function viewScale() {
+  const sz = state.bounds.size || new THREE.Vector3(16, 10, 12);
+  const maxDim = Math.max(sz.x, sz.z, sz.y * 1.15);
+  return Math.min(2.2, Math.max(0.55, maxDim / REF_DIM));
+}
+
+/* 相对 bbox 中心的机位偏移（+X 右, +Y 上, +Z 正面），以及注视点偏移 */
+const VIEW_SPEC = {
+  default:{ pos: [26, 9.5, 33.2],  look: [0, -1.0, 1.2] },     // (26,15,34) → (0,4.5,2)  默认首屏
+  aerial: { pos: [26, 24.5, 29.2], look: [0, -3.5, -0.8] },   // (26,30,30) → (0,2,0)
+  front:  { pos: [0, -0.5, 29.2],  look: [0, -0.5, -0.8] },   // (0,5,30)   → (0,5,0)
+  court:  { pos: [4, -3.3, 21.2],  look: [0, -1.5, -0.8] },   // (4,2.2,22) → (0,4,0)
+  hall:   { pos: null,             look: null }
+};
+
+function viewCamera(kind) {
+  const spec = VIEW_SPEC[kind] || VIEW_SPEC.default;
+  const c = state.bounds.center.clone();
+  const sz = state.bounds.size || new THREE.Vector3(16, 10, 12);
+  const k = viewScale();
+
+  if (kind === 'hall') {
+    return {
+      pos: new THREE.Vector3(c.x + sz.x * 0.10, 1.62, c.z - sz.z * 0.30),
+      tgt: new THREE.Vector3(c.x - sz.x * 0.06, 1.42, c.z + sz.z * 0.42)
+    };
+  }
+
+  const pos = new THREE.Vector3(
+    c.x + spec.pos[0] * k, c.y + spec.pos[1] * k, c.z + spec.pos[2] * k);
+  const tgt = new THREE.Vector3(
+    c.x + spec.look[0] * k, c.y + spec.look[1] * k, c.z + spec.look[2] * k);
+
+  // 室内机位以外，永远不许钻到地平线以下
+  pos.y = Math.max(pos.y, 1.6);
+  return { pos, tgt };
+}
+
+function presetView(kind) {
+  const v = viewCamera(kind);
+  tween.start(v.pos, v.tgt, 1.15);
+}
+
+function presetViewInstant(kind) {
+  const v = viewCamera(kind);
+  camera.position.copy(v.pos);
+  controls.target.copy(v.tgt);
+  camera.lookAt(controls.target);
+  controls.update();
+  requestRender();
+}
+
+/* URL 深链：?t=22&clip=4.5&hide=GARDEN,F2&view=front&layers=  —— 便于验收与分享机位 */
+function applyQuery() {
+  const q = new URLSearchParams(location.search);
+  if (q.has('t')) {
+    const t = Math.max(0, Math.min(24, parseFloat(q.get('t'))) || 0);
+    timeRange.value = String(t);
+    applyTime(t, true);
+  }
+  if (q.has('clip')) {
+    const h = Math.max(0, Math.min(CLIP_MAX, parseFloat(q.get('clip'))) || 0);
+    clipState.enabled = true; togClip.classList.add('on');
+    clipRange.value = String(h); applyClip();
+  }
+  if (q.has('hide')) {
+    q.get('hide').split(',').map(x => x.trim().toUpperCase()).filter(Boolean)
+      .forEach(n => { if (n in state.layers) state.layers[n] = false; });
+    applyLayers();
+  }
+  if (q.has('view')) presetViewInstant(q.get('view'));
+  if (q.has('cam')) {
+    const p = q.get('cam').split(',').map(Number);
+    const l = (q.get('look') || '0,4,0').split(',').map(Number);
+    if (p.length === 3 && p.every(n => isFinite(n))) {
+      camera.position.set(p[0], p[1], p[2]);
+      controls.target.set(l[0], l[1], l[2]);
+      camera.lookAt(controls.target);
+      controls.update();
+      requestRender();
+    }
+  }
+  if (q.has('room')) {
+    const hit = state.rooms.find(r => r.id === q.get('room'));
+    if (hit) flyToRoom(hit);
+  }
+}
+
+document.querySelectorAll('[data-view]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    presetView(btn.dataset.view);
+    toast('视角 · <b>' + btn.textContent + '</b>');
+  });
+});
+
+/* =========================================================================
+   16. 显示开关
+   ========================================================================= */
+const togShadow = document.getElementById('togShadow');
+const togSpin = document.getElementById('togSpin');
+const togExpo = document.getElementById('togExpo');
+
+togLabels.addEventListener('click', () => {
+  state.labels = !state.labels;
+  togLabels.classList.toggle('on', state.labels);
+  labelsRoot.style.display = state.labels ? '' : 'none';
+  requestRender();
+});
+
+togShadow.addEventListener('click', () => {
+  state.shadows = !state.shadows;
+  togShadow.classList.toggle('on', state.shadows);
+  renderer.shadowMap.enabled = state.shadows;
+  sun.castShadow = state.shadows;
+  state.allMats.forEach(m => { m.needsUpdate = true; });
+  requestRender();
+  toast(state.shadows ? '阴影已开启' : '阴影已关闭');
+});
+
+togSpin.addEventListener('click', () => {
+  state.spin = !state.spin;
+  togSpin.classList.toggle('on', state.spin);
+  controls.autoRotate = state.spin;
+  controls.autoRotateSpeed = 0.55;
+  requestRender();
+});
+
+togExpo.addEventListener('click', () => {
+  const on = togExpo.classList.toggle('on');
+  renderer.toneMappingExposure = on ? 1.66 : (1.40 + (1 - Math.max(0, sunDirection(state.hour).y)) * 0.34);
+  requestRender();
+  toast(on ? '高曝光模式' : '标准曝光');
+});
+
+timeRange.addEventListener('input', () => {
+  applyTime(parseFloat(timeRange.value));
+});
+
+/* 面板折叠 */
+const panel = document.getElementById('panel');
+document.getElementById('panelHead').addEventListener('click', () => {
+  panel.classList.toggle('collapsed');
+  requestRender();
+});
+
+/* 键盘 */
+addEventListener('keydown', e => {
+  if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+  const k = e.key.toLowerCase();
+  if (k === 'h') { panel.classList.toggle('collapsed'); requestRender(); }
+  if (k === 'r') { resetLooks(); presetView('default'); }
+  if (k === 'l') { togLabels.click(); }
+});
+
+/* 尺寸 */
+let rt = 0;
+addEventListener('resize', () => {
+  clearTimeout(rt);
+  rt = setTimeout(() => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    requestRender();
+  }, 80);
+});
+
+/* =========================================================================
+   17. 提示条 / 加载浮层
+   ========================================================================= */
+const toastEl = document.getElementById('toast');
+let toastTimer = 0;
+function toast(html, ms = 2200) {
+  toastEl.innerHTML = html;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), ms);
+}
+
+const loaderEl = document.getElementById('loader');
+const barFill = document.getElementById('barFill');
+const loadPct = document.getElementById('loadPct');
+function setProgress(p, text) {
+  const v = Math.max(0, Math.min(100, Math.round(p)));
+  barFill.style.width = v + '%';
+  loadPct.textContent = v + '%';
+  if (text) loaderEl.querySelector('.lt').textContent = text;
+}
+function hideLoader() {
+  setProgress(100, '就绪');
+  setTimeout(() => loaderEl.classList.add('done'), 200);
+  setTimeout(() => { loaderEl.style.display = 'none'; }, 780);
+}
+
+function setModelPill(kind, text) {
+  pillModel.classList.toggle('warn', kind !== 'glb');
+  pillModel.innerHTML = `<i class="dot"></i><span>${text}</span>`;
+  document.body.dataset.model = kind;
+}
+
+/* =========================================================================
+   18. 启动：先查 GLB / rooms.json，再决定用真实模型还是占位
+   ========================================================================= */
+function applyFrameFromBounds() {
+  const v = viewCamera('default');
+  camera.position.copy(v.pos);
+  controls.target.copy(v.tgt);
+  camera.lookAt(v.tgt);
+  controls.update();
+}
+
+async function probe(url) {
+  try {
+    const r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+    if (!r.ok) return false;
+    const len = r.headers.get('content-length');
+    if (len && parseInt(len, 10) < 64) return false;
+    return true;
+  } catch { return false; }
+}
+
+async function loadRooms() {
+  try {
+    const path = resolvedPath.rooms || '../rooms.json';
+    const r = await fetch(path, { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    if (!data || !Array.isArray(data.rooms) || !data.rooms.length) throw new Error('rooms 为空');
+    const rooms = data.rooms
+      .filter(x => x && Array.isArray(x.pos) && x.pos.length === 3)
+      .map(x => ({
+        id: String(x.id || Math.random().toString(36).slice(2)),
+        zh: x.zh || x.id || '房间',
+        en: x.en || '',
+        floor: x.floor || 'F1',
+        pos: x.pos.map(Number),
+        area: x.area, desc: x.desc || ''
+      }));
+    if (!rooms.length) throw new Error('无可投影房间');
+    if (data.meta && data.meta.title) {
+      document.querySelector('.brand .t').textContent = data.meta.title;
+    }
+    return { rooms, fallback: false };
+  } catch (err) {
+    return { rooms: FALLBACK_ROOMS.rooms, fallback: true, error: err.message };
+  }
+}
+
+/* 资产路径解析：服务根可能是 villa/（../villa.glb 有效）
+   也可能是 viewer/（只能取 ./xxx）。按候选顺序探测第一个可用的。 */
+const ASSET_CANDIDATES = {
+  glb:   ['../villa.glb', 'villa.glb', '/villa.glb'],
+  rooms: ['../rooms.json', 'rooms.json', '/rooms.json']
+};
+const resolvedPath = { glb: null, rooms: null };
+
+function glbUrl() {
+  const q = new URLSearchParams(location.search);
+  const forced = q.get('glb');
+  if (forced) return forced;
+  return resolvedPath.glb || ASSET_CANDIDATES.glb[0];
+}
+
+async function resolveAsset(kind) {
+  const q = new URLSearchParams(location.search);
+  if (kind === 'glb' && q.get('glb')) { resolvedPath.glb = q.get('glb'); return q.get('glb'); }
+  for (const cand of ASSET_CANDIDATES[kind]) {
+    if (await probe(cand)) { resolvedPath[kind] = cand; return cand; }
+  }
+  resolvedPath[kind] = null;
+  return null;
+}
+
+function loadGLB() {
+  return new Promise(resolve => {
+    const gl = new GLTFLoader();
+    gl.load(glbUrl(),
+      gltf => resolve({ ok: true, scene: gltf.scene, gltf }),
+      ev => {
+        if (ev && ev.total) setProgress(Math.min(96, (ev.loaded / ev.total) * 96));
+        else if (ev && ev.loaded) setProgress(Math.min(96, (ev.loaded / 12e6) * 96));
+      },
+      err => resolve({ ok: false, error: err })
+    );
+  });
+}
+
+async function boot() {
+  setProgress(6, '检查模型文件');
+  const glbPath = await resolveAsset('glb');
+  await resolveAsset('rooms');
+  const hasGLB = !!glbPath;
+  const roomsRes = await loadRooms();
+
+  // ---- 模型 ----
+  if (hasGLB) {
+    setProgress(14, '解析 villa.glb');
+    const res = await loadGLB();
+    if (res.ok) {
+      state.usingPlaceholder = false;
+      mirrorRoot.add(res.scene);
+      registerModel(res.scene);
+      setModelPill('glb', '已载入 ' + (glbPath || '').replace('../', ''));
+      setProgress(92, '装配材质与灯光');
+    } else {
+      state.usingPlaceholder = true;
+      const ph = buildPlaceholderScene();
+      mirrorRoot.add(ph.root);
+      ph.materials.forEach(registerMaterial);
+      registerModel(ph.root);
+      setModelPill('placeholder', 'GLB 解析失败 · 占位模型');
+      setProgress(92, '回退到占位场景');
+    }
+  } else {
+    state.usingPlaceholder = true;
+    setProgress(26, '生成占位建筑');
+    const ph = buildPlaceholderScene();
+    mirrorRoot.add(ph.root);
+    ph.materials.forEach(registerMaterial);
+    registerModel(ph.root);
+    setModelPill('placeholder', '未找到 villa.glb · 占位模型');
+    setProgress(92, '装配材质与灯光');
+  }
+
+  // ---- 标注 ----
+  buildLabels(roomsRes.rooms);
+  state.usingFallbackRooms = roomsRes.fallback;
+
+  // ---- 初始状态 ----
+  applyLayers();
+  applyTime(state.hour, true);
+  applyClip();
+  applyFrameFromBounds();
+  applyQuery();
+  renderer.render(scene, camera);
+
+  state.loaded = true;
+  document.body.dataset.ready = '1';
+  document.body.dataset.rooms = String(roomsRes.rooms.length);
+  document.body.dataset.groups = [...state.groups.entries()].filter(([, v]) => v).map(([k]) => k).join(',');
+  hideLoader();
+
+  // ---- 提示 ----
+  if (state.usingPlaceholder) {
+    toast('未检测到 <b>villa.glb</b>：请在 <b>villa/</b> 根目录启动服务（python -m http.server 8899，访问 /viewer/）。当前为内置占位建筑，功能全可用', 6200);
+  } else if (roomsRes.fallback) {
+    toast('rooms.json 缺失，房间标注使用内置示例', 3600);
+  } else {
+    toast(`已就绪 · <b>${roomsRes.rooms.length}</b> 个房间标注`, 2400);
+  }
+
+  animate();
+}
+
+boot().catch(err => {
+  record('errors', ['boot failed:', err && (err.stack || err.message || err)]);
+  // 兜底：占位模型 + 基本灯光，保证不白屏
+  try {
+    const ph = buildPlaceholderScene();
+    mirrorRoot.add(ph.root);
+    ph.materials.forEach(registerMaterial);
+    registerModel(ph.root);
+    buildLabels(FALLBACK_ROOMS.rooms);
+    applyLayers(); applyTime(state.hour, true); applyClip(); applyFrameFromBounds();
+    renderer.render(scene, camera);
+    document.body.dataset.ready = '1';
+    hideLoader();
+    animate();
+  } catch (e2) {
+    record('errors', ['fatal:', e2 && e2.message]);
+    loaderEl.querySelector('.lt').textContent = '初始化失败';
+    setProgress(100);
+  }
+});
+</script>
+</body>
+</html>
