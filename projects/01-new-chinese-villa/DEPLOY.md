@@ -66,7 +66,7 @@ git push -u origin main
 https://hanbuss.github.io/cloudcrest-villa/
 ```
 
-根目录 `index.html` 会跳到 `villa/viewer/index.html`。
+仓库根 `index.html` 是项目索引页，点进去进各自查看器。
 
 > ⚠️ 首次打开要下载 `villa/villa.glb`（约 57 MB），慢一点是正常的。
 > 如果嫌大：`build_villa.py` 导出时加 `export_draco_mesh_compression_enable=True`，
@@ -83,7 +83,7 @@ du -sh repo-cloudcrest                        # ~82 MB（含 57 MB 的 villa.glb
 
 # 本地起服务确认页面能开（不依赖 GitHub）
 cd repo-cloudcrest && python -m http.server 8902
-# → http://127.0.0.1:8902/villa/viewer/index.html
+# → http://127.0.0.1:8902/projects/01-new-chinese-villa/viewer/index.html
 ```
 
 > 文件体积：`villa.glb` 57 MB，低于 GitHub 单文件 100 MB 硬限制，可直接入库。

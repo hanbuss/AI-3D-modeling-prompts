@@ -1,0 +1,64 @@
+{
+ "tiles": {
+  "plaster": {
+   "albedo": "textures/plaster_albedo.png",
+   "normal": "textures/plaster_normal.png",
+   "tile_m": 2.0
+  },
+  "stone": {
+   "albedo": "textures/stone_albedo.png",
+   "normal": "textures/stone_normal.png",
+   "tile_m": 2.0
+  },
+  "stone_light": {
+   "albedo": "textures/stone_light_albedo.png",
+   "normal": "textures/stone_light_normal.png",
+   "tile_m": 2.0
+  },
+  "marble": {
+   "albedo": "textures/marble_albedo.png",
+   "normal": "textures/marble_normal.png",
+   "tile_m": 3.0
+  },
+  "wood_oak": {
+   "albedo": "textures/wood_oak_albedo.png",
+   "normal": "textures/wood_oak_normal.png",
+   "tile_m": 2.0
+  },
+  "wood_walnut": {
+   "albedo": "textures/wood_walnut_albedo.png",
+   "normal": "textures/wood_walnut_normal.png",
+   "tile_m": 2.0
+  },
+  "wood_charred": {
+   "albedo": "textures/wood_charred_albedo.png",
+   "normal": "textures/wood_charred_normal.png",
+   "tile_m": 2.0
+  },
+  "tile": {
+   "albedo": "textures/tile_albedo.png",
+   "normal": "textures/tile_normal.png",
+   "tile_m": 1.5
+  },
+  "fabric": {
+   "albedo": "textures/fabric_albedo.png",
+   "normal": "textures/fabric_normal.png",
+   "tile_m": 0.6
+  },
+  "rug": {
+   "albedo": "textures/rug_albedo.png",
+   "normal": "textures/rug_normal.png",
+   "tile_m": 1.0
+  },
+  "grass": {
+   "albedo": "textures/grass_albedo.png",
+   "normal": "textures/grass_normal.png",
+   "tile_m": 3.0
+  },
+  "gravel": {
+   "albedo": "textures/gravel_albedo.png",
+   "normal": "textures/gravel_normal.png",
+   "tile_m": 1.5
+  }
+ }
+}

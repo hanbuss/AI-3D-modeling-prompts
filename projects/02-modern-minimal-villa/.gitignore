@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.blend1
+assets/_raw/
+assets/_enc/
+assets/_contact/
+textures/*.exr
+.DS_Store

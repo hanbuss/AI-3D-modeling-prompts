@@ -2,19 +2,104 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>云嵴山居 · Cloudcrest Villa</title>
-<meta http-equiv="refresh" content="0; url=./villa/viewer/index.html">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 建模提示词 · 两个别墅项目</title>
 <style>
-  html,body{height:100%;margin:0;background:#12161c;color:#e8e2d6;
-    font:15px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
-  a{color:#d4644a;text-decoration:none;border-bottom:1px solid rgba(212,100,74,.4)}
-  .dim{color:#8b857a;font-size:13px}
+  :root{
+    --ink:#0f1318; --ink-2:#151a21; --card:#1a2029;
+    --cream:#e9e4da; --dim:rgba(233,228,218,.60); --faint:rgba(233,228,218,.34);
+    --accent:#c86a4a; --accent-2:#7fa88b; --line:rgba(233,228,218,.12);
+    --f:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--f);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:64px 24px 96px}
+  header{margin-bottom:56px}
+  .eyebrow{font-size:12px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-bottom:18px}
+  h1{font-size:clamp(28px,4.4vw,46px);line-height:1.18;margin:0 0 18px;font-weight:600;letter-spacing:-.01em}
+  .lede{font-size:clamp(14px,1.5vw,16px);line-height:1.85;color:var(--dim);max-width:62ch;margin:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px;margin-top:46px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    display:flex;flex-direction:column;transition:transform .25s ease,border-color .25s ease}
+  .card:hover{transform:translateY(-3px);border-color:rgba(233,228,218,.26)}
+  .shot{aspect-ratio:16/10;background:var(--ink-2);overflow:hidden;position:relative}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block}
+  .num{position:absolute;top:12px;left:12px;font-size:11px;letter-spacing:.18em;
+    background:rgba(15,19,24,.78);border:1px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--cream)}
+  .body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .body h2{font-size:19px;margin:0;font-weight:600}
+  .body p{margin:0;font-size:13.5px;line-height:1.75;color:var(--dim)}
+  .meta{font-size:12px;color:var(--faint);letter-spacing:.02em}
+  .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+  .btn{font-size:13px;padding:9px 15px;border-radius:8px;border:1px solid var(--line);color:var(--cream);
+    background:transparent;transition:background .2s,border-color .2s}
+  .btn:hover{background:rgba(233,228,218,.07);border-color:rgba(233,228,218,.3)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#17110e;font-weight:600}
+  .btn.primary:hover{background:#d97a58;border-color:#d97a58}
+  footer{margin-top:64px;padding-top:26px;border-top:1px solid var(--line);
+    font-size:12.5px;line-height:1.9;color:var(--faint)}
+  footer a{border-bottom:1px solid rgba(233,228,218,.22)}
+  .note{margin-top:10px;color:var(--faint)}
 </style>
 </head>
 <body>
-  <div>云嵴山居 · Cloudcrest Villa</div>
-  <div><a href="./villa/viewer/index.html">进入三维查看器 →</a></div>
-  <div class="dim">首次加载需读取 villa.glb（约 57 MB），请稍候</div>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">AI 3D Modeling Prompts</div>
+    <h1>提示词驱动的建筑可视化<br>两个跑通过的案例</h1>
+    <p class="lede">
+      从几张参考照片开始，用提示词让 AI Agent 产出 Blender 程序化工程，
+      再导出成可在浏览器里旋转、分层、剖切的模型。
+      提示词里每一条硬约束都是踩坑之后写进去的。
+    </p>
+  </header>
+
+  <div class="grid">
+
+    <article class="card">
+      <div class="shot">
+        <img src="projects/01-new-chinese-villa/previews/CAM_Hero_day.png" alt="云嵴山居 日景">
+        <span class="num">01</span>
+      </div>
+      <div class="body">
+        <h2>云嵴山居 · 新中式</h2>
+        <p>三层现代新中式别墅，210 m² 南院。坡屋面、月亮门、影壁、水池、11 樘门扇与檐角。</p>
+        <div class="meta">97 万面 · 20 间房 · 57 种材质</div>
+        <div class="acts">
+          <a class="btn primary" href="projects/01-new-chinese-villa/viewer/index.html">进入查看器</a>
+          <a class="btn" href="projects/01-new-chinese-villa/README.md">工程说明</a>
+          <a class="btn" href="prompts/new-chinese-villa.md">复刻提示词</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot">
+        <img src="projects/02-modern-minimal-villa/previews/CAM_Hero_day.jpg" alt="现代简约别墅 日景">
+        <span class="num">02</span>
+      </div>
+      <div class="body">
+        <h2>现代简约别墅 · 小院</h2>
+        <p>三层现代简约，225 m² 前院。石材大板 + 柚木竖格栅，柚木 Deck、格栅亭、水幕墙、枯山水真耙纹。</p>
+        <div class="meta">134 万面 · 21 间房 · 91 种材质 · 真三维植被</div>
+        <div class="acts">
+          <a class="btn primary" href="projects/02-modern-minimal-villa/viewer/index.html">进入查看器</a>
+          <a class="btn" href="projects/02-modern-minimal-villa/README.md">工程说明</a>
+          <a class="btn" href="prompts/modern-minimal-villa.md">复刻提示词</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>
+    代码与模型 <a href="LICENSE">MIT</a> · 植被与户外家具来自 <a href="https://polyhaven.com/">PolyHaven</a>（CC0）·
+    查看器内置 <a href="https://threejs.org/">three.js</a>（MIT）· 参考照片为第三方网图，未随仓库分发。
+    <div class="note">首次进入查看器需下载 50–57 MB 模型，请稍候几秒。手机端底部抽屉可展开全部控制项。</div>
+  </footer>
+
+</div>
 </body>
 </html>
