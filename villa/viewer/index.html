@@ -164,12 +164,53 @@
     margin:0;padding:8px 12px;font:10px/1.5 ui-monospace,Menlo,Consolas,monospace;
     color:#ff8f7a;background:rgba(40,10,8,.86);display:none;white-space:pre-wrap}
   body[data-debug="1"] #errlog{display:block}
-  @media (max-width:720px){
-    #panel{width:224px;top:66px;right:12px}
-    #panel.collapsed{width:46px}
-    #hints{font-size:10px}
+  /* ---------- 手机 / 触屏适配 ---------- */
+  #hintsTouch{display:none}
+  body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+  #stage canvas{touch-action:none}
+  @media (max-width:860px), (pointer:coarse){
+    #titlebar{height:auto;min-height:50px;padding:calc(6px + env(safe-area-inset-top)) 14px 8px;gap:8px}
+    .brand{min-width:0}
+    .brand .t{font-size:13px;letter-spacing:.06em;white-space:nowrap;overflow:hidden;
+      text-overflow:ellipsis;max-width:58vw}
+    #barRight{flex:0 0 auto}
+    #pillModel{display:none}          /* 手机上省掉型号胶囊，避免被屏幕裁切 */
     .brand .s{display:none}
+    .brand .mark{width:9px;height:9px}
+    #barRight{gap:6px}
+    .pill{height:24px;padding:0 8px;font-size:10px;letter-spacing:.04em;
+      max-width:32vw;overflow:hidden;flex:0 1 auto}
+    .pill span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    /* 控制台改成底部抽屉：默认只露一条 50px 的把手，不挡模型 */
+    #panel{top:auto;left:0;right:0;bottom:0;width:auto;border-radius:16px 16px 0 0;
+      max-height:58dvh;padding-bottom:env(safe-area-inset-bottom);transition:max-height .24s ease}
+    #panel.collapsed{width:auto;max-height:calc(50px + env(safe-area-inset-bottom))}
+    #panel::before{content:"";display:block;width:38px;height:4px;margin:8px auto 0;
+      border-radius:99px;background:rgba(237,230,218,.22)}
+    #panel.collapsed header .h{display:block}          /* 手机上收起时也显示标题 */
+    #panel.collapsed header{padding:10px 16px 12px;border-bottom:0}
+    #panel header{padding:15px 16px 13px}
+    #panel header .h{font-size:11px;letter-spacing:.16em}
+    #panel header .chev{font-size:13px}
+    #panelBody{max-height:calc(58dvh - 50px);padding:2px 16px 16px;overscroll-behavior:contain}
+    .chips{gap:5px}
+    .chip{padding:7px 10px;font-size:11.5px;letter-spacing:.02em}
+    .row .chip{flex:1;text-align:center;padding:9px 4px}
+    /* 桌面鼠标提示在触屏上没意义，换成触摸提示 */
+    #hints{display:none}
+    #hintsTouch{display:block}
+    #toast{bottom:calc(96px + env(safe-area-inset-bottom))}
+    #toast{top:calc(58px + env(safe-area-inset-top));bottom:auto}
+    body[data-panel="open"] #hintsTouch{display:none}
+    /* 房间标注缩小，避免糊在一起 */
+    .label{padding:2px 7px 2px 3px;gap:5px}
+    .label .txt{font-size:10px}
+    .label .txt em{font-size:8.5px;margin-left:4px}
+    .label .dot{width:6px;height:6px}
   }
+  #hintsTouch{position:fixed;left:0;right:0;bottom:calc(56px + env(safe-area-inset-bottom));
+    z-index:35;text-align:center;font-size:10.5px;letter-spacing:.06em;color:var(--cream-faint);
+    pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 </style>
 </head>
 <body>
@@ -244,6 +285,8 @@
   <div><kbd>左键拖动</kbd> 旋转 &nbsp;·&nbsp; <kbd>滚轮</kbd> 缩放 &nbsp;·&nbsp; <kbd>右键拖动</kbd> 平移</div>
   <div><kbd>点击标注</kbd> 飞向房间 &nbsp;·&nbsp; <kbd>H</kbd> 面板 &nbsp;·&nbsp; <kbd>R</kbd> 复位</div>
 </div>
+
+<div id="hintsTouch">单指拖动旋转 · 双指缩放 / 平移 · 点标注进入房间</div>
 
 <div id="loader">
   <div class="sigil"><i></i></div>
@@ -320,7 +363,9 @@ const SHADOW_SIZE = 2048;
    ========================================================================= */
 const stage = document.getElementById('stage');
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+const IS_TOUCH = matchMedia('(pointer: coarse)').matches || innerWidth < 860;
+const PIXEL_CAP = IS_TOUCH ? 1.6 : 2;   // 手机 GPU 别开太高，保帧率
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, PIXEL_CAP));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1183,6 +1228,22 @@ function updateLabels() {
   for (const c of cands) {
     const bw = (c.el.offsetWidth || 88) + 8;
     const bh = (c.el.offsetHeight || 24) + 6;
+    // 贴边裁切：把标签夹进可视区，手机还要避开顶栏与底部抽屉
+    const padX = bw / 2 + 6, padY = bh / 2 + 4;
+    const topLimit = IS_TOUCH ? 56 : 70;
+    const botLimit = IS_TOUCH ? innerHeight - 66 : innerHeight - 26;
+    const rawX = c.x, rawY = c.y;
+    // 手机上：只保留最靠前的 5 个标签，且必须完整落在安全区内（左右各留 12%）
+    if (IS_TOUCH) {
+      const safeX = innerWidth * 0.12;
+      if (_placed.length >= 5 || rawX < safeX || rawX > innerWidth - safeX ||
+          rawY < topLimit || rawY > botLimit) {
+        c.el.classList.add('hidden');
+        continue;
+      }
+    }
+    c.x = Math.min(Math.max(c.x, padX), Math.max(padX, innerWidth - padX));
+    c.y = Math.min(Math.max(c.y, topLimit + padY), Math.max(topLimit + padY, botLimit - padY));
     const rect = { l: c.x - bw / 2, r: c.x + bw / 2, t: c.y - bh / 2, b: c.y + bh / 2 };
     let clash = false;
     for (const p of _placed) {
@@ -1222,6 +1283,10 @@ function flyToRoom(room) {
     const pos = new THREE.Vector3(target.x + 4.5 * k, target.y + 5.5 * k,
                                    target.z + 8.5 * k);
     tween.start(pos, target, 1.15);
+  }
+  if (IS_TOUCH) {                       // 手机：飞过去时收起抽屉，露出剖面
+    panel.classList.add('collapsed');
+    syncPanelState();
   }
   requestRender();
 }
@@ -1383,8 +1448,24 @@ timeRange.addEventListener('input', () => {
 
 /* 面板折叠 */
 const panel = document.getElementById('panel');
+function syncPanelState() {
+  document.body.dataset.panel = panel.classList.contains('collapsed') ? 'closed' : 'open';
+}
+if (IS_TOUCH) panel.classList.add('collapsed');   // 手机先收起，把屏幕让给模型
+if (new URLSearchParams(location.search).get('panel') === 'open') panel.classList.remove('collapsed');
+syncPanelState();
+if (IS_TOUCH) {                                    // 手机屏幕窄，房间标注默认关掉（面板里可开）
+  const pm = document.querySelector('#pillModel span');
+  if (pm) pm.textContent = '已载入';
+
+  state.labels = false;
+  togLabels.classList.remove('on');
+  togLabels.classList.toggle('on', state.labels);
+}
+
 document.getElementById('panelHead').addEventListener('click', () => {
   panel.classList.toggle('collapsed');
+  syncPanelState();
   requestRender();
 });
 
@@ -1405,7 +1486,7 @@ addEventListener('resize', () => {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, PIXEL_CAP));
     requestRender();
   }, 80);
 });
@@ -1439,7 +1520,9 @@ function hideLoader() {
 
 function setModelPill(kind, text) {
   pillModel.classList.toggle('warn', kind !== 'glb');
-  pillModel.innerHTML = `<i class="dot"></i><span>${text}</span>`;
+  // 手机屏幕窄：只显示「已载入 / 占位」，不把文件名塞进胶囊
+  const short = IS_TOUCH ? (kind === 'glb' ? '已载入' : '占位') : text;
+  pillModel.innerHTML = `<i class="dot"></i><span>${short}</span>`;
   document.body.dataset.model = kind;
 }
 
