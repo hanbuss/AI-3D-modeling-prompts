@@ -173,24 +173,79 @@ def main_gate(gb, cx, y, w=2.60, side=-1):
                (cx + sgn * (w / 2 + 0.62), y - side * 0.75, 0.15), mat="M_StoneDark")
 
 
-def screen_wall(gb, cx, y, w=2.60, h=2.30):
-    """影壁：石座 + 白墙 + 石框 + 砖雕板 + 瓦顶。"""
-    t = 0.34
-    gb.box((w + 0.16, t + 0.12, 0.42), (cx, y, 0.21), mat="M_StoneDark")
-    gb.box((w, t, h - 0.42), (cx, y, 0.42 + (h - 0.42) / 2), mat="M_WallWhite")
-    gb.box((w + 0.16, t + 0.16, 0.12), (cx, y, h + 0.06), mat="M_StoneDark")
+def screen_wall(gb, cx, y, w=2.70, h=2.35, t=0.36):
+    """影壁（照壁）：两级石台 + 白墙 + 圆形砖雕 + 八字翼墙 + 起翘瓦顶。
+
+    形制要点：独立照壁必须有"台基—墙身—瓦顶"三段，两侧翼墙收边，
+    否则在草坪上就是一块白板（这正是上一版的毛病）。
+    """
+    base_w, base_h = w + 0.70, 0.13
+    # 台基（两级）
+    gb.box((base_w, t + 0.66, base_h), (cx, y, base_h / 2), mat="M_StoneDark")
+    gb.box((base_w - 0.24, t + 0.42, 0.10), (cx, y, base_h + 0.05), mat="M_Stone")
+    z0 = base_h + 0.10
+    # 墙身
+    gb.box((w, t, h - z0), (cx, y, z0 + (h - z0) / 2), mat="M_WallWhite")
+    # 正反两面的石框 + 圆形砖雕
     for sgn in (-1, 1):
         yy = y + sgn * (t / 2 + 0.012)
-        for (zc, hz) in ((1.86, 0.03), (0.74, 0.03)):
-            gb.box((1.62, 0.03, hz), (cx, yy, zc), mat="M_Stone")
-        for (xc, wx) in ((cx - 0.81, 0.03), (cx + 0.81, 0.03)):
-            gb.box((wx, 0.03, 1.14), (xc, yy, 1.30), mat="M_Stone")
-        gb.box((1.52, 0.02, 1.04), (cx, yy - sgn * 0.006, 1.30), mat="M_WallWarm")
+        # 外框
+        for (dz0, dz1) in ((z0 + 0.30, z0 + 0.40), (h - 0.36, h - 0.26)):
+            gb.box((w - 0.34, 0.028, dz1 - dz0), (cx, yy, (dz0 + dz1) / 2), mat="M_Stone")
+        for (dx) in (-(w / 2 - 0.20), (w / 2 - 0.20)):
+            gb.box((0.028, 0.028, h - z0 - 0.66), (cx + dx, yy, (z0 + h) / 2), mat="M_Stone")
+        # 圆形砖雕：环形石圈 + 内凹浅板
+        cz = (z0 + h) / 2 + 0.02
+        R, seg = 0.62, 48
+        ring_out, ring_in = [], []
+        for i in range(seg):
+            a_ = TAU * i / seg
+            ring_out.append((cx + math.cos(a_) * R, yy, cz + math.sin(a_) * R))
+            ring_in.append((cx + math.cos(a_) * (R - 0.075), yy, cz + math.sin(a_) * (R - 0.075)))
+        vs = ring_out + ring_in
+        fs = [[i, (i + 1) % seg, seg + (i + 1) % seg, seg + i] for i in range(seg)]
+        gb._add_faces(vs, fs, "M_Stone")
+        disc = [(cx + math.cos(TAU * i / seg) * (R - 0.08), yy - sgn * 0.012,
+                 cz + math.sin(TAU * i / seg) * (R - 0.08)) for i in range(seg)]
+        gb._add_faces([(cx, yy - sgn * 0.012, cz)] + disc,
+                      [[0, 1 + i, 1 + (i + 1) % seg] for i in range(seg)], "M_WallWarm")
+    # 八字翼墙（两侧各 1.0，高 1.40，与大墙成 90°）
+    wing_w, wing_h = 1.05, 1.42
     for sgn in (-1, 1):
-        _slab(gb, (w + 0.44, t * 0.64, 0.05), (cx, y + sgn * t * 0.32, h + 0.23),
-              "M_Tile", axis="X", deg=sgn * 17.0)
-    gb.box((w + 0.50, 0.07, 0.08), (cx, y, h + 0.33), mat="M_TileEdge")
-    gb.box((w + 0.24, 0.22, 0.06), (cx, y, h + 0.11), mat="M_StoneDark")
+        xw = cx + sgn * (w / 2 + 0.02)
+        gb.box((t, wing_w, wing_h), (xw, y + wing_w / 2 + 0.02, wing_h / 2), mat="M_WallWhite")
+        gb.box((t + 0.14, wing_w + 0.14, 0.11), (xw, y + wing_w / 2 + 0.02, wing_h + 0.055),
+               mat="M_StoneDark")
+        _slab(gb, (t + 0.34, wing_w + 0.34, 0.045),
+              (xw, y + wing_w / 2 + 0.02, wing_h + 0.14), "M_Tile", axis="Y", deg=15.0)
+        gb.box((t + 0.30, 0.05, 0.07), (xw, y + wing_w + 0.14, wing_h + 0.12),
+               mat="M_TileEdge")
+    # 瓦顶：双坡 + 两端起翘
+    gb.box((w + 0.34, t + 0.30, 0.11), (cx, y, h + 0.055), mat="M_StoneDark")
+    for sgn in (-1, 1):
+        _slab(gb, (w + 0.56, t * 0.64, 0.05), (cx, y + sgn * t * 0.34, h + 0.24),
+              "M_Tile", axis="X", deg=sgn * 18.0)
+    gb.box((w + 0.62, 0.07, 0.09), (cx, y, h + 0.35), mat="M_TileEdge")
+    for sgn in (-1, 1):
+        gb.box((0.26, t + 0.34, 0.10), (cx + sgn * (w / 2 + 0.16), y, h + 0.30),
+               mat="M_Tile")
+        gb.box((0.20, t + 0.30, 0.07), (cx + sgn * (w / 2 + 0.20), y, h + 0.40),
+               mat="M_TileEdge")
+
+
+def forecourt(gb, cx, y0, y1, w=3.10):
+    """门内前庭铺装：石铺地 + 两道分格 + 两侧白砂带。"""
+    L = y1 - y0
+    gb.box((w, L, 0.06), (cx, (y0 + y1) / 2, 0.05), mat="M_StoneLight")
+    n = max(2, int(L / 0.60))
+    for i in range(n + 1):
+        yy = y0 + L * i / n
+        gb.box((w, 0.05, 0.012), (cx, yy, 0.085), mat="M_StoneDark")
+    for sgn in (-1, 1):
+        gb.box((0.26, L, 0.05), (cx + sgn * (w / 2 + 0.15), (y0 + y1) / 2, 0.045),
+               mat="M_Gravel")
+        gb.box((0.05, L, 0.10), (cx + sgn * (w / 2 + 0.01), (y0 + y1) / 2, 0.09),
+               mat="M_StoneDark")
 
 
 def car_gate(gb, cx, y, w=5.20, open_=0.55):

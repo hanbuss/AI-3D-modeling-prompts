@@ -102,7 +102,12 @@ def build_site():
     # 地面
     gb = GB("SITE_Ground")
     gb.boxb(((-26, 26), (-23, 21), (-0.60, -0.02)), mat="M_GroundSoil")
-    gb.boxb(((-22, 22), (-19.5, 18.5), (-0.02, 0.02)), mat="M_Grass")
+    # 草地绕开水池开口（不做布尔：直接拆成 4 块），否则水面会被草面盖住
+    GP = (-12.35, -2.85, -16.55, -10.25)          # 水池外沿（含压顶）
+    gb.boxb(((-22, 22), (-19.5, GP[2]), (-0.02, 0.02)), mat="M_Grass")
+    gb.boxb(((-22, 22), (GP[3], 18.5), (-0.02, 0.02)), mat="M_Grass")
+    gb.boxb(((-22, GP[0]), (GP[2], GP[3]), (-0.02, 0.02)), mat="M_Grass")
+    gb.boxb(((GP[1], 22), (GP[2], GP[3]), (-0.02, 0.02)), mat="M_Grass")
     CTX.mesh(gb, "SITE_Ground")
 
     # 建筑基座 + 台阶
@@ -140,7 +145,8 @@ def build_site():
     CTX.mesh(gb, "SITE_CarGate")
 
     gb = GB("SITE_ScreenWall")
-    gate.screen_wall(gb, 0.80, -13.60, w=2.60, h=2.30)
+    gate.forecourt(gb, 0.80, -17.05, -14.35, w=3.10)
+    gate.screen_wall(gb, 0.80, -13.95, w=2.70, h=2.35)
     CTX.mesh(gb, "SITE_ScreenWall")
 
 
@@ -805,34 +811,80 @@ def build_garden():
     gb.boxb(((-6.3, 6.3), (-9.5, -9.4), (0.02, 0.22)), mat="M_StoneDark")
     CTX.mesh(gb, "GARDEN_Deck")
 
-    # 水池
+    # 水池（真做出来：下沉池体 + 池壁 + 池底 + 压顶 + 水面在压顶之下）
     gb = GB("GARDEN_Pond")
     px0, px1, py0, py1 = -12.0, -3.2, -16.2, -10.6
-    # 池壁
-    for (b, mat) in ((((px0 - 0.35, px0), (py0, py1)), "M_StoneDark"),
-                     (((px1, px1 + 0.35), (py0, py1)), "M_StoneDark"),
-                     (((px0, px1), (py0 - 0.35, py0)), "M_StoneDark"),
-                     (((px0, px1), (py1, py1 + 0.35)), "M_StoneDark")):
-        gb.boxb((b[0], b[1], (-0.55, 0.16)), mat=mat)
-    gb.boxb(((px0, px1), (py0, py1), (-0.62, -0.58)), mat="M_StoneDark")
-    gb.boxb(((px0 + 0.02, px1 - 0.02), (py0 + 0.02, py1 - 0.02), (-0.60, -0.10)),
-            mat="M_WaterDark")
+    RIM, WALL_T, FLOOR_Z, WATER_Z = 0.35, 0.14, -0.55, -0.14
+    # 压顶石（外扩 RIM，顶面 0.10，高出草地 0.08）
+    for (x0, x1, y0, y1) in ((px0 - RIM, px0, py0 - RIM, py1 + RIM),
+                             (px1, px1 + RIM, py0 - RIM, py1 + RIM),
+                             (px0 - RIM, px1 + RIM, py0 - RIM, py0),
+                             (px0 - RIM, px1 + RIM, py1, py1 + RIM)):
+        gb.boxb(((x0, x1), (y0, y1), (-0.06, 0.10)), mat="M_StoneDark")
+        gb.boxb(((x0 + 0.04, x1 - 0.04), (y0 + 0.04, y1 - 0.04), (0.10, 0.115)),
+                mat="M_StoneLight")
+    # 池壁（内侧一圈，从 FLOOR_Z 到压顶底）
+    for (x0, x1, y0, y1) in ((px0, px0 + WALL_T, py0, py1),
+                             (px1 - WALL_T, px1, py0, py1),
+                             (px0, px1, py0, py0 + WALL_T),
+                             (px0, px1, py1 - WALL_T, py1)):
+        gb.boxb(((x0, x1), (y0, y1), (FLOOR_Z, 0.10)), mat="M_StoneDark")
+    # 池底 + 铺底石纹（两道分格）
+    gb.boxb(((px0 + WALL_T, px1 - WALL_T), (py0 + WALL_T, py1 - WALL_T),
+             (FLOOR_Z, FLOOR_Z + 0.04)), mat="M_Stone")
+    for k in range(1, 4):
+        yy = py0 + (py1 - py0) * k / 4
+        gb.boxb(((px0 + WALL_T, px1 - WALL_T), (yy - 0.03, yy + 0.03),
+                 (FLOOR_Z + 0.04, FLOOR_Z + 0.05)), mat="M_StoneDark")
+    # 入水台阶（西南角，3 级）
+    for i in range(3):
+        gb.boxb(((px0 + WALL_T, px0 + WALL_T + 1.10),
+                 (py0 + WALL_T + i * 0.42, py0 + WALL_T + (i + 1) * 0.42),
+                 (FLOOR_Z, FLOOR_Z + 0.18 + i * 0.18)), mat="M_StoneLight")
     # 水面：起伏网格（有波光）
-    nu, nv = 46, 30
+    nu, nv = 52, 34
     vs, fs = [], []
     for j in range(nv + 1):
         for i in range(nu + 1):
             u = i / nu
             v = j / nv
-            x = px0 + 0.05 + u * (px1 - px0 - 0.10)
-            y = py0 + 0.05 + v * (py1 - py0 - 0.10)
-            zz = -0.085 + 0.012 * math.sin(u * 13.0 + v * 3.0) * math.sin(v * 9.0)
+            x = px0 + WALL_T + u * (px1 - px0 - 2 * WALL_T)
+            y = py0 + WALL_T + v * (py1 - py0 - 2 * WALL_T)
+            zz = WATER_Z + 0.010 * math.sin(u * 15.0 + v * 3.4) * math.sin(v * 11.0)
             vs.append((x, y, zz))
     for j in range(nv):
         for i in range(nu):
             a0 = j * (nu + 1) + i
             fs.append([a0, a0 + 1, a0 + nu + 2, a0 + nu + 1])
     gb._add_faces(vs, fs, "M_Water")
+    # 睡莲叶（16 片浮在水面）+ 两朵花
+    _rng = _r.Random(77)
+    placed = []
+    for _ in range(40):
+        if len(placed) >= 16:
+            break
+        lx = _rng.uniform(px0 + 0.9, px1 - 0.9)
+        ly = _rng.uniform(py0 + 0.9, py1 - 0.9)
+        if any((lx - a) ** 2 + (ly - b) ** 2 < 0.62 ** 2 for (a, b) in placed):
+            continue
+        if (lx - (px0 + 2.2)) ** 2 + (ly - (py0 + 1.8)) ** 2 < 1.2 ** 2:
+            continue
+        placed.append((lx, ly))
+        rr = _rng.uniform(0.17, 0.30)
+        gb.cyl(rr, 0.012, (lx, ly, WATER_Z + 0.012), seg=14, mat="M_LeafDeep")
+        gb.cyl(rr * 0.24, 0.02, (lx + rr * 0.3, ly, WATER_Z + 0.02), seg=10,
+               mat="M_LeafGreen")
+        if len(placed) <= 2:
+            gb.lathe([(0.0, 0.0), (0.055, 0.03), (0.045, 0.09), (0.02, 0.12)],
+                     seg=12, center=(lx, ly, WATER_Z + 0.02), mat="M_Porcelain")
+    # 池中景石（三块探出水面）
+    for (cx_, cy_, rr, hh) in ((px0 + 2.2, py0 + 1.8, 0.55, 0.55),
+                               (px1 - 2.6, py1 - 2.0, 0.70, 0.75),
+                               (px0 + 4.6, py1 - 1.6, 0.42, 0.40)):
+        for k in range(3):
+            with gb.frame(Matrix.Translation((cx_, cy_, WATER_Z - 0.10 + k * hh * 0.42))):
+                nature.rock(gb, r=rr * (1 - k * 0.20), mat="M_StoneDark",
+                            seed=int(cx_ * 7 + cy_ * 3 + k))
     CTX.mesh(gb, "GARDEN_Pond")
 
     # 水岸石 + 汀步
