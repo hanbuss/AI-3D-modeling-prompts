@@ -16,8 +16,8 @@
 
 **在线看（GitHub Pages）**
 
-- 01 新中式：<https://hanbuss.github.io/cloudcrest-villa/projects/01-new-chinese-villa/viewer/index.html>
-- 02 现代简约：<https://hanbuss.github.io/cloudcrest-villa/projects/02-modern-minimal-villa/viewer/index.html>
+- 01 新中式：<https://hanbuss.github.io/AI-3D-modeling-prompts/projects/01-new-chinese-villa/viewer/index.html>
+- 02 现代简约：<https://hanbuss.github.io/AI-3D-modeling-prompts/projects/02-modern-minimal-villa/viewer/index.html>
 
 > 首次打开要下载 50–57 MB 的模型，等几秒。手机上也做了适配（窄屏右侧面板收成底部抽屉）。
 

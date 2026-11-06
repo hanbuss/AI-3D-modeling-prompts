@@ -1,13 +1,13 @@
 # 01 · 云嵴山居（新中式）
 
-> 本仓库两个 AI 建模提示词项目之一 · [返回索引](../../README.md) · [复刻提示词](../../prompts/new-chinese-villa.md) · [在线查看器](https://hanbuss.github.io/cloudcrest-villa/projects/01-new-chinese-villa/viewer/index.html)
+> 本仓库两个 AI 建模提示词项目之一 · [返回索引](../../README.md) · [复刻提示词](../../prompts/new-chinese-villa.md) · [在线查看器](https://hanbuss.github.io/AI-3D-modeling-prompts/projects/01-new-chinese-villa/viewer/index.html)
 
-[![Live Demo](https://img.shields.io/badge/🔗_在线查看器-hanbuss.github.io-d4644a?style=for-the-badge)](https://hanbuss.github.io/cloudcrest-villa/projects/01-new-chinese-villa/viewer/index.html)
+[![Live Demo](https://img.shields.io/badge/🔗_在线查看器-hanbuss.github.io-d4644a?style=for-the-badge)](https://hanbuss.github.io/AI-3D-modeling-prompts/projects/01-new-chinese-villa/viewer/index.html)
 [![Blender](https://img.shields.io/badge/Blender-5.1.2-orange?logo=blender&logoColor=white)](https://www.blender.org/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.160-black?logo=three.js&logoColor=white)](https://threejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
-> 🏠 **直接看效果**：<https://hanbuss.github.io/cloudcrest-villa/projects/01-new-chinese-villa/viewer/index.html>
+> 🏠 **直接看效果**：<https://hanbuss.github.io/AI-3D-modeling-prompts/projects/01-new-chinese-villa/viewer/index.html>
 > （首次打开需加载 57 MB 模型，稍等几秒）
 
 一栋**三层现代新中式别墅**的完整程序化工程：Blender Python 脚本从零生成建筑、家具、植被与材质，导出网页模型，并附一个可分层、可昼夜、可点房间的离线 Three.js 查看器。
@@ -56,7 +56,7 @@
 需要 **Blender 5.1+** 与 **Python 3.10+**（只用到 numpy）。
 
 ```bash
-git clone https://github.com/hanbuss/cloudcrest-villa.git
+git clone https://github.com/hanbuss/AI-3D-modeling-prompts.git
 cd cloudcrest-villa/villa
 
 # 1) 生成贴图（12 套可平铺 PBR，约 1 秒）
