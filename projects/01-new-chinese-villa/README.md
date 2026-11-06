@@ -57,7 +57,7 @@
 
 ```bash
 git clone https://github.com/hanbuss/AI-3D-modeling-prompts.git
-cd cloudcrest-villa/villa
+cd AI-3D-modeling-prompts/projects/01-new-chinese-villa
 
 # 1) 生成贴图（12 套可平铺 PBR，约 1 秒）
 python lib/texgen.py --res 512
