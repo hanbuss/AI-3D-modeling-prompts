@@ -1,0 +1,114 @@
+{
+ "ArmChair_01": {
+  "height": 1.0651,
+  "kind": "prop",
+  "radius": 0.4242,
+  "tex": 4,
+  "tris": 5626
+ },
+ "Ottoman_01": {
+  "height": 0.6243,
+  "kind": "prop",
+  "radius": 0.4423,
+  "tex": 4,
+  "tris": 4240
+ },
+ "celandine_01": {
+  "height": 0.1756,
+  "kind": "grass",
+  "radius": 0.1286,
+  "tex": 4,
+  "tris": 4301
+ },
+ "fern_02": {
+  "height": 0.4277,
+  "kind": "grass",
+  "radius": 0.4949,
+  "tex": 4,
+  "tris": 2384
+ },
+ "fir_tree_01": {
+  "height": 18.9196,
+  "kind": "tree",
+  "radius": 3.2072,
+  "tex": 12,
+  "tris": 25000
+ },
+ "grass_medium_02": {
+  "height": 0.2604,
+  "kind": "grass",
+  "radius": 0.181,
+  "tex": 5,
+  "tris": 2489
+ },
+ "island_tree_01": {
+  "height": 5.0287,
+  "kind": "tree",
+  "radius": 2.3964,
+  "tex": 10,
+  "tris": 24999
+ },
+ "island_tree_02": {
+  "height": 3.4054,
+  "kind": "tree",
+  "radius": 2.0322,
+  "tex": 10,
+  "tris": 25000
+ },
+ "periwinkle_plant": {
+  "height": 0.3002,
+  "kind": "grass",
+  "radius": 0.0837,
+  "tex": 6,
+  "tris": 4999
+ },
+ "pine_tree_01": {
+  "height": 20.1601,
+  "kind": "tree",
+  "radius": 4.0387,
+  "tex": 12,
+  "tris": 24999
+ },
+ "shrub_01": {
+  "height": 0.294,
+  "kind": "shrub",
+  "radius": 0.0875,
+  "tex": 5,
+  "tris": 5348
+ },
+ "shrub_02": {
+  "height": 1.224,
+  "kind": "shrub",
+  "radius": 0.52,
+  "tex": 5,
+  "tris": 5242
+ },
+ "shrub_03": {
+  "height": 0.4028,
+  "kind": "shrub",
+  "radius": 0.1003,
+  "tex": 4,
+  "tris": 2385
+ },
+ "shrub_04": {
+  "height": 0.195,
+  "kind": "shrub",
+  "radius": 0.0679,
+  "tex": 5,
+  "tris": 3726
+ },
+ "sofa_02": {
+  "height": 0.7095,
+  "kind": "prop",
+  "radius": 0.9036,
+  "tex": 4,
+  "tris": 2728
+ },
+ "tree_small_02": {
+  "height": 4.5487,
+  "kind": "tree",
+  "radius": 2.1216,
+  "tex": 10,
+  "tris": 24976
+ }
+}
