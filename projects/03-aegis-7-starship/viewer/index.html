@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 L28 28 L16 22 L4 28 Z' fill='%23c86a4a'/%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>AEGIS-7 «Kestrel» · 剖析台</title>
@@ -270,6 +269,17 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     </div>
 
     <div class="sec">
+      <h3 class="sec-hd">起落架 · 机枪</h3>
+      <div class="btnrow" style="margin-bottom:6px">
+        <button id="btn-gear" class="btn tiny" style="flex:1">收起起落架</button>
+      </div>
+      <div class="btnrow">
+        <button id="btn-gun" class="btn tiny warm" style="flex:1">机枪开火</button>
+        <button id="btn-gun-hold" class="btn tiny" style="flex:1">持续扫射</button>
+      </div>
+    </div>
+
+    <div class="sec">
       <h3 class="sec-hd">机位</h3>
       <div class="btnrow wrap" id="presets"></div>
     </div>
@@ -402,6 +412,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     btnSolo: $('#btn-solo'), btnFocus: $('#btn-focus'),
     btnFlame: $('#btn-flame'), btnIgnite: $('#btn-ignite'), fint: $('#fint'), fintv: $('#fintv'),
     btnFire: $('#btn-fire'), btnLaserHold: $('#btn-laser-hold'),
+    btnGear: $('#btn-gear'), btnGun: $('#btn-gun'), btnGunHold: $('#btn-gun-hold'),
     presets: $('#presets'), list: $('#list'), listCount: $('#list-count'),
     boot: $('#boot'), bootErr: $('#boot-err'), toast: $('#toast'), diag: $('#diag')
   };
@@ -492,7 +503,9 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     S.scene.add(camFill, camFill.target);
     S.camFill = camFill;
 
-    var cam = new THREE.PerspectiveCamera(30, w / h, 0.05, 3000);
+    /* near/far 比过大是闪烁元凶：0.05/3000 在 30 m 处深度分辨率约 1 cm，
+       而检修板只凸起 11 mm，必然 z-fighting。收到 0.55/1400 后精度提升约 20 倍。 */
+    var cam = new THREE.PerspectiveCamera(30, w / h, 0.55, 1400);
     cam.position.set(30, 16, 40);
     S.cam = cam;
 
@@ -729,6 +742,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     shipRoot.add(S.fxRoot);
     buildFlames();
     buildLaser();
+    buildGear();
+    buildGun();
     attachFxToParts();
 
     /* —— 选中框 */
@@ -1437,14 +1452,20 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     muzzle.renderOrder = 61;
     holder.add(muzzle);
 
-    var light = new THREE.PointLight(0x3ce0ff, 0, 46, 2);
-    light.position.copy(dir.clone().multiplyScalar(2.4));
-    light.intensity = 0;
+    /* 原来的 PointLight(0x3ce0ff, 0, 46, 2) 半径 46 m，整条舰都在范围内：
+       激光一开，尾部与中段全被青光照亮。改成沿轴向的窄锥聚光 + 只照枪口的小点光。 */
+    var light = new THREE.SpotLight(0x3ce0ff, 0, 80, 0.26, 0.9, 1.4);
+    light.position.copy(dir.clone().multiplyScalar(1.2));
+    light.target.position.copy(dir.clone().multiplyScalar(70));
     holder.add(light);
+    holder.add(light.target);
+    var muzzleLight = new THREE.PointLight(0x9ff0ff, 0, 4.5, 2);
+    muzzleLight.position.copy(dir.clone().multiplyScalar(0.8));
+    holder.add(muzzleLight);
 
     S.laser = {
       holder: holder, pos: pos, dir: dir, len: len, core: core, glow: glow,
-      tip: tip, muzzle: muzzle, light: light,
+      tip: tip, muzzle: muzzle, light: light, muzzleLight: muzzleLight,
       phase: 'idle', t0: -1e9, hold: false, level: 0, part: null
     };
     writeDiag({ laser: 'built' });
@@ -1491,7 +1512,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     L.tip.scale.setScalar(0.55 + 0.75 * L.level);
     L.muzzle.material.opacity = 0.9 * L.level;
     L.muzzle.scale.setScalar(0.5 + 0.9 * L.level);
-    L.light.intensity = 46 * L.level;
+    L.light.intensity = 220 * L.level;                          /* 只沿轴向打前方 */
+    if (L.muzzleLight) L.muzzleLight.intensity = 4.5 * L.level;  /* 只照亮枪口局部 */
     if (L.part) {
       var off = L.part.node.position.clone().sub(L.part.base);
       L.holder.position.copy(L.pos).add(off);
@@ -1577,6 +1599,200 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     });
   }
 
+
+  /* ---------------------------------------------------------------- 9.5 起落架收放 */
+  function _pivotOf(nodes, atTop) {
+    var box = new THREE.Box3();
+    nodes.forEach(function (p) { if (p) { p.node.updateMatrixWorld(true); box.expandByObject(p.node); } });
+    if (box.isEmpty()) return null;
+    var c = box.getCenter(new THREE.Vector3());
+    return new THREE.Vector3(c.x, atTop ? box.max.y : box.min.y, c.z);
+  }
+
+  /* 把零件挂到一个绕 pivot 转的 Group 上（保持世界位置），之后转 Group 就是真铰接 */
+  function _rigAround(part, pivot) {
+    if (!part) return null;
+    var parent = part.node.parent;
+    var g = new THREE.Group();
+    g.position.copy(pivot);
+    parent.add(g);
+    part.node.updateMatrixWorld(true);
+    g.attach(part.node);
+    part.base.copy(part.node.position);
+    return g;
+  }
+
+  function buildGear() {
+    var defs = [
+      { key: 'nose', strut: 'gear_nose_strut', wheel: 'gear_nose_wheel', doors: 'gear_nose_doors' },
+      { key: 'main_p', strut: 'gear_main_p_strut', wheel: 'gear_main_p_wheel', doors: 'gear_main_p_doors' },
+      { key: 'main_s', strut: 'gear_main_s_strut', wheel: 'gear_main_s_wheel', doors: 'gear_main_s_doors' }
+    ];
+    var out = [];
+    defs.forEach(function (d) {
+      var st = S.byId[d.strut], wh = S.byId[d.wheel], dr = S.byId[d.doors];
+      if (!st && !wh) return;
+      var pivot = _pivotOf([st, wh], true);
+      if (!pivot) return;
+      var rig = _rigAround(st, pivot);
+      var rigW = wh ? _rigAround(wh, pivot) : null;
+      var doorRig = null;
+      if (dr) {
+        var dp = _pivotOf([dr], true);
+        doorRig = dp ? _rigAround(dr, dp) : null;
+      }
+      out.push({ key: d.key, rig: rig, rigW: rigW, doorRig: doorRig, pivot: pivot.clone(),
+                 doorSgn: pivot.z >= 0 ? 1 : -1 });
+    });
+    out.forEach(function (r) {
+      if (r.doorRig) r.doorBaseRot = r.doorRig.rotation.clone();
+    });
+    S.gear = { rigs: out, state: 0, target: 0 };
+    writeDiag({ gear: 'built ' + out.length });
+  }
+
+  function setGear(up) {
+    if (!S.gear) return;
+    S.gear.target = up ? 1 : 0;
+    toast(up ? '起落架：收起（舱门开 → 折入 → 关门）' : '起落架：放下（舱门开 → 展开 → 关门）');
+    if (el.btnGear) el.btnGear.textContent = up ? '放下起落架' : '收起起落架';
+  }
+
+  function updateGear(dt) {
+    var G = S.gear;
+    if (!G) return;
+    var step = dt / 1400;
+    if (G.state < G.target) G.state = Math.min(G.target, G.state + step);
+    else if (G.state > G.target) G.state = Math.max(G.target, G.state - step);
+    var t = G.state;
+    var doorK = t < 0.32 ? t / 0.32 : (t < 0.78 ? 1 : 1 - (t - 0.78) / 0.22);
+    var fold = easeInOut(clamp01((t - 0.22) / 0.5));
+    G.rigs.forEach(function (r) {
+      if (r.doorRig) {
+        r.doorRig.rotation.set(r.doorBaseRot.x + r.doorSgn * (Math.PI * 0.46) * doorK,
+                               r.doorBaseRot.y, r.doorBaseRot.z);
+      }
+      var ang = -Math.PI * (102 / 180) * fold;
+      if (r.rig) { r.rig.rotation.z = ang; r.rig.position.y = r.pivot.y + 0.16 * fold; }
+      if (r.rigW) { r.rigW.rotation.z = ang; r.rigW.position.y = r.pivot.y + 0.16 * fold; }
+      var vis = fold < 0.985;
+      if (r.rig) r.rig.visible = vis;
+      if (r.rigW) r.rigW.visible = vis;
+    });
+  }
+
+  /* ---------------------------------------------------------------- 9.6 腹部转管炮 */
+  function _flashTexture() {
+    var c = document.createElement('canvas');
+    c.width = c.height = 128;
+    var g = c.getContext('2d');
+    var grd = g.createRadialGradient(64, 64, 2, 64, 64, 64);
+    grd.addColorStop(0.0, 'rgba(255,255,240,1)');
+    grd.addColorStop(0.25, 'rgba(255,220,150,0.9)');
+    grd.addColorStop(0.6, 'rgba(255,140,60,0.35)');
+    grd.addColorStop(1.0, 'rgba(255,90,30,0)');
+    g.fillStyle = grd;
+    g.fillRect(0, 0, 128, 128);
+    var t = new THREE.CanvasTexture(c);
+    t.needsUpdate = true;
+    return t;
+  }
+
+  function buildGun() {
+    var b = S.byId['wpn_gatling_barrels'];
+    if (!b) { S.gun = null; return; }
+    b.node.updateMatrixWorld(true);
+    var box = new THREE.Box3().setFromObject(b.node);
+    var c = box.getCenter(new THREE.Vector3());
+    /* 枪管必须绕自身轴线转，否则会绕舰体原点公转 */
+    var pivot = _rigAround(b, c);
+    var muzzle = new THREE.Vector3(box.max.x + 0.10, c.y, c.z);
+
+    var flash = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: _flashTexture(), color: 0xffd9a0, transparent: true, opacity: 0,
+      blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false
+    }));
+    flash.position.copy(muzzle);
+    flash.scale.setScalar(1.6);
+    flash.visible = false;
+    S.fxRoot.add(flash);
+
+    var light = new THREE.PointLight(0xffb066, 0, 7, 2);
+    light.position.copy(muzzle);
+    S.fxRoot.add(light);
+
+    var geo = new THREE.CylinderGeometry(0.045, 0.045, 2.6, 6, 1, true);
+    geo.rotateZ(Math.PI / 2);
+    var mat = new THREE.MeshBasicMaterial({ color: 0xffd08a, transparent: true, opacity: 0.95,
+      blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
+    var bolts = [];
+    for (var i = 0; i < 30; i++) {
+      var m = new THREE.Mesh(geo, mat);
+      m.visible = false;
+      m.frustumCulled = false;
+      S.fxRoot.add(m);
+      bolts.push({ mesh: m, v: new THREE.Vector3(), life: 0 });
+    }
+    S.gun = { pivot: pivot, muzzle: muzzle, flash: flash, light: light,
+              bolts: bolts, next: 0, spin: 0, firing: 0, hold: false, burstT: 0 };
+    writeDiag({ gun: 'built' });
+  }
+
+  function gunFire(on, hold) {
+    if (!S.gun) { toast('模型里没有腹部转管炮'); return; }
+    S.gun.firing = on ? 1 : 0;
+    S.gun.hold = !!(on && hold);
+    if (on) S.gun.burstT = 0;
+    if (el.btnGun) el.btnGun.classList.toggle('on', !!on);
+    if (el.btnGunHold) el.btnGunHold.classList.toggle('on', S.gun.hold);
+    if (on) toast(hold ? '转管炮：持续扫射' : '转管炮：开火');
+  }
+
+  function updateGun(dt, t) {
+    var G = S.gun;
+    if (!G) return;
+    var firing = G.firing > 0;
+    if (firing && !G.hold) {
+      G.burstT += dt;
+      if (G.burstT > 1500) { G.firing = 0; firing = false; if (el.btnGun) el.btnGun.classList.remove('on'); }
+    }
+    G.spin += (firing ? 30 : 0) * dt / 1000;
+    if (G.pivot) G.pivot.rotation.x = G.spin;
+
+    var flick = 0.72 + 0.28 * Math.sin(t * 0.09) * Math.sin(t * 0.031);
+    G.flash.visible = firing;
+    if (firing) {
+      G.flash.material.opacity = 0.85 * flick;
+      G.flash.scale.setScalar(1.25 + 0.55 * flick + Math.random() * 0.25);
+      G.light.intensity = 5.5 * flick + Math.random() * 2;
+    } else {
+      G.light.intensity = 0;
+    }
+
+    if (firing) {
+      G.next -= dt;
+      while (G.next <= 0) {
+        G.next += 22;
+        var b = null;
+        for (var i = 0; i < G.bolts.length; i++) { if (G.bolts[i].life <= 0) { b = G.bolts[i]; break; } }
+        if (!b) break;
+        b.life = 0.85;
+        b.mesh.visible = true;
+        b.mesh.position.copy(G.muzzle).add(new THREE.Vector3(
+          (Math.random() - 0.5) * 0.16, (Math.random() - 0.5) * 0.10, (Math.random() - 0.5) * 0.16));
+        b.v.set(1, -0.16 - Math.random() * 0.06, (Math.random() - 0.5) * 0.05).normalize().multiplyScalar(95);
+      }
+    } else if (G.next < 0) { G.next = 0; }
+
+    for (var k = 0; k < G.bolts.length; k++) {
+      var bo = G.bolts[k];
+      if (bo.life <= 0) continue;
+      bo.life -= dt / 1000;
+      bo.mesh.position.addScaledVector(bo.v, dt / 1000);
+      if (bo.life <= 0 || bo.mesh.position.x > G.muzzle.x + 78) { bo.life = 0; bo.mesh.visible = false; }
+    }
+  }
+
   function bindUI() {
     el.btnAnalyze.addEventListener('click', function () {
       if (S.progress > 0.5) assemble(); else analyze();
@@ -1607,6 +1823,15 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     el.fint.addEventListener('input', function () { setFlameIntensity(parseFloat(el.fint.value) / 100); });
 
     el.btnFire.addEventListener('click', function () { fireLaser(); });
+    if (el.btnGear) el.btnGear.addEventListener('click', function () {
+      setGear(!(S.gear && S.gear.target > 0.5));
+    });
+    if (el.btnGun) el.btnGun.addEventListener('click', function () { gunFire(true, false); });
+    if (el.btnGunHold) el.btnGunHold.addEventListener('click', function () {
+      var on = !(S.gun && S.gun.hold && S.gun.firing);
+      gunFire(on, true);
+      if (on && el.btnGun) el.btnGun.classList.add('on');
+    });
     el.btnLaserHold.addEventListener('click', function () {
       if (!S.laser) return;
       setLaser(!(S.laser.hold && S.laser.phase === 'hold'));
@@ -1758,6 +1983,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
 
     updateFlames(dt, t);
     updateLaser(t);
+    updateGear(dt);
+    updateGun(dt, t);
 
     /* 相机补光跟随视角 */
     if (S.camFill) {
@@ -1837,6 +2064,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     flameIntensity: setFlameIntensity,
     fireLaser: fireLaser,
     laser: setLaser,
+    gear: function (up) { setGear(!!up); },
+    fireGun: function (on, hold) { gunFire(on !== false, !!hold); },
     progress: function () { return S.progress; }
   };
 

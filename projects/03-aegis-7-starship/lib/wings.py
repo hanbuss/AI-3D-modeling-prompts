@@ -387,14 +387,14 @@ def _main_wing(name, sgn, M, col):
     for i, (s0, s1, ua, ub) in enumerate(panels):
         dark = i in DARK_PANELS
         obs.append(skin_patch("%s_pnl%d" % (name, i), s0, s1, ua, ub, sgn=sgn,
-                              out=0.0042, thick=0.0090, nu=2, nv=3, up=True,
+                              out=0.0110, thick=0.0090, nu=2, nv=3, up=True,
                               mat=M['hull_dark'] if dark else M['hull'], col=col,
                               bevel=0.0024))
         for (ds, du) in ((0.10, 0.14), (0.10, 0.86), (0.90, 0.14), (0.90, 0.86),
                          (0.50, 0.14), (0.50, 0.86)):
             s = s0 + (s1 - s0) * ds
             u = ua + (ub - ua) * du
-            p = skin(s, u, True, sgn) + skin_n(s, u, True, sgn) * 0.008
+            p = skin(s, u, True, sgn) + skin_n(s, u, True, sgn) * 0.0135
             obs.append(_bolt("%s_pnl%db%d" % (name, i, int(du * 100)), p, 0.014, 0.011,
                              mat=M['alu'], col=col))
 
@@ -402,7 +402,7 @@ def _main_wing(name, sgn, M, col):
     for i, (py, _xl, _xt, _n) in enumerate(S.PYLONS):
         s = span_at_y(py)
         obs.append(skin_patch("%s_hard%d" % (name, i), s - 0.072, s + 0.072, 0.50, 0.80,
-                              sgn=sgn, out=0.005, thick=0.016, nu=2, nv=2, up=False,
+                              sgn=sgn, out=0.010, thick=0.016, nu=2, nv=2, up=False,
                               mat=M['frame'], col=col, bevel=0.0028))
         for k, u in enumerate((0.56, 0.74)):
             p = skin(s, u, False, sgn)
@@ -411,7 +411,7 @@ def _main_wing(name, sgn, M, col):
                                mat=M['gunmetal'], col=col, bw=0.0016, seg=1))
     for i, s in enumerate((0.235, 0.665)):
         obs.append(skin_patch("%s_lowp%d" % (name, i), s - 0.055, s + 0.055, 0.24, 0.44,
-                              sgn=sgn, out=0.005, thick=0.010, nu=2, nv=2, up=False,
+                              sgn=sgn, out=0.010, thick=0.010, nu=2, nv=2, up=False,
                               mat=M['hull_dark'], col=col))
 
     # ---- 前缘根部整流（6 段、半径 0.12 → 0.03）：把翼前缘与船壳缝住
