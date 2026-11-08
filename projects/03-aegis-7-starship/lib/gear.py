@@ -369,6 +369,7 @@ def _one_gear(prefix, spec_d, M, col, *, main=False, sgn=1):
     R = spec_d['wheel_r']
     z_axle = GROUND + R + 0.019            # 三点同时接地（含胎面花纹外凸）
     struts, wheels, doors = [], [], []
+    fixed = []                                 # 固定结构（短舱/舱腔内衬）：收放时不动
 
     if main:
         pod = _sponson(prefix, x, y, M, col)
@@ -381,8 +382,8 @@ def _one_gear(prefix, spec_d, M, col, *, main=False, sgn=1):
         except Exception as e:
             print("  ! pod bay cut failed", e)
         bpy.data.objects.remove(cut, do_unlink=True)
-        struts.append(pod_ob)
-        struts += _bay_liner(prefix, x, y, -1.26, 0.84, 1.10, 0.060, M, col)
+        fixed.append(pod_ob)                   # 短舱本身静止，只有支柱+轮子升降
+        fixed += _bay_liner(prefix, x, y, -1.26, 0.84, 1.10, 0.060, M, col)
         doors += _bay(prefix, x, y, -1.27, 0.86, 1.16, M, col, sgn)
         struts += _strut(prefix, x, y, z_top, z_axle, R, M, col, sgn, steering=False,
                          fork_half=0.175)
@@ -397,7 +398,7 @@ def _one_gear(prefix, spec_d, M, col, *, main=False, sgn=1):
         for k in (-1, 1):
             wheels += _wheel("%s_w%d" % (prefix, k), x, y + k * 0.26, z_axle, R, 0.17,
                              M, col, sgn)
-    return struts, wheels, doors
+    return struts, wheels, doors, fixed
 
 
 def build(M, col):
@@ -414,7 +415,13 @@ def build(M, col):
          "左舷镜像：短舱 + 双级支柱 + 斜撑 + 对开舱门"),
     ]
     for pid, pre, d, main, sgn, zh, en, order, note in jobs:
-        struts, wheels, doors = _one_gear(pre, d, M, col, main=main, sgn=sgn)
+        struts, wheels, doors, fixed = _one_gear(pre, d, M, col, main=main, sgn=sgn)
+        if fixed:
+            ob = kit.join(fixed, pid + "_pod")
+            kit.part(ob, pid + "_pod", zh + "短舱舱体", en + " Gear Bay Sponson", "gear",
+                     (0, sgn * 0.2, -1), order=order - 1,
+                     note="固定结构：短舱壳体 + 舱口框 + 舱腔内衬（收放时不动）")
+            out.append(ob)
         ob = kit.join(struts, pid + "_strut")
         kit.part(ob, pid + "_strut", zh + "支柱", en + " Strut", "gear",
                  (0, sgn * 0.2, -1), order=order,

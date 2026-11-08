@@ -1601,16 +1601,10 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
   }
 
 
-  /* ---------------------------------------------------------------- 9.5 起落架收放 */
-  function _pivotOf(nodes, atTop) {
-    var box = new THREE.Box3();
-    nodes.forEach(function (p) { if (p) { p.node.updateMatrixWorld(true); box.expandByObject(p.node); } });
-    if (box.isEmpty()) return null;
-    var c = box.getCenter(new THREE.Vector3());
-    return new THREE.Vector3(c.x, atTop ? box.max.y : box.min.y, c.z);
-  }
-
-  /* 把零件挂到一个绕 pivot 转的 Group 上（保持世界位置），之后转 Group 就是真铰接 */
+  /* ---------------------------------------------------------------- 9.5 起落架收放
+     按真实起落架逻辑：短舱/舱腔（gear_*_pod）是固定结构，一丝不动 →
+     支柱 + 机轮**竖直**升进舱内（不翻转）→ 到位后舱门合上。
+     放下时反向：门开 → 轮子缓缓放下 → 门合。 */
   function _rigAround(part, pivot) {
     if (!part) return null;
     var parent = part.node.parent;
@@ -1625,34 +1619,47 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
 
   function buildGear() {
     var defs = [
-      { key: 'nose', strut: 'gear_nose_strut', wheel: 'gear_nose_wheel', doors: 'gear_nose_doors' },
-      { key: 'main_p', strut: 'gear_main_p_strut', wheel: 'gear_main_p_wheel', doors: 'gear_main_p_doors' },
-      { key: 'main_s', strut: 'gear_main_s_strut', wheel: 'gear_main_s_wheel', doors: 'gear_main_s_doors' }
+      { key: 'nose', strut: 'gear_nose_strut', wheel: 'gear_nose_wheel', doors: 'gear_nose_doors', pod: 'gear_nose_pod' },
+      { key: 'main_p', strut: 'gear_main_p_strut', wheel: 'gear_main_p_wheel', doors: 'gear_main_p_doors', pod: 'gear_main_p_pod' },
+      { key: 'main_s', strut: 'gear_main_s_strut', wheel: 'gear_main_s_wheel', doors: 'gear_main_s_doors', pod: 'gear_main_s_pod' }
     ];
     var out = [];
     defs.forEach(function (d) {
       var st = S.byId[d.strut], wh = S.byId[d.wheel], dr = S.byId[d.doors];
       if (!st && !wh) return;
-      var pivot = _pivotOf([st, wh], true);
-      if (!pivot) return;
-      var rig = _rigAround(st, pivot);
-      var rigW = wh ? _rigAround(wh, pivot) : null;
-      var doorRig = null, doorZ = 0;
+      var box = new THREE.Box3();
+      [st, wh].forEach(function (p) { if (p) { p.node.updateMatrixWorld(true); box.expandByObject(p.node); } });
+      if (box.isEmpty()) return;
+      /* 升程要算到"轮顶刚好躲进短舱内腔"为止：多走 1 cm 就会从短舱顶上穿出去 */
+      var podP = S.byId[d.pod];
+      var wheelBox = new THREE.Box3();
+      if (wh) { wh.node.updateMatrixWorld(true); wheelBox.setFromObject(wh.node); }
+      var travel;
+      if (podP && !wheelBox.isEmpty()) {
+        podP.node.updateMatrixWorld(true);
+        var pb = new THREE.Box3().setFromObject(podP.node);
+        /* 用**机轮**顶面算（不是支柱顶面）：轮顶刚好顶到短舱内腔顶再留 5 cm */
+        travel = Math.max(0.35, (pb.max.y - 0.05) - wheelBox.max.y);
+      } else {
+        travel = (wheelBox.isEmpty() ? box : wheelBox).getSize(new THREE.Vector3()).y * 1.05;
+      }
+      var doorRig = null, sgn = 1;
       if (dr) {
-        /* 舱门是"挂在肚子下面"的姿态（=打开）：铰链在**外侧上缘**，
-           绕长轴（X）向内上翻 90° 才刚好盖住舱口。铰点放 bbox 中心会翻到船体里面去。 */
         dr.node.updateMatrixWorld(true);
         var db = new THREE.Box3().setFromObject(dr.node);
-        doorZ = (Math.abs(db.max.z) >= Math.abs(db.min.z)) ? db.max.z : db.min.z;
         var dc = db.getCenter(new THREE.Vector3());
-        var dp = new THREE.Vector3(dc.x, db.max.y, doorZ);
-        doorRig = _rigAround(dr, dp);
+        sgn = dc.z >= 0 ? 1 : -1;
+        doorRig = _rigAround(dr, new THREE.Vector3(dc.x, db.max.y, dc.z));
       }
-      out.push({ key: d.key, rig: rig, rigW: rigW, doorRig: doorRig, pivot: pivot.clone(),
-                 doorSgn: doorZ >= 0 ? 1 : -1 });
-    });
-    out.forEach(function (r) {
-      if (r.doorRig) r.doorBaseRot = r.doorRig.rotation.clone();
+      var strutBox = new THREE.Box3();
+      if (st) { st.node.updateMatrixWorld(true); strutBox.setFromObject(st.node); }
+      var strutTravel = travel;
+      if (podP && !strutBox.isEmpty()) {
+        var pb2 = new THREE.Box3().setFromObject(podP.node);
+        strutTravel = Math.max(0, Math.min(travel, (pb2.max.y - 0.03) - strutBox.max.y));
+      }
+      out.push({ key: d.key, strut: st, wheel: wh, doorRig: doorRig,
+                 travel: travel, strutTravel: strutTravel, doorSgn: sgn });
     });
     S.gear = { rigs: out, state: 0, target: 0 };
     writeDiag({ gear: 'built ' + out.length });
@@ -1661,35 +1668,32 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
   function setGear(up) {
     if (!S.gear) return;
     S.gear.target = up ? 1 : 0;
-    toast(up ? '起落架：收起（舱门开 → 折入 → 关门）' : '起落架：放下（舱门开 → 展开 → 关门）');
+    toast(up ? '起落架：收起（轮子升舱 → 关门）' : '起落架：放下（开门 → 轮子放下）');
     if (el.btnGear) el.btnGear.textContent = up ? '放下起落架' : '收起起落架';
   }
 
   function updateGear(dt) {
     var G = S.gear;
     if (!G) return;
-    var step = dt / 1400;
+    var step = dt / 2000;                                  /* 全程 2 s */
     if (G.state < G.target) G.state = Math.min(G.target, G.state + step);
     else if (G.state > G.target) G.state = Math.max(G.target, G.state - step);
     var t = G.state;
-    /* 建模出来的舱门姿态是"开着下垂"的，所以收起时门要往壳体里收（±90°），
-       不是先开再回原位——之前就是这样，收起后两块门板还挂在肚子下面。 */
-    var fold = easeInOut(clamp01((t - 0.15) / 0.60));
-    var doorClose = easeInOut(clamp01((t - 0.55) / 0.40));   /* 轮组进舱之后才关门 */
+    /* 收起：0.05–0.68 轮子上升；0.70–0.96 关门
+       放下：0.04–0.28 开门；0.30–0.95 轮子下降 */
+    var rise = easeInOut(clamp01((t - 0.05) / 0.63));
+    var close = easeInOut(clamp01((t - 0.70) / 0.26));
     G.rigs.forEach(function (r) {
+      [r.strut, r.wheel].forEach(function (p) {
+        if (!p) return;
+        var dy = (p === r.wheel ? r.travel : r.strutTravel) * rise;
+        var ex = p.local.clone().multiplyScalar(S.progress);
+        p.node.position.set(p.base.x + ex.x, p.base.y + ex.y + dy, p.base.z + ex.z);
+        p.node.visible = rise < 0.995;     /* 轮/柱都进舱后不必再画 */
+      });
       if (r.doorRig) {
-        r.doorRig.rotation.set(r.doorBaseRot.x + r.doorSgn * (Math.PI * 0.5) * doorClose,
-                               r.doorBaseRot.y, r.doorBaseRot.z);
+        r.doorRig.rotation.set(r.doorSgn * (Math.PI * 80 / 180) * close, 0, 0);
       }
-      var ang = -Math.PI * (102 / 180) * fold;
-      if (r.rig) { r.rig.rotation.z = ang; r.rig.position.y = r.pivot.y + 0.16 * fold; }
-      if (r.rigW) { r.rigW.rotation.z = ang; r.rigW.position.y = r.pivot.y + 0.16 * fold; }
-      var vis = fold < 0.985;
-      if (r.rig) r.rig.visible = vis;
-      if (r.rigW) r.rigW.visible = vis;
-      /* 门翻到位后也不必再画：壳体没有"关闭态"舱盖，留着会露出内侧暗面；
-         直接藏掉，读起来就是一个带凹框的闭合舱口 */
-      if (r.doorRig) r.doorRig.visible = doorClose < 0.92;
     });
   }
 
