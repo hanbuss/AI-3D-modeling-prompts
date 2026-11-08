@@ -1,0 +1,99 @@
+{
+ "ship": "AEGIS-7 \u00abKestrel\u00bb",
+ "class": "Heavy Interceptor / Gunship",
+ "length_m": 32.7,
+ "span_m": 19.2,
+ "engines": [
+  {
+   "id": "engine_port",
+   "pos": [
+    -17.4,
+    -0.45,
+    2.6
+   ],
+   "dir": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "r_out": 0.92,
+   "r_in": 0.76,
+   "flame_len": 7.4,
+   "color": [
+    1.0,
+    0.55,
+    0.18
+   ]
+  },
+  {
+   "id": "engine_stbd",
+   "pos": [
+    -17.4,
+    -0.45,
+    -2.6
+   ],
+   "dir": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "r_out": 0.92,
+   "r_in": 0.76,
+   "flame_len": 7.4,
+   "color": [
+    1.0,
+    0.55,
+    0.18
+   ]
+  },
+  {
+   "id": "engine_ctr",
+   "pos": [
+    -15.75,
+    0.28,
+    -0.0
+   ],
+   "dir": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "r_out": 0.76,
+   "r_in": 0.62,
+   "flame_len": 6.2,
+   "color": [
+    1.0,
+    0.55,
+    0.18
+   ]
+  }
+ ],
+ "turret": {
+  "pos": [
+   2.6,
+   1.97,
+   -0.0
+  ],
+  "dir": [
+   1.0,
+   0.02,
+   0.0
+  ],
+  "color": [
+   0.15,
+   0.72,
+   1.0
+  ]
+ },
+ "groups": {
+  "weapons": "\u6b66\u5668\u7cfb\u7edf",
+  "gear": "\u8d77\u843d\u88c5\u7f6e",
+  "canopy": "\u5ea7\u8231",
+  "engines": "\u52a8\u529b\u7cfb\u7edf",
+  "wings": "\u673a\u7ffc",
+  "hull_fore": "\u524d\u6bb5\u8239\u4f53",
+  "hull_mid": "\u4e2d\u6bb5\u8239\u4f53",
+  "hull_aft": "\u5c3e\u6bb5\u8239\u4f53",
+  "detail": "\u7ec6\u8282\u4ef6"
+ }
+}

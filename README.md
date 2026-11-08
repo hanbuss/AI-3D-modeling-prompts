@@ -13,17 +13,23 @@
 |---|---|---|---|---|
 | 01 | **云嵴山居** | 三层新中式别墅 · 中式庭院 · 210 m² 南院 | [prompts/new-chinese-villa.md](prompts/new-chinese-villa.md) | [projects/01-new-chinese-villa/](projects/01-new-chinese-villa/) |
 | 02 | **现代简约别墅** | 三层现代简约 · 225 m² 前院 · 街景邻栋 | [prompts/modern-minimal-villa.md](prompts/modern-minimal-villa.md) | [projects/02-modern-minimal-villa/](projects/02-modern-minimal-villa/) |
+| 03 | **AEGIS-7 «Kestrel»** | 科幻重型截击舰 · 220 可拆零件 · 引擎尾焰 + 激光 | [prompts/aegis-7-starship.md](prompts/aegis-7-starship.md) | [projects/03-aegis-7-starship/](projects/03-aegis-7-starship/) |
 
 **在线看（GitHub Pages）**
 
 - 01 新中式：<https://hanbuss.github.io/AI-3D-modeling-prompts/projects/01-new-chinese-villa/viewer/index.html>
 - 02 现代简约：<https://hanbuss.github.io/AI-3D-modeling-prompts/projects/02-modern-minimal-villa/viewer/index.html>
+- 03 Kestrel 飞船：<https://hanbuss.github.io/AI-3D-modeling-prompts/projects/03-aegis-7-starship/viewer/index.html>
 
 > 首次打开要下载 50–57 MB 的模型，等几秒。手机上也做了适配（窄屏右侧面板收成底部抽屉）。
 
 | 01 云嵴山居 | 02 现代简约 |
 |---|---|
 | ![新中式](projects/01-new-chinese-villa/previews/CAM_Hero_day.png) | ![现代简约](projects/02-modern-minimal-villa/previews/CAM_Hero_day.jpg) |
+
+| 03 AEGIS-7 «Kestrel» |
+|---|
+| ![飞船](projects/03-aegis-7-starship/previews/hero.png) |
 
 ---
 
@@ -44,10 +50,12 @@
 .
 ├── prompts/                        提示词（核心资产）
 │   ├── new-chinese-villa.md        01 的复刻提示词
-│   └── modern-minimal-villa.md     02 的复刻提示词
+│   ├── modern-minimal-villa.md     02 的复刻提示词
+│   └── aegis-7-starship.md         03 的复刻提示词（程序化飞船 + 剖析页）
 ├── projects/
 │   ├── 01-new-chinese-villa/       云嵴山居：脚本 + GLB + 查看器 + 效果图
-│   └── 02-modern-minimal-villa/    现代简约：脚本 + GLB + 查看器 + 效果图
+│   ├── 02-modern-minimal-villa/    现代简约：脚本 + GLB + 查看器 + 效果图
+│   └── 03-aegis-7-starship/        飞船：脚本 + GLB + 剖析页 + 效果图
 ├── index.html                      落地页（Pages 根）
 └── LICENSE                         MIT
 ```

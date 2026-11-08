@@ -1,0 +1,15 @@
+{
+ "bytes": 15602472,
+ "meshes": 221,
+ "nodes": 221,
+ "materials": 35,
+ "images": 12,
+ "tris": 228888,
+ "extras": 220,
+ "size_m": [
+  32.594,
+  19.456,
+  4.872
+ ],
+ "parts": 220
+}

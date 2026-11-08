@@ -1,0 +1,4626 @@
+{
+ "unit": "m",
+ "axis": "X=barrel",
+ "parts": [
+  {
+   "id": "wpn_missile_s2",
+   "name": "wpn_missile_s2",
+   "zh": "右舷2 号导弹",
+   "en": "Missile S2",
+   "group": "weapons",
+   "order": 10,
+   "explode": [
+    -3.013,
+    3.067,
+    -0.075
+   ],
+   "note": "长 3.4 m / 径 0.22 m：ogive 前锥 + 2 道环带 + 4 片后掠尾翼 + 尾喷口 + 导引头窗",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1604
+  },
+  {
+   "id": "wpn_missile_p2",
+   "name": "wpn_missile_p2",
+   "zh": "左舷2 号导弹",
+   "en": "Missile P2",
+   "group": "weapons",
+   "order": 11,
+   "explode": [
+    -3.095,
+    -3.15,
+    -0.077
+   ],
+   "note": "长 3.4 m / 径 0.22 m：ogive 前锥 + 2 道环带 + 4 片后掠尾翼 + 尾喷口 + 导引头窗",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1604
+  },
+  {
+   "id": "wpn_pylon_s2",
+   "name": "wpn_pylon_s2",
+   "zh": "右舷2 号挂架",
+   "en": "Pylon S2",
+   "group": "weapons",
+   "order": 12,
+   "explode": [
+    -3.168,
+    3.242,
+    0.028
+   ],
+   "note": "翼下挂架 y=7.60：流线本体 + 2 挂钩 + 2 保险销 + 挂轨 + 警示牌",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 376
+  },
+  {
+   "id": "wpn_pylon_p2",
+   "name": "wpn_pylon_p2",
+   "zh": "左舷2 号挂架",
+   "en": "Pylon P2",
+   "group": "weapons",
+   "order": 13,
+   "explode": [
+    -3.25,
+    -3.326,
+    0.028
+   ],
+   "note": "翼下挂架 y=-7.60：流线本体 + 2 挂钩 + 2 保险销 + 挂轨 + 警示牌",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 376
+  },
+  {
+   "id": "wpn_gatling_barrels",
+   "name": "wpn_gatling_barrels",
+   "zh": "六管炮管束",
+   "en": "Six-Barrel Cluster",
+   "group": "weapons",
+   "order": 14,
+   "explode": [
+    4.673,
+    -0.005,
+    -0.941
+   ],
+   "note": "6 × r=0.043 炮管（1.42 m）+ 前后夹箍 + 中心轴 + 炮口热钢",
+   "center": [
+    4.32,
+    0.0,
+    -1.74
+   ],
+   "tris": 1704
+  },
+  {
+   "id": "wpn_missile_s1",
+   "name": "wpn_missile_s1",
+   "zh": "右舷1 号导弹",
+   "en": "Missile S1",
+   "group": "weapons",
+   "order": 15,
+   "explode": [
+    -3.74,
+    3.139,
+    -0.076
+   ],
+   "note": "长 3.4 m / 径 0.22 m：ogive 前锥 + 2 道环带 + 4 片后掠尾翼 + 尾喷口 + 导引头窗",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1604
+  },
+  {
+   "id": "wpn_missile_p1",
+   "name": "wpn_missile_p1",
+   "zh": "左舷1 号导弹",
+   "en": "Missile P1",
+   "group": "weapons",
+   "order": 16,
+   "explode": [
+    -3.83,
+    -3.213,
+    -0.077
+   ],
+   "note": "长 3.4 m / 径 0.22 m：ogive 前锥 + 2 道环带 + 4 片后掠尾翼 + 尾喷口 + 导引头窗",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1604
+  },
+  {
+   "id": "wpn_pylon_s1",
+   "name": "wpn_pylon_s1",
+   "zh": "右舷1 号挂架",
+   "en": "Pylon S1",
+   "group": "weapons",
+   "order": 17,
+   "explode": [
+    -3.906,
+    3.304,
+    0.077
+   ],
+   "note": "翼下挂架 y=5.30：流线本体 + 2 挂钩 + 2 保险销 + 挂轨 + 警示牌",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 376
+  },
+  {
+   "id": "wpn_pylon_p1",
+   "name": "wpn_pylon_p1",
+   "zh": "左舷1 号挂架",
+   "en": "Pylon P1",
+   "group": "weapons",
+   "order": 18,
+   "explode": [
+    -3.995,
+    -3.379,
+    0.079
+   ],
+   "note": "翼下挂架 y=-5.30：流线本体 + 2 挂钩 + 2 保险销 + 挂轨 + 警示牌",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 376
+  },
+  {
+   "id": "wpn_gatling_mount",
+   "name": "wpn_gatling_mount",
+   "zh": "转管炮炮架",
+   "en": "Gatling Cradle",
+   "group": "weapons",
+   "order": 19,
+   "explode": [
+    5.241,
+    0.0,
+    -1.073
+   ],
+   "note": "腹部炮架：龙骨挂耳 + 双支臂 + 俯仰作动筒 + 机匣 (4.20, 0, -1.30)",
+   "center": [
+    4.2,
+    0.0,
+    -1.25
+   ],
+   "tris": 1160
+  },
+  {
+   "id": "wpn_gatling_drum",
+   "name": "wpn_gatling_drum",
+   "zh": "供弹鼓",
+   "en": "Ammo Drum",
+   "group": "weapons",
+   "order": 20,
+   "explode": [
+    5.298,
+    0.427,
+    -1.276
+   ],
+   "note": "r=0.27 弹鼓 + 8 道加强筋 + 输弹槽，挂在炮架右侧",
+   "center": [
+    3.86,
+    0.54,
+    -1.76
+   ],
+   "tris": 928
+  },
+  {
+   "id": "gear_nose_wheel",
+   "name": "gear_nose_wheel",
+   "zh": "前起落架机轮",
+   "en": "Nose Landing Gear Wheel",
+   "group": "gear",
+   "order": 20,
+   "explode": [
+    3.402,
+    -0.01,
+    -0.513
+   ],
+   "note": "轮胎 r=0.46：剖面旋转成型 + 32 块胎面花纹 + 轮毂 + 刹车盘 12 道散热槽 + 8 颗轮心螺帽",
+   "center": [
+    9.6,
+    -0.26,
+    -2.171
+   ],
+   "tris": 4496
+  },
+  {
+   "id": "wpn_turret_head",
+   "name": "wpn_turret_head",
+   "zh": "双联激光炮塔",
+   "en": "Twin Laser Turret",
+   "group": "weapons",
+   "order": 21,
+   "explode": [
+    5.385,
+    -0.028,
+    1.474
+   ],
+   "note": "转动塔身 + 俯仰耳轴 + 双侧伺服 + 双炮管（1.55 m）+ 激光透镜/辉光环",
+   "center": [
+    2.6,
+    0.0,
+    1.848
+   ],
+   "tris": 4828
+  },
+  {
+   "id": "gear_nose_doors",
+   "name": "gear_nose_doors",
+   "zh": "前起落架舱门",
+   "en": "Nose Landing Gear Bay Doors",
+   "group": "gear",
+   "order": 21,
+   "explode": [
+    3.569,
+    -0.003,
+    -0.282
+   ],
+   "note": "对开舱门 78° 打开 + 4 处铰链耳 + 门内加强筋 + 2 支作动筒 + 深色舱腔",
+   "center": [
+    9.6,
+    0.35,
+    -0.998
+   ],
+   "tris": 1084
+  },
+  {
+   "id": "wpn_turret_base",
+   "name": "wpn_turret_base",
+   "zh": "炮塔基座",
+   "en": "Turret Ring Base",
+   "group": "weapons",
+   "order": 22,
+   "explode": [
+    5.555,
+    -0.001,
+    1.278
+   ],
+   "note": "回转齿圈 r=0.62 + 16 颗地脚螺栓 + 4 段装甲裙；圆心 (2.60, 0, 1.42)",
+   "center": [
+    2.6,
+    0.0,
+    1.43958
+   ],
+   "tris": 1928
+  },
+  {
+   "id": "gear_nose_strut",
+   "name": "gear_nose_strut",
+   "zh": "前起落架支柱",
+   "en": "Nose Landing Gear Strut",
+   "group": "gear",
+   "order": 22,
+   "explode": [
+    3.7,
+    0.0,
+    -0.381
+   ],
+   "note": "双轮前起落架：双级缓冲支柱 + 剪式扭力臂 + 斜撑 + 转向作动筒；轮底 -2.65 与主轮共面",
+   "center": [
+    9.6,
+    0.0,
+    -0.61
+   ],
+   "tris": 2556
+  },
+  {
+   "id": "gear_main_p_doors",
+   "name": "gear_main_p_doors",
+   "zh": "右主起落架舱门",
+   "en": "Starboard Main Gear Bay Doors",
+   "group": "gear",
+   "order": 23,
+   "explode": [
+    -3.264,
+    1.871,
+    -0.862
+   ],
+   "note": "对开舱门 78° 打开 + 4 处铰链耳 + 门内加强筋 + 2 支作动筒 + 深色舱腔",
+   "center": [
+    -6.4,
+    2.73,
+    -1.25
+   ],
+   "tris": 1084
+  },
+  {
+   "id": "gear_main_s_doors",
+   "name": "gear_main_s_doors",
+   "zh": "左主起落架舱门",
+   "en": "Port Main Gear Bay Doors",
+   "group": "gear",
+   "order": 24,
+   "explode": [
+    -3.375,
+    -1.953,
+    -0.892
+   ],
+   "note": "对开舱门 78° 打开 + 4 处铰链耳 + 门内加强筋 + 2 支作动筒 + 深色舱腔",
+   "center": [
+    -6.4,
+    -1.87,
+    -1.25
+   ],
+   "tris": 1084
+  },
+  {
+   "id": "gear_main_p_wheel",
+   "name": "gear_main_p_wheel",
+   "zh": "右主起落架机轮",
+   "en": "Starboard Main Gear Wheel",
+   "group": "gear",
+   "order": 25,
+   "explode": [
+    -3.421,
+    1.928,
+    -1.313
+   ],
+   "note": "轮胎 r=0.60：剖面旋转成型 + 32 块胎面花纹 + 轮毂 + 刹车盘 12 道散热槽 + 8 颗轮心螺帽",
+   "center": [
+    -6.4,
+    2.3,
+    -2.031
+   ],
+   "tris": 2248
+  },
+  {
+   "id": "gear_main_s_wheel",
+   "name": "gear_main_s_wheel",
+   "zh": "左主起落架机轮",
+   "en": "Port Main Gear Wheel",
+   "group": "gear",
+   "order": 26,
+   "explode": [
+    -3.523,
+    -2.02,
+    -1.352
+   ],
+   "note": "轮胎 r=0.60：剖面旋转成型 + 32 块胎面花纹 + 轮毂 + 刹车盘 12 道散热槽 + 8 颗轮心螺帽",
+   "center": [
+    -6.4,
+    -2.3,
+    -2.031
+   ],
+   "tris": 2248
+  },
+  {
+   "id": "gear_main_p_strut",
+   "name": "gear_main_p_strut",
+   "zh": "右主起落架支柱",
+   "en": "Starboard Main Gear Strut",
+   "group": "gear",
+   "order": 27,
+   "explode": [
+    -3.733,
+    2.132,
+    -1.026
+   ],
+   "note": "短舱内收放：起落架短舱 y≈-2.6 + 单轮 r=0.60（32 块胎面 + 刹车盘散热槽）",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2608
+  },
+  {
+   "id": "gear_main_s_strut",
+   "name": "gear_main_s_strut",
+   "zh": "左主起落架支柱",
+   "en": "Port Main Gear Strut",
+   "group": "gear",
+   "order": 28,
+   "explode": [
+    -3.859,
+    -2.186,
+    -1.061
+   ],
+   "note": "左舷镜像：短舱 + 双级支柱 + 斜撑 + 对开舱门",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2584
+  },
+  {
+   "id": "fore_canopy_glass_ws",
+   "name": "canopy_glass_ws",
+   "zh": "前风挡",
+   "en": "Canopy Windshield",
+   "group": "canopy",
+   "order": 30,
+   "explode": [
+    2.909,
+    -0.001,
+    0.293
+   ],
+   "note": "环绕式风挡：底缘 x=9.35 落甲板，顶缘 x=8.55 抬高 0.5m（后倾约 32°）",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1360
+  },
+  {
+   "id": "fore_cockpit_dash",
+   "name": "cockpit_dash_units",
+   "zh": "显示器与开关阵",
+   "en": "MFD & Switch Cluster",
+   "group": "canopy",
+   "order": 31,
+   "explode": [
+    2.948,
+    0.0,
+    0.256
+   ],
+   "note": "两块 MFD + 中央 7 键开关阵（实物件，非贴图）",
+   "center": [
+    8.94,
+    -0.135,
+    1.3125
+   ],
+   "tris": 132
+  },
+  {
+   "id": "fore_cockpit_panel",
+   "name": "cockpit_panel",
+   "zh": "仪表板",
+   "en": "Instrument Panel",
+   "group": "canopy",
+   "order": 32,
+   "explode": [
+    2.983,
+    0.0,
+    0.259
+   ],
+   "note": "深色仪表面板，嵌两块多功能显示器",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 108
+  },
+  {
+   "id": "fore_cockpit_console",
+   "name": "cockpit_console",
+   "zh": "操纵台",
+   "en": "Cockpit Console",
+   "group": "canopy",
+   "order": 33,
+   "explode": [
+    3.018,
+    0.0,
+    0.264
+   ],
+   "note": "斜面仪表台，贴风挡内侧托住仪表板与 HUD",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 120
+  },
+  {
+   "id": "fore_hud_pilot",
+   "name": "hud_0",
+   "zh": "HUD 平显·左",
+   "en": "HUD Combiner Port",
+   "group": "canopy",
+   "order": 34,
+   "explode": [
+    3.049,
+    0.081,
+    0.305
+   ],
+   "note": "贴风挡内侧、与风挡同倾角的组合镜 + 投影器",
+   "center": [
+    8.42,
+    0.325,
+    1.489
+   ],
+   "tris": 36
+  },
+  {
+   "id": "fore_hud_wso",
+   "name": "hud_1",
+   "zh": "HUD 平显·右",
+   "en": "HUD Combiner Stbd",
+   "group": "canopy",
+   "order": 35,
+   "explode": [
+    3.084,
+    -0.082,
+    0.308
+   ],
+   "note": "右席同规格 HUD 组合镜 + 投影器",
+   "center": [
+    8.42,
+    -0.325,
+    1.489
+   ],
+   "tris": 36
+  },
+  {
+   "id": "fore_canopy_frame_bow",
+   "name": "canopy_frame_bow",
+   "zh": "舱盖横梁",
+   "en": "Canopy Bow Frame",
+   "group": "canopy",
+   "order": 36,
+   "explode": [
+    3.118,
+    -0.0,
+    0.333
+   ],
+   "note": "风挡与顶窗之间的弓形横梁",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 520
+  },
+  {
+   "id": "fore_throttle",
+   "name": "throttle",
+   "zh": "油门台",
+   "en": "Throttle Quadrant",
+   "group": "canopy",
+   "order": 37,
+   "explode": [
+    3.152,
+    0.132,
+    0.315
+   ],
+   "note": "左侧油门杆 + 底座",
+   "center": [
+    8.3,
+    0.5,
+    1.4305
+   ],
+   "tris": 24
+  },
+  {
+   "id": "fore_stick_pilot",
+   "name": "stick_0",
+   "zh": "操纵杆·左席",
+   "en": "Control Stick Port",
+   "group": "canopy",
+   "order": 38,
+   "explode": [
+    3.188,
+    0.089,
+    0.332
+   ],
+   "note": "侧杆 + 握把 + 扳机",
+   "center": [
+    8.05,
+    0.325,
+    1.3155
+   ],
+   "tris": 416
+  },
+  {
+   "id": "fore_stick_wso",
+   "name": "stick_1",
+   "zh": "操纵杆·右席",
+   "en": "Control Stick Stbd",
+   "group": "canopy",
+   "order": 39,
+   "explode": [
+    3.223,
+    -0.09,
+    0.336
+   ],
+   "note": "侧杆 + 握把 + 扳机",
+   "center": [
+    8.05,
+    -0.325,
+    1.3155
+   ],
+   "tris": 416
+  },
+  {
+   "id": "fore_seat_pilot",
+   "name": "seat_pilot",
+   "zh": "驾驶员座椅",
+   "en": "Pilot Ejection Seat",
+   "group": "canopy",
+   "order": 40,
+   "explode": [
+    3.256,
+    0.092,
+    0.355
+   ],
+   "note": "左席：滑轨/分块坐垫/后倾靠背/侧支撑/头枕/五点安全带",
+   "center": [
+    7.95,
+    0.165,
+    1.2945
+   ],
+   "tris": 320
+  },
+  {
+   "id": "aft_lip_p",
+   "name": "aft_lip_p",
+   "zh": "喷口唇缘",
+   "en": "Nozzle Exit Lip",
+   "group": "engines",
+   "order": 40,
+   "explode": [
+    -4.252,
+    -0.629,
+    -0.118
+   ],
+   "note": "black 阳极氧化唇环，喷口端面中心 = (-17.40, -2.60, -0.45)",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 320
+  },
+  {
+   "id": "fore_seat_wso",
+   "name": "seat_wso",
+   "zh": "武器系统官座椅",
+   "en": "WSO Ejection Seat",
+   "group": "canopy",
+   "order": 41,
+   "explode": [
+    3.291,
+    -0.093,
+    0.359
+   ],
+   "note": "右席：同规格弹射座椅，并列布置",
+   "center": [
+    7.95,
+    -0.485,
+    1.2945
+   ],
+   "tris": 320
+  },
+  {
+   "id": "aft_lip_s",
+   "name": "aft_lip_s",
+   "zh": "喷口唇缘",
+   "en": "Nozzle Exit Lip",
+   "group": "engines",
+   "order": 41,
+   "explode": [
+    -4.283,
+    0.633,
+    -0.118
+   ],
+   "note": "black 阳极氧化唇环，喷口端面中心 = (-17.40, 2.60, -0.45)",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 320
+  },
+  {
+   "id": "fore_canopy_seal",
+   "name": "canopy_seal",
+   "zh": "舱盖密封条",
+   "en": "Canopy Seal",
+   "group": "canopy",
+   "order": 42,
+   "explode": [
+    3.328,
+    -0.006,
+    0.356
+   ],
+   "note": "玻璃槛与围框之间的密封胶条（左右两道）",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 702
+  },
+  {
+   "id": "aft_center_cone_p",
+   "name": "aft_cone_p",
+   "zh": "喷口中心锥",
+   "en": "Exhaust Centre Cone",
+   "group": "engines",
+   "order": 42,
+   "explode": [
+    -4.309,
+    -0.668,
+    -0.125
+   ],
+   "note": "从 x=-16.22 收到 x=-17.24 的锥体，从尾部看进去有纵深",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 958
+  },
+  {
+   "id": "fore_canopy_coaming",
+   "name": "canopy_coaming",
+   "zh": "座舱开口围框（coaming）",
+   "en": "Cockpit Coaming Ring",
+   "group": "canopy",
+   "order": 43,
+   "explode": [
+    3.367,
+    -0.001,
+    0.319
+   ],
+   "note": "整圈围框：宽 0.10m、外凸 0.03m，四点按 hull.surf 采样 → 顺船壳弧度",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2648
+  },
+  {
+   "id": "aft_center_cone_s",
+   "name": "aft_cone_s",
+   "zh": "喷口中心锥",
+   "en": "Exhaust Centre Cone",
+   "group": "engines",
+   "order": 43,
+   "explode": [
+    -4.34,
+    0.672,
+    -0.125
+   ],
+   "note": "从 x=-16.22 收到 x=-17.24 的锥体，从尾部看进去有纵深",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 958
+  },
+  {
+   "id": "fore_cockpit_floor",
+   "name": "cockpit_floor",
+   "zh": "座舱地板",
+   "en": "Cockpit Floor",
+   "group": "canopy",
+   "order": 44,
+   "explode": [
+    3.403,
+    0.0,
+    0.319
+   ],
+   "note": "贴合甲板弧度的承力地板，比甲板高 12mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 816
+  },
+  {
+   "id": "aft_bell_p",
+   "name": "aft_bell_p",
+   "zh": "收敛-扩张喷管",
+   "en": "Converging-Diverging Nozzle",
+   "group": "engines",
+   "order": 44,
+   "explode": [
+    -4.369,
+    -0.685,
+    -0.127
+   ],
+   "note": "外壁 heat_steel；出口端面 r_out=0.920 r_in=0.760 @ x=-17.40",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1408
+  },
+  {
+   "id": "fore_cockpit_liner_p",
+   "name": "cockpit_liner_p",
+   "zh": "座舱内衬·右",
+   "en": "Cockpit Liner Stbd",
+   "group": "canopy",
+   "order": 45,
+   "explode": [
+    3.421,
+    0.171,
+    0.436
+   ],
+   "note": "舱盖内侧覆板，与玻璃同一曲面域采样，缝对得齐",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 400
+  },
+  {
+   "id": "aft_bell_inner_p",
+   "name": "aft_bell_inner_p",
+   "zh": "喷管内壁陶瓷衬",
+   "en": "Nozzle Ceramic Liner",
+   "group": "engines",
+   "order": 45,
+   "explode": [
+    -4.4,
+    -0.691,
+    -0.129
+   ],
+   "note": "ceramic 内衬：从喉部到出口整段",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1120
+  },
+  {
+   "id": "fore_cockpit_liner_s",
+   "name": "cockpit_liner_s",
+   "zh": "座舱内衬·左",
+   "en": "Cockpit Liner Port",
+   "group": "canopy",
+   "order": 46,
+   "explode": [
+    3.456,
+    -0.173,
+    0.44
+   ],
+   "note": "舱盖内侧覆板，与玻璃同一曲面域采样",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 400
+  },
+  {
+   "id": "aft_bell_s",
+   "name": "aft_bell_s",
+   "zh": "收敛-扩张喷管",
+   "en": "Converging-Diverging Nozzle",
+   "group": "engines",
+   "order": 46,
+   "explode": [
+    -4.43,
+    0.696,
+    -0.129
+   ],
+   "note": "外壁 heat_steel；出口端面 r_out=0.920 r_in=0.760 @ x=-17.40",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1408
+  },
+  {
+   "id": "fore_canopy_rail_s",
+   "name": "canopy_rail_s",
+   "zh": "左舷窗框纵梁",
+   "en": "Port Canopy Rail",
+   "group": "canopy",
+   "order": 47,
+   "explode": [
+    3.481,
+    -0.139,
+    0.526
+   ],
+   "note": "顶窗 / 侧窗之间的纵梁，形成真实分缝",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 360
+  },
+  {
+   "id": "aft_bell_inner_s",
+   "name": "aft_bell_inner_s",
+   "zh": "喷管内壁陶瓷衬",
+   "en": "Nozzle Ceramic Liner",
+   "group": "engines",
+   "order": 47,
+   "explode": [
+    -4.461,
+    0.7,
+    -0.131
+   ],
+   "note": "ceramic 内衬：从喉部到出口整段",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1120
+  },
+  {
+   "id": "fore_canopy_rail_p",
+   "name": "canopy_rail_p",
+   "zh": "右舷窗框纵梁",
+   "en": "Starboard Canopy Rail",
+   "group": "canopy",
+   "order": 48,
+   "explode": [
+    3.516,
+    0.14,
+    0.531
+   ],
+   "note": "顶窗 / 侧窗之间的纵梁，形成真实分缝",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 360
+  },
+  {
+   "id": "aft_stator_2_p",
+   "name": "aft_stator2_p",
+   "zh": "二级涡轮静子叶片环",
+   "en": "Turbine Stator Ring 2",
+   "group": "engines",
+   "order": 48,
+   "explode": [
+    -4.49,
+    -0.715,
+    -0.134
+   ],
+   "note": "24 片真实叶片，位于扩张段内侧",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 288
+  },
+  {
+   "id": "fore_canopy_glass_roof",
+   "name": "canopy_glass_roof",
+   "zh": "顶窗",
+   "en": "Canopy Roof Window",
+   "group": "canopy",
+   "order": 49,
+   "explode": [
+    3.552,
+    -0.0,
+    0.547
+   ],
+   "note": "顶部主观察窗，罩在双座头顶，与侧窗以纵梁真实分缝",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 864
+  },
+  {
+   "id": "aft_stator_2_s",
+   "name": "aft_stator2_s",
+   "zh": "二级涡轮静子叶片环",
+   "en": "Turbine Stator Ring 2",
+   "group": "engines",
+   "order": 49,
+   "explode": [
+    -4.521,
+    0.72,
+    -0.135
+   ],
+   "note": "24 片真实叶片，位于扩张段内侧",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 288
+  },
+  {
+   "id": "fore_canopy_glass_side_s",
+   "name": "canopy_glass_side_s",
+   "zh": "左舷侧窗",
+   "en": "Port Side Window",
+   "group": "canopy",
+   "order": 50,
+   "explode": [
+    3.594,
+    -0.19,
+    0.464
+   ],
+   "note": "侧窗玻璃沿舷边向下收，四边被框条夹住",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 524
+  },
+  {
+   "id": "aft_ab_duct_p",
+   "name": "aft_ab_p",
+   "zh": "加力燃烧室环腔",
+   "en": "Afterburner Annulus Duct",
+   "group": "engines",
+   "order": 50,
+   "explode": [
+    -4.55,
+    -0.738,
+    -0.138
+   ],
+   "note": "中心筒与内壁之间的环腔，后接中心锥",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1152
+  },
+  {
+   "id": "wing_stbd",
+   "name": "wing_stbd",
+   "zh": "右机翼",
+   "en": "Starboard Wing",
+   "group": "wings",
+   "order": 50,
+   "explode": [
+    -2.633,
+    2.949,
+    0.159
+   ],
+   "note": "肩部上单翼：NACA 剖面 18 站位×24 点、固定翼 0–74.5% 弦长、襟翼/副翼 6mm 缝+铰链；翼根 fillet 沿弦向 9 段×展向 6 环（偏置 0.10→0.02）；13 块检修板（9mm 厚+12 螺栓）；3 道翼刀 + 10 片涡流发生器（30° 前倾）；翼尖绿航行灯+双频闪",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 14010
+  },
+  {
+   "id": "fore_canopy_glass_side_p",
+   "name": "canopy_glass_side_p",
+   "zh": "右舷侧窗",
+   "en": "Starboard Side Window",
+   "group": "canopy",
+   "order": 51,
+   "explode": [
+    3.629,
+    0.192,
+    0.469
+   ],
+   "note": "侧窗玻璃沿舷边向下收，四边被框条夹住",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 524
+  },
+  {
+   "id": "aft_ab_duct_s",
+   "name": "aft_ab_s",
+   "zh": "加力燃烧室环腔",
+   "en": "Afterburner Annulus Duct",
+   "group": "engines",
+   "order": 51,
+   "explode": [
+    -4.58,
+    0.743,
+    -0.139
+   ],
+   "note": "中心筒与内壁之间的环腔，后接中心锥",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1152
+  },
+  {
+   "id": "wing_port",
+   "name": "wing_port",
+   "zh": "左机翼",
+   "en": "Port Wing",
+   "group": "wings",
+   "order": 51,
+   "explode": [
+    -3.509,
+    -3.892,
+    0.21
+   ],
+   "note": "左舷镜像件：翼根按真实肩部壳面（y 1.523–1.905 随弦向变化）铺贴；翼尖红航行灯",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 14010
+  },
+  {
+   "id": "fore_console_side_s",
+   "name": "console_side_-1",
+   "zh": "侧操纵台·左",
+   "en": "Port Side Console",
+   "group": "canopy",
+   "order": 52,
+   "explode": [
+    3.671,
+    -0.214,
+    0.41
+   ],
+   "note": "舷内侧长条操纵台，兼扶手与开关板",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 120
+  },
+  {
+   "id": "aft_ab_holders_p",
+   "name": "aft_ab_holders_p",
+   "zh": "加力稳焰器",
+   "en": "Afterburner Flame Holders",
+   "group": "engines",
+   "order": 52,
+   "explode": [
+    -4.61,
+    -0.754,
+    -0.141
+   ],
+   "note": "14 片径向 V 形稳焰片，环腔内一圈",
+   "center": [
+    -15.9,
+    -2.0925,
+    -0.45
+   ],
+   "tris": 168
+  },
+  {
+   "id": "fore_console_side_p",
+   "name": "console_side_1",
+   "zh": "侧操纵台·右",
+   "en": "Stbd Side Console",
+   "group": "canopy",
+   "order": 53,
+   "explode": [
+    3.706,
+    0.216,
+    0.414
+   ],
+   "note": "舷内侧长条操纵台，兼扶手与开关板",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 120
+  },
+  {
+   "id": "aft_ab_holders_s",
+   "name": "aft_ab_holders_s",
+   "zh": "加力稳焰器",
+   "en": "Afterburner Flame Holders",
+   "group": "engines",
+   "order": 53,
+   "explode": [
+    -4.641,
+    0.759,
+    -0.142
+   ],
+   "note": "14 片径向 V 形稳焰片，环腔内一圈",
+   "center": [
+    -15.9,
+    3.1075,
+    -0.45
+   ],
+   "tris": 168
+  },
+  {
+   "id": "fore_canopy_actuator_s",
+   "name": "canopy_actuator_s",
+   "zh": "舱盖作动筒·左",
+   "en": "Canopy Actuator Port",
+   "group": "canopy",
+   "order": 54,
+   "explode": [
+    3.729,
+    -0.245,
+    0.499
+   ],
+   "note": "举升液压筒：底座落甲板、杆头接舱盖框",
+   "center": [
+    6.49061,
+    -0.65308,
+    1.48601
+   ],
+   "tris": 324
+  },
+  {
+   "id": "aft_lip_c",
+   "name": "aft_lip_c",
+   "zh": "喷口唇缘",
+   "en": "Nozzle Exit Lip",
+   "group": "engines",
+   "order": 54,
+   "explode": [
+    -4.735,
+    0.0,
+    0.052
+   ],
+   "note": "black 阳极氧化唇环，喷口端面中心 = (-15.75, 0.00, 0.28)",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 320
+  },
+  {
+   "id": "fore_canopy_actuator_p",
+   "name": "canopy_actuator_p",
+   "zh": "舱盖作动筒·右",
+   "en": "Canopy Actuator Stbd",
+   "group": "canopy",
+   "order": 55,
+   "explode": [
+    3.764,
+    0.247,
+    0.503
+   ],
+   "note": "举升液压筒：底座落甲板、杆头接舱盖框",
+   "center": [
+    6.49061,
+    0.65308,
+    1.48601
+   ],
+   "tris": 324
+  },
+  {
+   "id": "aft_mount_ring_p_aft",
+   "name": "aft_mount_p_aft",
+   "zh": "引擎安装环（后）",
+   "en": "Engine Mount Ring (aft)",
+   "group": "engines",
+   "order": 55,
+   "explode": [
+    -4.698,
+    -0.792,
+    -0.148
+   ],
+   "note": "10 颗连接螺栓，环带贴合 r_body",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 920
+  },
+  {
+   "id": "fore_cockpit_bulkhead",
+   "name": "cockpit_bulkhead",
+   "zh": "座舱后隔框",
+   "en": "Cockpit Bulkhead",
+   "group": "canopy",
+   "order": 56,
+   "explode": [
+    3.801,
+    0.0,
+    0.552
+   ],
+   "note": "座椅后方的结构隔框，封住舱盖后壁",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 304
+  },
+  {
+   "id": "aft_mount_ring_s_aft",
+   "name": "aft_mount_s_aft",
+   "zh": "引擎安装环（后）",
+   "en": "Engine Mount Ring (aft)",
+   "group": "engines",
+   "order": 56,
+   "explode": [
+    -4.729,
+    0.797,
+    -0.149
+   ],
+   "note": "10 颗连接螺栓，环带贴合 r_body",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 920
+  },
+  {
+   "id": "fore_canopy_frame_rear",
+   "name": "canopy_frame_rear",
+   "zh": "后弧框",
+   "en": "Canopy Aft Frame",
+   "group": "canopy",
+   "order": 57,
+   "explode": [
+    3.835,
+    -0.0,
+    0.562
+   ],
+   "note": "舱盖后缘框，接后隔框与作动筒",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 520
+  },
+  {
+   "id": "aft_cavity_glow_p",
+   "name": "aft_cav_p",
+   "zh": "燃烧室辉光环",
+   "en": "Combustor Glow Ring",
+   "group": "engines",
+   "order": 57,
+   "explode": [
+    -4.757,
+    -0.819,
+    -0.153
+   ],
+   "note": "腔内暗红自发光环，衬托内部叶片层次",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 320
+  },
+  {
+   "id": "aft_cavity_glow_s",
+   "name": "aft_cav_s",
+   "zh": "燃烧室辉光环",
+   "en": "Combustor Glow Ring",
+   "group": "engines",
+   "order": 58,
+   "explode": [
+    -4.787,
+    0.824,
+    -0.154
+   ],
+   "note": "腔内暗红自发光环，衬托内部叶片层次",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 320
+  },
+  {
+   "id": "aft_stator_hub_p",
+   "name": "aft_hub1_p",
+   "zh": "一级静子轮毂",
+   "en": "Stator 1 Hub",
+   "group": "engines",
+   "order": 59,
+   "explode": [
+    -4.817,
+    -0.834,
+    -0.156
+   ],
+   "note": "轮毂筒，托住一级叶片根",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 480
+  },
+  {
+   "id": "fore_armor_accent_p",
+   "name": "accent_p",
+   "zh": "警示装甲块·右",
+   "en": "Warning Armor Panel Stbd",
+   "group": "hull_fore",
+   "order": 60,
+   "explode": [
+    6.011,
+    0.268,
+    0.188
+   ],
+   "note": "鼻锥后方的红橙警示块，高出常规板 6mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 204
+  },
+  {
+   "id": "aft_stator_hub_s",
+   "name": "aft_hub1_s",
+   "zh": "一级静子轮毂",
+   "en": "Stator 1 Hub",
+   "group": "engines",
+   "order": 60,
+   "explode": [
+    -4.848,
+    0.84,
+    -0.157
+   ],
+   "note": "轮毂筒，托住一级叶片根",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 480
+  },
+  {
+   "id": "fore_armor_accent_s",
+   "name": "accent_s",
+   "zh": "警示装甲块·左",
+   "en": "Warning Armor Panel Port",
+   "group": "hull_fore",
+   "order": 61,
+   "explode": [
+    6.096,
+    0.246,
+    -0.224
+   ],
+   "note": "鼻锥后方的红橙警示块，高出常规板 6mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 204
+  },
+  {
+   "id": "aft_stator_1_p",
+   "name": "aft_stator1_p",
+   "zh": "一级涡轮静子叶片环",
+   "en": "Turbine Stator Ring 1",
+   "group": "engines",
+   "order": 61,
+   "explode": [
+    -4.878,
+    -0.846,
+    -0.158
+   ],
+   "note": "24 片真实叶片（弦长 150 mm、安装角 36°、后掠 30 mm）",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 288
+  },
+  {
+   "id": "fore_intake_vanes_p",
+   "name": "intake_vanes_p",
+   "zh": "进气导流叶片·右",
+   "en": "Intake Vanes Stbd",
+   "group": "hull_fore",
+   "order": 62,
+   "explode": [
+    6.176,
+    0.397,
+    0.152
+   ],
+   "note": "5 片等距导流叶片，垂直气流方向排布",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 60
+  },
+  {
+   "id": "aft_stator_1_s",
+   "name": "aft_stator1_s",
+   "zh": "一级涡轮静子叶片环",
+   "en": "Turbine Stator Ring 1",
+   "group": "engines",
+   "order": 62,
+   "explode": [
+    -4.909,
+    0.851,
+    -0.159
+   ],
+   "note": "24 片真实叶片（弦长 150 mm、安装角 36°、后掠 30 mm）",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 288
+  },
+  {
+   "id": "fore_intake_vanes_s",
+   "name": "intake_vanes_s",
+   "zh": "进气导流叶片·左",
+   "en": "Intake Vanes Port",
+   "group": "hull_fore",
+   "order": 63,
+   "explode": [
+    6.261,
+    0.378,
+    -0.199
+   ],
+   "note": "5 片等距导流叶片，垂直气流方向排布",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 60
+  },
+  {
+   "id": "aft_center_cone_c",
+   "name": "aft_cone_c",
+   "zh": "喷口中心锥",
+   "en": "Exhaust Centre Cone",
+   "group": "engines",
+   "order": 63,
+   "explode": [
+    -5.015,
+    -0.0,
+    0.058
+   ],
+   "note": "从 x=-14.57 收到 x=-15.59 的锥体，从尾部看进去有纵深",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 958
+  },
+  {
+   "id": "fore_intake_pad_p",
+   "name": "intake_pad_p",
+   "zh": "进气口外罩·右",
+   "en": "Intake Fairing Stbd",
+   "group": "hull_fore",
+   "order": 64,
+   "explode": [
+    6.347,
+    0.391,
+    0.15
+   ],
+   "note": "凸出壳面 112mm 的曲面罩，用 (x,th,offset) 六面体布尔开出真开口",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 658
+  },
+  {
+   "id": "aft_bell_c",
+   "name": "aft_bell_c",
+   "zh": "收敛-扩张喷管",
+   "en": "Converging-Diverging Nozzle",
+   "group": "engines",
+   "order": 64,
+   "explode": [
+    -5.046,
+    0.001,
+    0.06
+   ],
+   "note": "外壁 heat_steel；出口端面 r_out=0.760 r_in=0.620 @ x=-15.75",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1408
+  },
+  {
+   "id": "fore_intake_base_p",
+   "name": "intake_base_p",
+   "zh": "进气口内壁底板·右",
+   "en": "Intake Duct Floor Stbd",
+   "group": "hull_fore",
+   "order": 65,
+   "explode": [
+    6.432,
+    0.395,
+    0.148
+   ],
+   "note": "凹陷底板，距罩面 100mm，形成深袋感",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 552
+  },
+  {
+   "id": "aft_bell_inner_c",
+   "name": "aft_bell_inner_c",
+   "zh": "喷管内壁陶瓷衬",
+   "en": "Nozzle Ceramic Liner",
+   "group": "engines",
+   "order": 65,
+   "explode": [
+    -5.077,
+    0.0,
+    0.059
+   ],
+   "note": "ceramic 内衬：从喉部到出口整段",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1120
+  },
+  {
+   "id": "fore_intake_lip_p",
+   "name": "intake_lip_p",
+   "zh": "进气口唇框·右",
+   "en": "Intake Lip Frame Stbd",
+   "group": "hull_fore",
+   "order": 66,
+   "explode": [
+    6.514,
+    0.441,
+    0.164
+   ],
+   "note": "四边扫掠加强框，包住布尔切口毛边",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 960
+  },
+  {
+   "id": "aft_stator_2_c",
+   "name": "aft_stator2_c",
+   "zh": "二级涡轮静子叶片环",
+   "en": "Turbine Stator Ring 2",
+   "group": "engines",
+   "order": 66,
+   "explode": [
+    -5.109,
+    0.0,
+    0.06
+   ],
+   "note": "24 片真实叶片，位于扩张段内侧",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 288
+  },
+  {
+   "id": "fore_intake_pad_s",
+   "name": "intake_pad_s",
+   "zh": "进气口外罩·左",
+   "en": "Intake Fairing Port",
+   "group": "hull_fore",
+   "order": 67,
+   "explode": [
+    6.602,
+    0.385,
+    -0.205
+   ],
+   "note": "凸出壳面 112mm 的曲面罩，用 (x,th,offset) 六面体布尔开出真开口",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 656
+  },
+  {
+   "id": "aft_ab_duct_c",
+   "name": "aft_ab_c",
+   "zh": "加力燃烧室环腔",
+   "en": "Afterburner Annulus Duct",
+   "group": "engines",
+   "order": 67,
+   "explode": [
+    -5.14,
+    0.0,
+    0.062
+   ],
+   "note": "中心筒与内壁之间的环腔，后接中心锥",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1152
+  },
+  {
+   "id": "fore_intake_base_s",
+   "name": "intake_base_s",
+   "zh": "进气口内壁底板·左",
+   "en": "Intake Duct Floor Port",
+   "group": "hull_fore",
+   "order": 68,
+   "explode": [
+    6.688,
+    0.385,
+    -0.203
+   ],
+   "note": "凹陷底板，距罩面 100mm，形成深袋感",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 552
+  },
+  {
+   "id": "aft_ab_holders_c",
+   "name": "aft_ab_holders_c",
+   "zh": "加力稳焰器",
+   "en": "Afterburner Flame Holders",
+   "group": "engines",
+   "order": 68,
+   "explode": [
+    -5.171,
+    0.0,
+    0.063
+   ],
+   "note": "14 片径向 V 形稳焰片，环腔内一圈",
+   "center": [
+    -14.25,
+    0.41641,
+    0.28
+   ],
+   "tris": 168
+  },
+  {
+   "id": "fore_intake_bolts_s",
+   "name": "intake_lip_bolts_s",
+   "zh": "进气口框螺栓·左",
+   "en": "Intake Lip Bolts Port",
+   "group": "hull_fore",
+   "order": 69,
+   "explode": [
+    6.77,
+    0.456,
+    -0.152
+   ],
+   "note": "唇框上沿 6 颗埋头螺栓",
+   "center": [
+    13.46,
+    0.99909,
+    -0.29027
+   ],
+   "tris": 408
+  },
+  {
+   "id": "aft_mount_ring_c_aft",
+   "name": "aft_mount_c_aft",
+   "zh": "引擎安装环（后）",
+   "en": "Engine Mount Ring (aft)",
+   "group": "engines",
+   "order": 69,
+   "explode": [
+    -5.202,
+    0.0,
+    0.065
+   ],
+   "note": "10 颗连接螺栓，环带贴合 r_body",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 920
+  },
+  {
+   "id": "fore_intake_bolts_p",
+   "name": "intake_lip_bolts_p",
+   "zh": "进气口框螺栓·右",
+   "en": "Intake Lip Bolts Stbd",
+   "group": "hull_fore",
+   "order": 70,
+   "explode": [
+    6.855,
+    0.422,
+    0.244
+   ],
+   "note": "唇框上沿 6 颗埋头螺栓",
+   "center": [
+    13.46,
+    0.91128,
+    0.66688
+   ],
+   "tris": 408
+  },
+  {
+   "id": "mid_hatch_1",
+   "name": "mid_hatch_1",
+   "zh": "右舷检修门",
+   "en": "Service Access Hatch (Stbd)",
+   "group": "hull_mid",
+   "order": 70,
+   "explode": [
+    -4.077,
+    1.288,
+    -0.459
+   ],
+   "note": "1040×400 mm 门叶抬起 16 mm，2 副铰链 + 3 个拉手",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 668
+  },
+  {
+   "id": "aft_cavity_glow_c",
+   "name": "aft_cav_c",
+   "zh": "燃烧室辉光环",
+   "en": "Combustor Glow Ring",
+   "group": "engines",
+   "order": 70,
+   "explode": [
+    -5.233,
+    0.0,
+    0.067
+   ],
+   "note": "腔内暗红自发光环，衬托内部叶片层次",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 320
+  },
+  {
+   "id": "fore_intake_lip_s",
+   "name": "intake_lip_s",
+   "zh": "进气口唇框·左",
+   "en": "Intake Lip Frame Port",
+   "group": "hull_fore",
+   "order": 71,
+   "explode": [
+    6.939,
+    0.445,
+    -0.229
+   ],
+   "note": "四边扫掠加强框，包住布尔切口毛边",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 960
+  },
+  {
+   "id": "mid_hatch_-1",
+   "name": "mid_hatch_-1",
+   "zh": "左舷检修门",
+   "en": "Service Access Hatch (Port)",
+   "group": "hull_mid",
+   "order": 71,
+   "explode": [
+    -4.132,
+    -1.306,
+    -0.465
+   ],
+   "note": "1040×400 mm 门叶抬起 16 mm，2 副铰链 + 3 个拉手",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 668
+  },
+  {
+   "id": "aft_stator_hub_c",
+   "name": "aft_hub1_c",
+   "zh": "一级静子轮毂",
+   "en": "Stator 1 Hub",
+   "group": "engines",
+   "order": 71,
+   "explode": [
+    -5.264,
+    0.0,
+    0.067
+   ],
+   "note": "轮毂筒，托住一级叶片根",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 480
+  },
+  {
+   "id": "fore_armor_lower_p",
+   "name": "armor_lower_p",
+   "zh": "下舷装甲带·右",
+   "en": "Lower Armor Belt Stbd",
+   "group": "hull_fore",
+   "order": 72,
+   "explode": [
+    7.014,
+    0.541,
+    -0.326
+   ],
+   "note": "下舷 2 块大尺寸曲板，与舷线带缝位错开",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 752
+  },
+  {
+   "id": "mid_radiator_f",
+   "name": "mid_radiator_f",
+   "zh": "右舷散热辐射板（前）",
+   "en": "Deployable Radiator F",
+   "group": "hull_mid",
+   "order": 72,
+   "explode": [
+    3.351,
+    2.835,
+    0.485
+   ],
+   "note": "铰链沿 X，展开 26°；板 + 4 肋 + 3 关节 + 3 个铰链座",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 848
+  },
+  {
+   "id": "aft_stator_1_c",
+   "name": "aft_stator1_c",
+   "zh": "一级涡轮静子叶片环",
+   "en": "Turbine Stator Ring 1",
+   "group": "engines",
+   "order": 72,
+   "explode": [
+    -5.295,
+    0.0,
+    0.068
+   ],
+   "note": "24 片真实叶片（弦长 150 mm、安装角 36°、后掠 30 mm）",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 288
+  },
+  {
+   "id": "fore_armor_lower_s",
+   "name": "armor_lower_s",
+   "zh": "下舷装甲带·左",
+   "en": "Lower Armor Belt Port",
+   "group": "hull_fore",
+   "order": 73,
+   "explode": [
+    7.098,
+    0.587,
+    0.278
+   ],
+   "note": "下舷 2 块大尺寸曲板，与舷线带缝位错开",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 752
+  },
+  {
+   "id": "mid_radiator_fp",
+   "name": "mid_radiator_fp",
+   "zh": "左舷散热辐射板（前）",
+   "en": "Deployable Radiator FP",
+   "group": "hull_mid",
+   "order": 73,
+   "explode": [
+    3.396,
+    -2.872,
+    0.491
+   ],
+   "note": "铰链沿 X，展开 26°；板 + 4 肋 + 3 关节 + 3 个铰链座",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 848
+  },
+  {
+   "id": "aft_nacelle_p",
+   "name": "aft_pod_p",
+   "zh": "引擎吊舱外壳",
+   "en": "Engine Nacelle Shell",
+   "group": "engines",
+   "order": 73,
+   "explode": [
+    -5.192,
+    -1.17,
+    -0.219
+   ],
+   "note": "沿 X 回转的吊舱壳体，中心线严格过 spec (y=-2.60,z=-0.45)",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1232
+  },
+  {
+   "id": "fore_hatch_p",
+   "name": "hatch_p",
+   "zh": "检修盖板·右",
+   "en": "Access Hatch Stbd",
+   "group": "hull_fore",
+   "order": 74,
+   "explode": [
+    7.159,
+    0.836,
+    0.285
+   ],
+   "note": "曲面板 + 2 只铰链 + 手柄 + 10 颗螺栓，带 10mm 出檐",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1016
+  },
+  {
+   "id": "mid_airlock_coaming",
+   "name": "mid_airlock_coaming",
+   "zh": "气闸围板",
+   "en": "Airlock Coaming",
+   "group": "hull_mid",
+   "order": 74,
+   "explode": [
+    -3.5,
+    1.239,
+    2.601
+   ],
+   "note": "环板 φ800/φ664、高 75 mm，外侧 4 个锁扣座",
+   "center": [
+    -3.5,
+    0.58,
+    1.439
+   ],
+   "tris": 464
+  },
+  {
+   "id": "aft_nacelle_s",
+   "name": "aft_pod_s",
+   "zh": "引擎吊舱外壳",
+   "en": "Engine Nacelle Shell",
+   "group": "engines",
+   "order": 74,
+   "explode": [
+    -5.221,
+    1.184,
+    -0.221
+   ],
+   "note": "沿 X 回转的吊舱壳体，中心线严格过 spec (y=2.60,z=-0.45)",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1232
+  },
+  {
+   "id": "fore_hatch_s",
+   "name": "hatch_s",
+   "zh": "检修盖板·左",
+   "en": "Access Hatch Port",
+   "group": "hull_fore",
+   "order": 75,
+   "explode": [
+    7.248,
+    0.781,
+    -0.349
+   ],
+   "note": "曲面板 + 2 只铰链 + 手柄 + 10 颗螺栓，带 10mm 出檐",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1016
+  },
+  {
+   "id": "mid_airlock_door",
+   "name": "mid_airlock_door",
+   "zh": "气闸门板",
+   "en": "Airlock Door Leaf",
+   "group": "hull_mid",
+   "order": 75,
+   "explode": [
+    -3.578,
+    1.136,
+    2.645
+   ],
+   "note": "φ630 门板沉在围板下 43 mm + 氟橡胶密封圈 φ644/φ600 + 2 副铰链",
+   "center": [
+    -3.5,
+    0.58,
+    1.4165
+   ],
+   "tris": 596
+  },
+  {
+   "id": "aft_nacelle_ribs_p",
+   "name": "aft_ribs_p",
+   "zh": "吊舱环形加强筋",
+   "en": "Nacelle Ring Ribs",
+   "group": "engines",
+   "order": 75,
+   "explode": [
+    -5.248,
+    -1.202,
+    -0.225
+   ],
+   "note": "8 道环形加强筋，外凸 3 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1792
+  },
+  {
+   "id": "mid_armor_chine_stbd",
+   "name": "mid_armor_chine_stbd",
+   "zh": "右舷舷线装甲带",
+   "en": "Chine Strake (Stbd)",
+   "group": "hull_mid",
+   "order": 76,
+   "explode": [
+    -3.061,
+    3.497,
+    -0.145
+   ],
+   "note": "骑在硬舷线上（z≈±0.2 的竖直面），中间一块橙黄腰线",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1340
+  },
+  {
+   "id": "aft_nacelle_ribs_s",
+   "name": "aft_ribs_s",
+   "zh": "吊舱环形加强筋",
+   "en": "Nacelle Ring Ribs",
+   "group": "engines",
+   "order": 76,
+   "explode": [
+    -5.279,
+    1.209,
+    -0.226
+   ],
+   "note": "8 道环形加强筋，外凸 3 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1792
+  },
+  {
+   "id": "hull_fore",
+   "name": "hull_fore",
+   "zh": "前段船体",
+   "en": "Forward Hull",
+   "group": "hull_fore",
+   "order": 76,
+   "explode": [
+    7.383,
+    0.011,
+    -0.003
+   ],
+   "note": "舰首至座舱后隔框：外形段 + 装甲板基底",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 3044
+  },
+  {
+   "id": "fore_cool_vent_s",
+   "name": "cool_vent_s",
+   "zh": "散热百叶·左",
+   "en": "Heat Exchanger Louvers Port",
+   "group": "hull_fore",
+   "order": 77,
+   "explode": [
+    7.408,
+    0.876,
+    0.366
+   ],
+   "note": "7 片倾斜百叶 + 前后框，骑在下舷装甲带上，向壳外斜排",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1572
+  },
+  {
+   "id": "mid_armor_chine_port",
+   "name": "mid_armor_chine_port",
+   "zh": "左舷舷线装甲带",
+   "en": "Chine Strake (Port)",
+   "group": "hull_mid",
+   "order": 77,
+   "explode": [
+    -3.098,
+    -3.543,
+    -0.146
+   ],
+   "note": "骑在硬舷线上（z≈±0.2 的竖直面），中间一块橙黄腰线",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1340
+  },
+  {
+   "id": "aft_pylons_p",
+   "name": "aft_pylons_p",
+   "zh": "引擎挂架",
+   "en": "Engine Pylons",
+   "group": "engines",
+   "order": 77,
+   "explode": [
+    -5.404,
+    -0.608,
+    -0.374
+   ],
+   "note": "2 根前撑 + 1 根后撑，根部 12 颗螺栓连到船体舷侧",
+   "center": [
+    -10.15,
+    -1.78473,
+    -0.5169
+   ],
+   "tris": 1140
+  },
+  {
+   "id": "fore_cool_vent_p",
+   "name": "cool_vent_p",
+   "zh": "散热百叶·右",
+   "en": "Heat Exchanger Louvers Stbd",
+   "group": "hull_fore",
+   "order": 78,
+   "explode": [
+    7.496,
+    0.833,
+    -0.426
+   ],
+   "note": "7 片倾斜百叶 + 前后框，骑在下舷装甲带上，向壳外斜排",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1572
+  },
+  {
+   "id": "mid_armor_low_stbd",
+   "name": "mid_armor_low_stbd",
+   "zh": "右舷下舷装甲板",
+   "en": "Lower Flank Armor (Stbd)",
+   "group": "hull_mid",
+   "order": 78,
+   "explode": [
+    -2.874,
+    3.493,
+    -1.504
+   ],
+   "note": "th -0.215π–-0.040π，7 块交错",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2380
+  },
+  {
+   "id": "aft_pylons_s",
+   "name": "aft_pylons_s",
+   "zh": "引擎挂架",
+   "en": "Engine Pylons",
+   "group": "engines",
+   "order": 78,
+   "explode": [
+    -5.434,
+    0.617,
+    -0.38
+   ],
+   "note": "2 根前撑 + 1 根后撑，根部 12 颗螺栓连到船体舷侧",
+   "center": [
+    -10.15,
+    1.78473,
+    -0.5169
+   ],
+   "tris": 1140
+  },
+  {
+   "id": "fore_armor_chine_p",
+   "name": "armor_chine_p",
+   "zh": "舷线装甲带·右",
+   "en": "Chine Armor Belt Stbd",
+   "group": "hull_fore",
+   "order": 79,
+   "explode": [
+    7.599,
+    0.776,
+    -0.048
+   ],
+   "note": "跨硬舷线的深色装甲带，缝落在舷线上，是这级舰的识别特征",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1260
+  },
+  {
+   "id": "mid_armor_low_port",
+   "name": "mid_armor_low_port",
+   "zh": "左舷下舷装甲板",
+   "en": "Lower Flank Armor (Port)",
+   "group": "hull_mid",
+   "order": 79,
+   "explode": [
+    -2.91,
+    -3.535,
+    -1.522
+   ],
+   "note": "th -0.215π–-0.040π，7 块交错",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2380
+  },
+  {
+   "id": "aft_pod_bands_p",
+   "name": "aft_bands_p",
+   "zh": "吊舱加强箍",
+   "en": "Nacelle Band Collars",
+   "group": "engines",
+   "order": 79,
+   "explode": [
+    -5.363,
+    -1.256,
+    -0.238
+   ],
+   "note": "4 道环形箍：宽 9 cm、外凸 2 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 896
+  },
+  {
+   "id": "fore_armor_chine_s",
+   "name": "armor_chine_s",
+   "zh": "舷线装甲带·左",
+   "en": "Chine Armor Belt Port",
+   "group": "hull_fore",
+   "order": 80,
+   "explode": [
+    7.684,
+    0.784,
+    -0.049
+   ],
+   "note": "跨硬舷线的深色装甲带，缝落在舷线上，是这级舰的识别特征",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1260
+  },
+  {
+   "id": "mid_deck_plating_stbd",
+   "name": "mid_deck_plating_stbd",
+   "zh": "右舷甲板铺设板",
+   "en": "Deck Plating (Stbd)",
+   "group": "hull_mid",
+   "order": 80,
+   "explode": [
+    -3.297,
+    1.656,
+    3.199
+   ],
+   "note": "5 块交错铺设板，主梁与甲板边梁之间，缝 5 mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 380
+  },
+  {
+   "id": "aft_pod_bands_s",
+   "name": "aft_bands_s",
+   "zh": "吊舱加强箍",
+   "en": "Nacelle Band Collars",
+   "group": "engines",
+   "order": 80,
+   "explode": [
+    -5.384,
+    1.3,
+    -0.239
+   ],
+   "note": "4 道环形箍：宽 9 cm、外凸 2 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 896
+  },
+  {
+   "id": "aft_tail_seal",
+   "name": "aft_tail_seal",
+   "zh": "尾端封口框",
+   "en": "Tail Bulkhead Seal",
+   "group": "hull_aft",
+   "order": 80,
+   "explode": [
+    -5.59,
+    -0.001,
+    -0.014
+   ],
+   "note": "尾段末端封口环，中央引擎穿过其中",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 896
+  },
+  {
+   "id": "fore_armor_shoulder_p",
+   "name": "armor_shoulder_p",
+   "zh": "肩部装甲板带·右",
+   "en": "Shoulder Armor Belt Stbd",
+   "group": "hull_fore",
+   "order": 81,
+   "explode": [
+    7.769,
+    0.639,
+    0.478
+   ],
+   "note": "3 块顺舷线走的曲面装甲（hull.plate），板缝 7mm，与前排交错",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1128
+  },
+  {
+   "id": "mid_dorsal_keel",
+   "name": "mid_dorsal_keel",
+   "zh": "背脊主梁",
+   "en": "Dorsal Spine Beam",
+   "group": "hull_mid",
+   "order": 81,
+   "explode": [
+    -3.107,
+    0.0,
+    3.842
+   ],
+   "note": "沿甲板起伏放样的箱形加强梁 300×115 mm，顶面铝盖条；x 3.14→-8.96",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1512
+  },
+  {
+   "id": "aft_nacelle_c",
+   "name": "aft_pod_c",
+   "zh": "引擎吊舱外壳",
+   "en": "Engine Nacelle Shell",
+   "group": "engines",
+   "order": 81,
+   "explode": [
+    -5.575,
+    -0.002,
+    0.089
+   ],
+   "note": "沿 X 回转的吊舱壳体，中心线严格过 spec (y=0.00,z=0.28)",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1320
+  },
+  {
+   "id": "aft_vertical_fin",
+   "name": "aft_fin",
+   "zh": "垂尾整流罩",
+   "en": "Vertical Fin Fairing",
+   "group": "hull_aft",
+   "order": 81,
+   "explode": [
+    -5.799,
+    0.0,
+    0.468
+   ],
+   "note": "尾背脊上的垂尾整流罩，内含天线/尾灯座",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 168
+  },
+  {
+   "id": "fore_armor_shoulder_s",
+   "name": "armor_shoulder_s",
+   "zh": "肩部装甲板带·左",
+   "en": "Shoulder Armor Belt Port",
+   "group": "hull_fore",
+   "order": 82,
+   "explode": [
+    7.857,
+    0.574,
+    -0.522
+   ],
+   "note": "3 块顺舷线走的曲面装甲（hull.plate），板缝 7mm，与前排交错",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1128
+  },
+  {
+   "id": "aft_nacelle_ribs_c",
+   "name": "aft_ribs_c",
+   "zh": "吊舱环形加强筋",
+   "en": "Nacelle Ring Ribs",
+   "group": "engines",
+   "order": 82,
+   "explode": [
+    -5.606,
+    0.0,
+    0.091
+   ],
+   "note": "8 道环形加强筋，外凸 3 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1792
+  },
+  {
+   "id": "aft_tail_frame",
+   "name": "aft_tail_frame",
+   "zh": "尾部承力框",
+   "en": "Aft Load Frame",
+   "group": "hull_aft",
+   "order": 82,
+   "explode": [
+    -6.045,
+    -0.0,
+    -0.006
+   ],
+   "note": "3 道贴合船壳截面的环框（含 10 片斜撑），把引擎载荷收进尾段",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2424
+  },
+  {
+   "id": "hull_mid",
+   "name": "hull_mid",
+   "zh": "中段船体",
+   "en": "Center Hull",
+   "group": "hull_mid",
+   "order": 82,
+   "explode": [
+    -5.0,
+    0.037,
+    0.044
+   ],
+   "note": "主承力段：油箱/弹舱/机翼根部接头所在",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 3344
+  },
+  {
+   "id": "fore_deck_vent",
+   "name": "deck_vent_pair",
+   "zh": "甲板 APU 排气口（一对）",
+   "en": "APU Deck Vents",
+   "group": "hull_fore",
+   "order": 83,
+   "explode": [
+    7.913,
+    0.0,
+    1.033
+   ],
+   "note": "座舱之后的甲板两侧各一组：底板 + 加强框 + 6 片斜百叶",
+   "center": [
+    5.55,
+    0.6,
+    1.35055
+   ],
+   "tris": 192
+  },
+  {
+   "id": "mid_armor_up_stbd",
+   "name": "mid_armor_up_stbd",
+   "zh": "右舷上舷装甲板",
+   "en": "Upper Flank Armor (Stbd)",
+   "group": "hull_mid",
+   "order": 83,
+   "explode": [
+    -2.478,
+    4.045,
+    1.755
+   ],
+   "note": "th 0.050π–0.262π，7 块交错，缝 5 mm，末块红警示",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2380
+  },
+  {
+   "id": "aft_mount_ring_p_fwd",
+   "name": "aft_mount_p_fwd",
+   "zh": "引擎安装环（前）",
+   "en": "Engine Mount Ring (fwd)",
+   "group": "engines",
+   "order": 83,
+   "explode": [
+    -5.34,
+    -1.777,
+    -0.332
+   ],
+   "note": "10 颗连接螺栓，环带贴合 r_body",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 920
+  },
+  {
+   "id": "aft_hull_armor_port",
+   "name": "aft_hull_armor_port",
+   "zh": "尾部装甲（右舷）",
+   "en": "Aft Armour (Starboard)",
+   "group": "hull_aft",
+   "order": 83,
+   "explode": [
+    -6.222,
+    0.79,
+    -0.04
+   ],
+   "note": "沿舷线的 4 块贴合装甲板，缝宽 3 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 592
+  },
+  {
+   "id": "mid_armor_up_port",
+   "name": "mid_armor_up_port",
+   "zh": "左舷上舷装甲板",
+   "en": "Upper Flank Armor (Port)",
+   "group": "hull_mid",
+   "order": 84,
+   "explode": [
+    -2.511,
+    -4.089,
+    1.775
+   ],
+   "note": "th 0.050π–0.262π，7 块交错，缝 5 mm，末块红警示",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2380
+  },
+  {
+   "id": "aft_mount_ring_s_fwd",
+   "name": "aft_mount_s_fwd",
+   "zh": "引擎安装环（前）",
+   "en": "Engine Mount Ring (fwd)",
+   "group": "engines",
+   "order": 84,
+   "explode": [
+    -5.37,
+    1.787,
+    -0.334
+   ],
+   "note": "10 颗连接螺栓，环带贴合 r_body",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 920
+  },
+  {
+   "id": "aft_hull_armor_stbd",
+   "name": "aft_hull_armor_stbd",
+   "zh": "尾部装甲（左舷）",
+   "en": "Aft Armour (Port)",
+   "group": "hull_aft",
+   "order": 84,
+   "explode": [
+    -6.448,
+    -0.818,
+    -0.043
+   ],
+   "note": "沿舷线的 4 块贴合装甲板，缝宽 3 cm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 592
+  },
+  {
+   "id": "mid_deck_rails",
+   "name": "mid_deck_rails",
+   "zh": "甲板边梁",
+   "en": "Deck Edge Rails",
+   "group": "hull_mid",
+   "order": 85,
+   "explode": [
+    -3.283,
+    -0.013,
+    4.0
+   ],
+   "note": "左右舷甲板边缘收口梁，随站位宽度走",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1224
+  },
+  {
+   "id": "aft_mount_ring_c_fwd",
+   "name": "aft_mount_c_fwd",
+   "zh": "引擎安装环（前）",
+   "en": "Engine Mount Ring (fwd)",
+   "group": "engines",
+   "order": 85,
+   "explode": [
+    -5.699,
+    0.0,
+    0.125
+   ],
+   "note": "10 颗连接螺栓，环带贴合 r_body",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 920
+  },
+  {
+   "id": "aft_hull_armor_top",
+   "name": "aft_hull_armor_top",
+   "zh": "尾部甲板装甲",
+   "en": "Aft Deck Armour",
+   "group": "hull_aft",
+   "order": 85,
+   "explode": [
+    -6.707,
+    -0.001,
+    0.519
+   ],
+   "note": "背脊甲板 4 块板，尾框前方收口",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 592
+  },
+  {
+   "id": "mid_deck_plating_port",
+   "name": "mid_deck_plating_port",
+   "zh": "左舷甲板铺设板",
+   "en": "Deck Plating (Port)",
+   "group": "hull_mid",
+   "order": 86,
+   "explode": [
+    -2.433,
+    -2.115,
+    4.122
+   ],
+   "note": "5 块交错铺设板，主梁与甲板边梁之间，缝 5 mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 380
+  },
+  {
+   "id": "aft_hull_armor_belly",
+   "name": "aft_hull_armor_belly",
+   "zh": "尾部腹部装甲",
+   "en": "Aft Belly Armour",
+   "group": "hull_aft",
+   "order": 86,
+   "explode": [
+    -6.932,
+    0.001,
+    -0.561
+   ],
+   "note": "腹部 4 块板，包住尾框下缘",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 592
+  },
+  {
+   "id": "mid_access_stbd",
+   "name": "mid_access_stbd",
+   "zh": "右舷检修盖板",
+   "en": "Access Panels (Stbd)",
+   "group": "hull_mid",
+   "order": 87,
+   "explode": [
+    -1.591,
+    4.947,
+    0.999
+   ],
+   "note": "7 块 680×160 mm 方形盖板 + 铝压边，交错分布在上舷",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1428
+  },
+  {
+   "id": "aft_stringers",
+   "name": "aft_stringers",
+   "zh": "尾部桁条",
+   "en": "Aft Stringers",
+   "group": "hull_aft",
+   "order": 87,
+   "explode": [
+    -7.182,
+    -0.001,
+    -0.006
+   ],
+   "note": "4 条沿舷线的承力桁条，压在装甲板缝上",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 688
+  },
+  {
+   "id": "mid_access_port",
+   "name": "mid_access_port",
+   "zh": "左舷检修盖板",
+   "en": "Access Panels (Port)",
+   "group": "hull_mid",
+   "order": 88,
+   "explode": [
+    -1.61,
+    -5.001,
+    1.01
+   ],
+   "note": "7 块 680×160 mm 方形盖板 + 铝压边，交错分布在上舷",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1428
+  },
+  {
+   "id": "hull_aft",
+   "name": "hull_aft",
+   "zh": "尾段船体",
+   "en": "Aft Hull",
+   "group": "hull_aft",
+   "order": 88,
+   "explode": [
+    -7.41,
+    0.009,
+    -0.002
+   ],
+   "note": "动力段：三台主引擎安装座与尾框",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1400
+  },
+  {
+   "id": "mid_deck_crossribs",
+   "name": "mid_deck_crossribs",
+   "zh": "甲板横梁",
+   "en": "Deck Cross Ribs",
+   "group": "hull_mid",
+   "order": 89,
+   "explode": [
+    -1.57,
+    0.0,
+    5.175
+   ],
+   "note": "10 根横梁压在甲板上，跨 y±0.645",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 440
+  },
+  {
+   "id": "mid_dorsal_ribs",
+   "name": "mid_dorsal_ribs",
+   "zh": "背脊肋骨框",
+   "en": "Dorsal Rib Frames",
+   "group": "hull_mid",
+   "order": 90,
+   "explode": [
+    -1.536,
+    0.0,
+    5.246
+   ],
+   "note": "10 道横向肋，间距 1.2 m，厚 62 mm、倒角 R3.2",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1080
+  },
+  {
+   "id": "fx_plume_p_outer",
+   "name": "fx_plume_p_outer",
+   "zh": "外焰（半透明）·engine_port",
+   "en": "Outer Plume (translucent)",
+   "group": "detail",
+   "order": 90,
+   "explode": [
+    -1.964,
+    -0.234,
+    -0.044
+   ],
+   "note": "特效件（非结构）：根部中心 (-17.40, -2.60, -0.45) 半径 0.730（0.96×bell_r_in），长 7.40 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 558
+  },
+  {
+   "id": "mid_trim_port",
+   "name": "mid_trim_port",
+   "zh": "左舷涂装条",
+   "en": "Livery Trim (Port)",
+   "group": "hull_mid",
+   "order": 91,
+   "explode": [
+    0.935,
+    -5.368,
+    0.912
+   ],
+   "note": "橙黄腰线 1 条（x 2.55→-6.15）+ 红警示条 2 条",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 576
+  },
+  {
+   "id": "fx_plume_s_outer",
+   "name": "fx_plume_s_outer",
+   "zh": "外焰（半透明）·engine_stbd",
+   "en": "Outer Plume (translucent)",
+   "group": "detail",
+   "order": 91,
+   "explode": [
+    -1.972,
+    0.235,
+    -0.044
+   ],
+   "note": "特效件（非结构）：根部中心 (-17.40, 2.60, -0.45) 半径 0.730（0.96×bell_r_in），长 7.40 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 558
+  },
+  {
+   "id": "mid_trim_stbd",
+   "name": "mid_trim_stbd",
+   "zh": "右舷涂装条",
+   "en": "Livery Trim (Stbd)",
+   "group": "hull_mid",
+   "order": 92,
+   "explode": [
+    0.945,
+    5.425,
+    0.921
+   ],
+   "note": "橙黄腰线 1 条（x 2.55→-6.15）+ 红警示条 2 条",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 576
+  },
+  {
+   "id": "fx_plume_p_mid",
+   "name": "fx_plume_p_mid",
+   "zh": "中层焰·engine_port",
+   "en": "Mid Plume",
+   "group": "detail",
+   "order": 92,
+   "explode": [
+    -1.981,
+    -0.238,
+    -0.045
+   ],
+   "note": "特效件（非结构）：根部中心 (-17.40, -2.60, -0.45) 半径 0.502（0.66×bell_r_in），长 6.96 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 474
+  },
+  {
+   "id": "mid_radiator_ap",
+   "name": "mid_radiator_ap",
+   "zh": "左舷散热辐射板（后）",
+   "en": "Deployable Radiator AP",
+   "group": "hull_mid",
+   "order": 93,
+   "explode": [
+    -0.706,
+    -5.517,
+    0.944
+   ],
+   "note": "铰链沿 X，展开 26°；板 + 4 肋 + 3 关节 + 3 个铰链座",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 848
+  },
+  {
+   "id": "fx_plume_s_mid",
+   "name": "fx_plume_s_mid",
+   "zh": "中层焰·engine_stbd",
+   "en": "Mid Plume",
+   "group": "detail",
+   "order": 93,
+   "explode": [
+    -1.989,
+    0.24,
+    -0.045
+   ],
+   "note": "特效件（非结构）：根部中心 (-17.40, 2.60, -0.45) 半径 0.502（0.66×bell_r_in），长 6.96 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 474
+  },
+  {
+   "id": "mid_radiator_a",
+   "name": "mid_radiator_a",
+   "zh": "右舷散热辐射板（后）",
+   "en": "Deployable Radiator A",
+   "group": "hull_mid",
+   "order": 94,
+   "explode": [
+    -0.71,
+    5.575,
+    0.951
+   ],
+   "note": "铰链沿 X，展开 26°；板 + 4 肋 + 3 关节 + 3 个铰链座",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 848
+  },
+  {
+   "id": "fx_plume_p_core",
+   "name": "fx_plume_p_core",
+   "zh": "尾焰内芯·engine_port",
+   "en": "Plume Core",
+   "group": "detail",
+   "order": 94,
+   "explode": [
+    -1.997,
+    -0.249,
+    -0.046
+   ],
+   "note": "特效件（非结构）：根部中心 (-17.40, -2.60, -0.45) 半径 0.243（0.32×bell_r_in），长 5.77 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 390
+  },
+  {
+   "id": "fx_plume_s_core",
+   "name": "fx_plume_s_core",
+   "zh": "尾焰内芯·engine_stbd",
+   "en": "Plume Core",
+   "group": "detail",
+   "order": 95,
+   "explode": [
+    -2.005,
+    0.25,
+    -0.047
+   ],
+   "note": "特效件（非结构）：根部中心 (-17.40, 2.60, -0.45) 半径 0.243（0.32×bell_r_in），长 5.77 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 390
+  },
+  {
+   "id": "fore_nose_radome_ribs",
+   "name": "nose_radome_ribs",
+   "zh": "雷达罩肋条",
+   "en": "Radome Ribs & Cap",
+   "group": "detail",
+   "order": 96,
+   "explode": [
+    2.03,
+    0.0,
+    -0.007
+   ],
+   "note": "6 条经向肋 + 顶端帽，给深色陶瓷罩体结构可读性",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1224
+  },
+  {
+   "id": "fore_nose_radome",
+   "name": "nose_radome",
+   "zh": "雷达罩",
+   "en": "Radar Dome",
+   "group": "detail",
+   "order": 97,
+   "explode": [
+    2.039,
+    0.0,
+    -0.007
+   ],
+   "note": "椭圆穹顶（0.395×0.300，与钝端面等径），底圈坐在 x=15 端面上，前凸 155mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 638
+  },
+  {
+   "id": "fore_nose_radome_bolts",
+   "name": "nose_bolts",
+   "zh": "雷达罩螺栓圈",
+   "en": "Radome Bolt Ring",
+   "group": "detail",
+   "order": 98,
+   "explode": [
+    2.048,
+    0.0,
+    -0.007
+   ],
+   "note": "沿端面椭圆均布 18 颗埋头螺栓",
+   "center": [
+    14.988,
+    0.407,
+    0.015
+   ],
+   "tris": 1224
+  },
+  {
+   "id": "fore_nose_radome_collar",
+   "name": "nose_collar",
+   "zh": "雷达罩安装环",
+   "en": "Radome Collar",
+   "group": "detail",
+   "order": 99,
+   "explode": [
+    2.056,
+    0.0,
+    -0.007
+   ],
+   "note": "罩根加强环，压住罩体与端面的接缝",
+   "center": [
+    14.982,
+    0.0,
+    0.015
+   ],
+   "tris": 428
+  },
+  {
+   "id": "fx_plume_c_outer",
+   "name": "fx_plume_c_outer",
+   "zh": "外焰（半透明）·engine_ctr",
+   "en": "Outer Plume (translucent)",
+   "group": "detail",
+   "order": 100,
+   "explode": [
+    -2.065,
+    0.0,
+    0.018
+   ],
+   "note": "特效件（非结构）：根部中心 (-15.75, 0.00, 0.28) 半径 0.595（0.96×bell_r_in），长 6.20 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 558
+  },
+  {
+   "id": "fore_nose_pitot_s",
+   "name": "nose_pitot_s",
+   "zh": "空速管·左",
+   "en": "Pitot Tube Port",
+   "group": "detail",
+   "order": 101,
+   "explode": [
+    2.073,
+    -0.055,
+    -0.013
+   ],
+   "note": "根部埋入壳面、杆体前伸，尖端 x=14.94 不越过鼻端",
+   "center": [
+    14.37,
+    -0.50685,
+    -0.03
+   ],
+   "tris": 384
+  },
+  {
+   "id": "fore_nose_pitot_p",
+   "name": "nose_pitot_p",
+   "zh": "空速管·右",
+   "en": "Pitot Tube Stbd",
+   "group": "detail",
+   "order": 102,
+   "explode": [
+    2.082,
+    0.055,
+    -0.013
+   ],
+   "note": "根部埋入壳面、杆体前伸，尖端 x=14.94 不越过鼻端",
+   "center": [
+    14.37,
+    0.50685,
+    -0.03
+   ],
+   "tris": 384
+  },
+  {
+   "id": "fore_nose_eo_fairing",
+   "name": "nose_eo_fairing",
+   "zh": "光电转塔整流包",
+   "en": "EO/IR Turret Fairing",
+   "group": "detail",
+   "order": 103,
+   "explode": [
+    2.091,
+    0.0,
+    -0.038
+   ],
+   "note": "颏部整流包，包住球体与壳面的交线",
+   "center": [
+    14.63,
+    0.0,
+    -0.296
+   ],
+   "tris": 624
+  },
+  {
+   "id": "fore_nose_eo_ball",
+   "name": "nose_eo_ball",
+   "zh": "EO/IR 光电球",
+   "en": "EO/IR Sensor Ball",
+   "group": "detail",
+   "order": 104,
+   "explode": [
+    2.099,
+    0.0,
+    -0.042
+   ],
+   "note": "万向球 + 镀膜镜头 + 镜头环，从整流包下前方探出",
+   "center": [
+    14.63,
+    0.0,
+    -0.34
+   ],
+   "tris": 1136
+  },
+  {
+   "id": "fx_plume_c_mid",
+   "name": "fx_plume_c_mid",
+   "zh": "中层焰·engine_ctr",
+   "en": "Mid Plume",
+   "group": "detail",
+   "order": 105,
+   "explode": [
+    -2.108,
+    0.0,
+    0.019
+   ],
+   "note": "特效件（非结构）：根部中心 (-15.75, 0.00, 0.28) 半径 0.409（0.66×bell_r_in），长 5.83 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 474
+  },
+  {
+   "id": "fore_nose_startracker_s",
+   "name": "nose_star_s",
+   "zh": "星敏感器·左",
+   "en": "Star Tracker Port",
+   "group": "detail",
+   "order": 106,
+   "explode": [
+    2.116,
+    -0.018,
+    0.054
+   ],
+   "note": "遮光筒 + 镜面 + 座，轴线朝斜前上",
+   "center": [
+    14.16558,
+    -0.15978,
+    0.59781
+   ],
+   "tris": 384
+  },
+  {
+   "id": "fore_nose_startracker_p",
+   "name": "nose_star_p",
+   "zh": "星敏感器·右",
+   "en": "Star Tracker Stbd",
+   "group": "detail",
+   "order": 107,
+   "explode": [
+    2.125,
+    0.018,
+    0.054
+   ],
+   "note": "遮光筒 + 镜面 + 座，轴线朝斜前上",
+   "center": [
+    14.16558,
+    0.15978,
+    0.59781
+   ],
+   "tris": 384
+  },
+  {
+   "id": "fx_plume_c_core",
+   "name": "fx_plume_c_core",
+   "zh": "尾焰内芯·engine_ctr",
+   "en": "Plume Core",
+   "group": "detail",
+   "order": 108,
+   "explode": [
+    -2.135,
+    0.0,
+    0.02
+   ],
+   "note": "特效件（非结构）：根部中心 (-15.75, 0.00, 0.28) 半径 0.198（0.32×bell_r_in），长 4.84 m，沿 -X 收束",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 390
+  },
+  {
+   "id": "fore_nose_window_s",
+   "name": "nose_window_s",
+   "zh": "光学窗口·左",
+   "en": "Optical Window Port",
+   "group": "detail",
+   "order": 109,
+   "explode": [
+    2.141,
+    -0.075,
+    0.07
+   ],
+   "note": "侧向光电窗口：黑框 + 镀膜玻璃，嵌在壳面",
+   "center": [
+    13.35,
+    -0.62233,
+    0.73198
+   ],
+   "tris": 24
+  },
+  {
+   "id": "fore_nose_window_p",
+   "name": "nose_window_p",
+   "zh": "光学窗口·右",
+   "en": "Optical Window Stbd",
+   "group": "detail",
+   "order": 110,
+   "explode": [
+    2.15,
+    0.075,
+    0.07
+   ],
+   "note": "侧向光电窗口：黑框 + 镀膜玻璃，嵌在壳面",
+   "center": [
+    13.35,
+    0.62233,
+    0.73198
+   ],
+   "tris": 24
+  },
+  {
+   "id": "fore_nav_p",
+   "name": "nav_p",
+   "zh": "航行灯·右舷绿",
+   "en": "Nav Light Stbd Green",
+   "group": "detail",
+   "order": 111,
+   "explode": [
+    2.156,
+    0.134,
+    0.04
+   ],
+   "note": "左红右绿：透镜 + 座 + 遮光罩，坐在肩部装甲带上",
+   "center": [
+    12.85,
+    1.0537,
+    0.43988
+   ],
+   "tris": 396
+  },
+  {
+   "id": "fore_nav_s",
+   "name": "nav_s",
+   "zh": "航行灯·左舷红",
+   "en": "Nav Light Port Red",
+   "group": "detail",
+   "order": 112,
+   "explode": [
+    2.165,
+    0.126,
+    -0.058
+   ],
+   "note": "左红右绿：透镜 + 座 + 遮光罩，坐在肩部装甲带上",
+   "center": [
+    12.85,
+    0.9932,
+    -0.41801
+   ],
+   "tris": 396
+  },
+  {
+   "id": "fore_beacon_top",
+   "name": "beacon_top",
+   "zh": "防撞灯·背",
+   "en": "Anti-Collision Beacon Top",
+   "group": "detail",
+   "order": 113,
+   "explode": [
+    2.176,
+    0.0,
+    0.095
+   ],
+   "note": "防撞频闪灯：座 + 半球罩 + 压环",
+   "center": [
+    12.55,
+    0.0,
+    0.89145
+   ],
+   "tris": 568
+  },
+  {
+   "id": "fore_decal_bow",
+   "name": "decal_bow.001",
+   "zh": "舷号 07",
+   "en": "Bow Number 07",
+   "group": "detail",
+   "order": 114,
+   "explode": [
+    2.182,
+    0.117,
+    0.085
+   ],
+   "note": "贴在肩部装甲上的实心文字网格（非贴图）",
+   "center": [
+    12.6,
+    0.89621,
+    0.82633
+   ],
+   "tris": 404
+  },
+  {
+   "id": "aft_actuators_p",
+   "name": "aft_actuators_p",
+   "zh": "喷管作动筒",
+   "en": "Nozzle Actuators",
+   "group": "detail",
+   "order": 115,
+   "explode": [
+    -2.167,
+    -0.353,
+    -0.04
+   ],
+   "note": "3 组液压作动筒 + 活塞杆，连接吊舱与喷管外壁",
+   "center": [
+    -15.91,
+    -2.6,
+    0.40524
+   ],
+   "tris": 876
+  },
+  {
+   "id": "aft_actuators_s",
+   "name": "aft_actuators_s",
+   "zh": "喷管作动筒",
+   "en": "Nozzle Actuators",
+   "group": "detail",
+   "order": 116,
+   "explode": [
+    -2.175,
+    0.355,
+    -0.04
+   ],
+   "note": "3 组液压作动筒 + 活塞杆，连接吊舱与喷管外壁",
+   "center": [
+    -15.91,
+    2.6,
+    0.40524
+   ],
+   "tris": 876
+  },
+  {
+   "id": "fx_laser_core",
+   "name": "fx_laser_core",
+   "zh": "激光内芯",
+   "en": "Laser Beam Core",
+   "group": "detail",
+   "order": 117,
+   "explode": [
+    2.2,
+    0.0,
+    0.237
+   ],
+   "note": "特效件（非结构）：从炮塔 (2.60, 0.00, 1.97) 沿 +X 的 18 m 光束，半径 0.028 m",
+   "center": [
+    11.6,
+    0.0,
+    1.97
+   ],
+   "tris": 92
+  },
+  {
+   "id": "fx_laser_glow",
+   "name": "fx_laser_glow",
+   "zh": "激光外晕",
+   "en": "Laser Beam Glow",
+   "group": "detail",
+   "order": 118,
+   "explode": [
+    2.209,
+    0.0,
+    0.238
+   ],
+   "note": "特效件（非结构）：从炮塔 (2.60, 0.00, 1.97) 沿 +X 的 18 m 光束，半径 0.100 m",
+   "center": [
+    11.6,
+    0.0,
+    1.97
+   ],
+   "tris": 92
+  },
+  {
+   "id": "aft_ctr_nozzle_tiles",
+   "name": "aft_ctr_ceramic",
+   "zh": "中央喷口隔热瓦",
+   "en": "Centre Nozzle Ceramic Tiles",
+   "group": "detail",
+   "order": 119,
+   "explode": [
+    -2.23,
+    0.0,
+    0.025
+   ],
+   "note": "14 块陶瓷瓦环绕中央喷口，尾框出口处",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 616
+  },
+  {
+   "id": "fore_rcs_p",
+   "name": "rcs_p",
+   "zh": "前段 RCS 喷口·右",
+   "en": "Fore RCS Thruster Stbd",
+   "group": "detail",
+   "order": 120,
+   "explode": [
+    2.227,
+    0.23,
+    0.025
+   ],
+   "note": "按 spec.RCS_PORTS 前向一对定位：法兰 + 10 颗螺栓圈(kit.bolt_ring) + 喷管 + 喉部 + 4 片燃气舵",
+   "center": [
+    10.4,
+    1.45022,
+    0.26897
+   ],
+   "tris": 1444
+  },
+  {
+   "id": "fore_rcs_s",
+   "name": "rcs_s",
+   "zh": "前段 RCS 喷口·左",
+   "en": "Fore RCS Thruster Port",
+   "group": "detail",
+   "order": 121,
+   "explode": [
+    2.236,
+    -0.231,
+    0.025
+   ],
+   "note": "按 spec.RCS_PORTS 前向一对定位：法兰 + 10 颗螺栓圈(kit.bolt_ring) + 喷管 + 喉部 + 4 片燃气舵",
+   "center": [
+    10.4,
+    -1.45022,
+    0.26897
+   ],
+   "tris": 1444
+  },
+  {
+   "id": "aft_actuators_c",
+   "name": "aft_actuators_c",
+   "zh": "喷管作动筒",
+   "en": "Nozzle Actuators",
+   "group": "detail",
+   "order": 122,
+   "explode": [
+    -2.256,
+    0.0,
+    0.053
+   ],
+   "note": "3 组液压作动筒 + 活塞杆，连接吊舱与喷管外壁",
+   "center": [
+    -14.46,
+    0.0,
+    0.99948
+   ],
+   "tris": 876
+  },
+  {
+   "id": "aft_ctr_covers",
+   "name": "aft_ctr_covers",
+   "zh": "中央引擎检修口盖",
+   "en": "Centre Engine Access Covers",
+   "group": "detail",
+   "order": 123,
+   "explode": [
+    -2.265,
+    0.0,
+    0.027
+   ],
+   "note": "中央引擎两侧的快开检修盖",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 120
+  },
+  {
+   "id": "aft_tail_light_port",
+   "name": "aft_light_port",
+   "zh": "航行灯（左红）",
+   "en": "Nav Light (port)",
+   "group": "detail",
+   "order": 124,
+   "explode": [
+    -2.268,
+    -0.165,
+    0.031
+   ],
+   "note": "发光材质，尾部侧上方可见",
+   "center": [
+    -14.275,
+    -1.02,
+    0.3
+   ],
+   "tris": 124
+  },
+  {
+   "id": "aft_tail_light_stbd",
+   "name": "aft_light_stbd",
+   "zh": "航行灯（右绿）",
+   "en": "Nav Light (stbd)",
+   "group": "detail",
+   "order": 125,
+   "explode": [
+    -2.276,
+    0.165,
+    0.031
+   ],
+   "note": "发光材质，尾部侧上方可见",
+   "center": [
+    -14.275,
+    1.02,
+    0.3
+   ],
+   "tris": 124
+  },
+  {
+   "id": "aft_tail_light_white",
+   "name": "aft_light_white",
+   "zh": "尾部识别灯",
+   "en": "Aft Formation Light",
+   "group": "detail",
+   "order": 126,
+   "explode": [
+    -2.289,
+    0.0,
+    0.095
+   ],
+   "note": "冷白发光，尾框中央",
+   "center": [
+    -14.275,
+    0.0,
+    0.74
+   ],
+   "tris": 124
+  },
+  {
+   "id": "aft_warn_stripes",
+   "name": "aft_warn_stripes",
+   "zh": "尾部警示条纹",
+   "en": "Aft Warning Stripes",
+   "group": "detail",
+   "order": 127,
+   "explode": [
+    -2.3,
+    0.0,
+    -0.009
+   ],
+   "note": "喷口两侧的橙黄警示带，靠尾框排布",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 344
+  },
+  {
+   "id": "fore_beacon_bot",
+   "name": "beacon_bot",
+   "zh": "防撞灯·腹",
+   "en": "Anti-Collision Beacon Belly",
+   "group": "detail",
+   "order": 128,
+   "explode": [
+    2.301,
+    0.0,
+    -0.183
+   ],
+   "note": "防撞频闪灯：座 + 半球罩 + 压环",
+   "center": [
+    9.3,
+    0.0,
+    -1.04933
+   ],
+   "tris": 568
+  },
+  {
+   "id": "aft_rcs_tail_set",
+   "name": "aft_rcs_set",
+   "zh": "尾部 RCS 喷口群",
+   "en": "Aft RCS Thruster Set",
+   "group": "detail",
+   "order": 129,
+   "explode": [
+    -2.317,
+    -0.0,
+    -0.0
+   ],
+   "note": "按 spec.RCS_PORTS 的 4 个尾部姿控喷口，配支架与收敛内锥",
+   "center": [
+    -12.6,
+    1.70753,
+    1.04135
+   ],
+   "tris": 1296
+  },
+  {
+   "id": "aft_hatches",
+   "name": "aft_hatches",
+   "zh": "尾部检修盖",
+   "en": "Aft Access Hatches",
+   "group": "detail",
+   "order": 130,
+   "explode": [
+    -2.326,
+    -0.0,
+    -0.005
+   ],
+   "note": "4 块机加工铝检修盖，带边框与缝",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 592
+  },
+  {
+   "id": "aft_heat_tiles_p",
+   "name": "aft_tiles_p",
+   "zh": "吊舱隔热瓦",
+   "en": "Nacelle Heat Tiles",
+   "group": "detail",
+   "order": 131,
+   "explode": [
+    -2.265,
+    -0.556,
+    -0.104
+   ],
+   "note": "10 块金色多层隔热膜瓦片，贴在吊舱外壁",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 200
+  },
+  {
+   "id": "aft_heat_tiles_s",
+   "name": "aft_tiles_s",
+   "zh": "吊舱隔热瓦",
+   "en": "Nacelle Heat Tiles",
+   "group": "detail",
+   "order": 132,
+   "explode": [
+    -2.274,
+    0.558,
+    -0.104
+   ],
+   "note": "10 块金色多层隔热膜瓦片，贴在吊舱外壁",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 200
+  },
+  {
+   "id": "aft_heat_tiles_c",
+   "name": "aft_tiles_c",
+   "zh": "吊舱隔热瓦",
+   "en": "Nacelle Heat Tiles",
+   "group": "detail",
+   "order": 133,
+   "explode": [
+    -2.352,
+    0.0,
+    0.038
+   ],
+   "note": "10 块金色多层隔热膜瓦片，贴在吊舱外壁",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 200
+  },
+  {
+   "id": "aft_fuel_pipes_p",
+   "name": "aft_pipes_p",
+   "zh": "燃油冷却管路",
+   "en": "Fuel / Coolant Lines",
+   "group": "detail",
+   "order": 134,
+   "explode": [
+    -2.278,
+    -0.62,
+    0.002
+   ],
+   "note": "沿吊舱侧上方走的两根管路（alu），端部带接头",
+   "center": [
+    -10.525,
+    -3.26901,
+    0.02761
+   ],
+   "tris": 816
+  },
+  {
+   "id": "aft_fuel_pipes_s",
+   "name": "aft_pipes_s",
+   "zh": "燃油冷却管路",
+   "en": "Fuel / Coolant Lines",
+   "group": "detail",
+   "order": 135,
+   "explode": [
+    -2.287,
+    0.622,
+    0.002
+   ],
+   "note": "沿吊舱侧上方走的两根管路（alu），端部带接头",
+   "center": [
+    -10.525,
+    3.26901,
+    0.02761
+   ],
+   "tris": 816
+  },
+  {
+   "id": "aft_fuel_pipes_c",
+   "name": "aft_pipes_c",
+   "zh": "燃油冷却管路",
+   "en": "Fuel / Coolant Lines",
+   "group": "detail",
+   "order": 136,
+   "explode": [
+    -2.373,
+    -0.105,
+    0.127
+   ],
+   "note": "沿吊舱侧上方走的两根管路（alu），端部带接头",
+   "center": [
+    -10.525,
+    -0.55507,
+    0.67627
+   ],
+   "tris": 816
+  },
+  {
+   "id": "mid_rescue",
+   "name": "mid_rescue",
+   "zh": "救援标识",
+   "en": "RESCUE Marking",
+   "group": "detail",
+   "order": 137,
+   "explode": [
+    -2.381,
+    -0.0,
+    -0.168
+   ],
+   "note": "检修门上缘，两舷",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 3288
+  },
+  {
+   "id": "mid_fuel_stbd",
+   "name": "mid_fuel_stbd",
+   "zh": "右舷加油口盖",
+   "en": "Fuel Filler Cap (Stbd)",
+   "group": "detail",
+   "order": 138,
+   "explode": [
+    2.255,
+    0.793,
+    0.167
+   ],
+   "note": "φ240 盖 + φ276 压环 + 4 螺栓",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 360
+  },
+  {
+   "id": "mid_fuel_port",
+   "name": "mid_fuel_port",
+   "zh": "左舷加油口盖",
+   "en": "Fuel Filler Cap (Port)",
+   "group": "detail",
+   "order": 139,
+   "explode": [
+    2.263,
+    -0.796,
+    0.167
+   ],
+   "note": "φ240 盖 + φ276 压环 + 4 螺栓",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 360
+  },
+  {
+   "id": "mid_danger",
+   "name": "mid_danger",
+   "zh": "高压警示标识",
+   "en": "DANGER Marking",
+   "group": "detail",
+   "order": 140,
+   "explode": [
+    2.363,
+    0.0,
+    0.489
+   ],
+   "note": "两舷肩部，压在红色警示条上",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2240
+  },
+  {
+   "id": "mid_name_stbd",
+   "name": "mid_name_stbd",
+   "zh": "右舷舰名",
+   "en": "Ship Name AEGIS-7 (Stbd)",
+   "group": "detail",
+   "order": 141,
+   "explode": [
+    -2.138,
+    1.052,
+    0.435
+   ],
+   "note": "逐字各贴自己那点的法线，外推 7.5 mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1020
+  },
+  {
+   "id": "mid_name_port",
+   "name": "mid_name_port",
+   "zh": "左舷舰名",
+   "en": "Ship Name AEGIS-7 (Port)",
+   "group": "detail",
+   "order": 142,
+   "explode": [
+    -2.147,
+    -1.053,
+    0.435
+   ],
+   "note": "逐字各贴自己那点的法线，外推 7.5 mm",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1020
+  },
+  {
+   "id": "mid_num_stbd",
+   "name": "mid_num_stbd",
+   "zh": "右舷舷号",
+   "en": "Hull Number KV-07 (Stbd)",
+   "group": "detail",
+   "order": 143,
+   "explode": [
+    2.147,
+    1.157,
+    -0.012
+   ],
+   "note": "舷线装甲带上，白色漆 180 mm 高",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 480
+  },
+  {
+   "id": "mid_num_port",
+   "name": "mid_num_port",
+   "zh": "左舷舷号",
+   "en": "Hull Number KV-07 (Port)",
+   "group": "detail",
+   "order": 144,
+   "explode": [
+    2.146,
+    -1.178,
+    -0.012
+   ],
+   "note": "舷线装甲带上，白色漆 180 mm 高",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 480
+  },
+  {
+   "id": "mid_rad_act_f",
+   "name": "mid_rad_act_f",
+   "zh": "右舷散热板液压作动筒（前）",
+   "en": "Radiator Hydraulic Actuator F",
+   "group": "detail",
+   "order": 145,
+   "explode": [
+    2.034,
+    1.373,
+    0.116
+   ],
+   "note": "缸筒 φ80 + 活塞杆 φ44，两端耳座分别贴壳 / 贴板",
+   "center": [
+    0.61494,
+    2.03545,
+    0.25076
+   ],
+   "tris": 320
+  },
+  {
+   "id": "mid_rad_act_fp",
+   "name": "mid_rad_act_fp",
+   "zh": "左舷散热板液压作动筒（前）",
+   "en": "Radiator Hydraulic Actuator FP",
+   "group": "detail",
+   "order": 146,
+   "explode": [
+    2.041,
+    -1.378,
+    0.116
+   ],
+   "note": "缸筒 φ80 + 活塞杆 φ44，两端耳座分别贴壳 / 贴板",
+   "center": [
+    0.61494,
+    -2.03545,
+    0.25076
+   ],
+   "tris": 320
+  },
+  {
+   "id": "mid_greeble_deck_s",
+   "name": "mid_greeble_deck_s",
+   "zh": "甲板碎件（右）",
+   "en": "Deck Machinery (Stbd)",
+   "group": "detail",
+   "order": 147,
+   "explode": [
+    -2.17,
+    0.478,
+    1.088
+   ],
+   "note": "28 件，避开气闸围板",
+   "center": [
+    -4.1,
+    0.52124,
+    1.40214
+   ],
+   "tris": 1536
+  },
+  {
+   "id": "mid_greeble_shoulder",
+   "name": "mid_greeble_shoulder",
+   "zh": "翼根肩部碎件",
+   "en": "Shoulder Machinery",
+   "group": "detail",
+   "order": 148,
+   "explode": [
+    -1.865,
+    1.444,
+    0.776
+   ],
+   "note": "24 组装机件，右舷肩部倒角带",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1600
+  },
+  {
+   "id": "mid_greeble_shoulder_p",
+   "name": "mid_greeble_shoulder_p",
+   "zh": "翼根肩部碎件（左）",
+   "en": "Shoulder Machinery (Port)",
+   "group": "detail",
+   "order": 149,
+   "explode": [
+    -1.877,
+    -1.444,
+    0.774
+   ],
+   "note": "24 组装机件，左舷肩部倒角带",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1688
+  },
+  {
+   "id": "mid_greeble_deck_p",
+   "name": "mid_greeble_deck_p",
+   "zh": "甲板碎件（左）",
+   "en": "Deck Machinery (Port)",
+   "group": "detail",
+   "order": 150,
+   "explode": [
+    -2.171,
+    -0.521,
+    1.125
+   ],
+   "note": "44 件，主梁与甲板边梁之间",
+   "center": [
+    -7.14868,
+    -0.72623,
+    1.40214
+   ],
+   "tris": 1488
+  },
+  {
+   "id": "mid_airlock_window",
+   "name": "mid_airlock_window",
+   "zh": "气闸观察窗",
+   "en": "Airlock Viewport",
+   "group": "detail",
+   "order": 151,
+   "explode": [
+    -1.936,
+    0.685,
+    1.44
+   ],
+   "note": "φ164 双层镀膜玻璃，外压铝环",
+   "center": [
+    -3.5,
+    0.58,
+    1.4415
+   ],
+   "tris": 316
+  },
+  {
+   "id": "mid_airlock_wheel",
+   "name": "mid_airlock_wheel",
+   "zh": "气闸手轮",
+   "en": "Airlock Handwheel",
+   "group": "detail",
+   "order": 152,
+   "explode": [
+    -1.933,
+    0.684,
+    1.46
+   ],
+   "note": "φ336 轮缘 + 3 辐条 + 轮毂，环绕观察窗",
+   "center": [
+    -3.5,
+    0.58,
+    1.4635
+   ],
+   "tris": 432
+  },
+  {
+   "id": "mid_antenna",
+   "name": "mid_antenna",
+   "zh": "天线组",
+   "en": "Antenna Array",
+   "group": "detail",
+   "order": 153,
+   "explode": [
+    -1.678,
+    0.025,
+    1.889
+   ],
+   "note": "3 根（860 / 560 / 360 mm），锥形振子 + 红色顶灯",
+   "center": [
+    -6.9,
+    -0.62,
+    1.3465
+   ],
+   "tris": 396
+  },
+  {
+   "id": "mid_greeble_flank_stbd",
+   "name": "mid_greeble_flank_stbd",
+   "zh": "右舷舷线碎件",
+   "en": "Flank Machinery (Stbd)",
+   "group": "detail",
+   "order": 154,
+   "explode": [
+    -1.201,
+    2.205,
+    0.349
+   ],
+   "note": "30 组装机件（含安装底板），舷线上方走线区",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2632
+  },
+  {
+   "id": "mid_greeble_flank_port",
+   "name": "mid_greeble_flank_port",
+   "zh": "左舷舷线碎件",
+   "en": "Flank Machinery (Port)",
+   "group": "detail",
+   "order": 155,
+   "explode": [
+    -1.015,
+    -2.303,
+    0.368
+   ],
+   "note": "30 组装机件（含安装底板），舷线上方走线区",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 2544
+  },
+  {
+   "id": "mid_led_stbd",
+   "name": "mid_led_stbd",
+   "zh": "右舷灯带",
+   "en": "Chine LED Strip (Stbd)",
+   "group": "detail",
+   "order": 156,
+   "explode": [
+    -0.916,
+    2.378,
+    0.145
+   ],
+   "note": "18 段，段长 0.40 m / 间隔 0.25 m，冷白",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1440
+  },
+  {
+   "id": "mid_led_port",
+   "name": "mid_led_port",
+   "zh": "左舷灯带",
+   "en": "Chine LED Strip (Port)",
+   "group": "detail",
+   "order": 157,
+   "explode": [
+    -0.92,
+    -2.386,
+    0.146
+   ],
+   "note": "18 段，段长 0.40 m / 间隔 0.25 m，冷白",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1440
+  },
+  {
+   "id": "mid_vent",
+   "name": "mid_vent",
+   "zh": "散热格栅",
+   "en": "Vent Grilles",
+   "group": "detail",
+   "order": 158,
+   "explode": [
+    -1.804,
+    -0.004,
+    -1.83
+   ],
+   "note": "4 组 440×300（底板 + 6 片斜百叶 + 铝压边），按贴壳法线摆",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 880
+  },
+  {
+   "id": "mid_sensor",
+   "name": "mid_sensor",
+   "zh": "传感器鼓包",
+   "en": "Sensor Blisters",
+   "group": "detail",
+   "order": 159,
+   "explode": [
+    -0.904,
+    1.056,
+    2.171
+   ],
+   "note": "4 个：甲板 3 个 φ230 + 右舷肩部 1 个 φ210",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1228
+  },
+  {
+   "id": "mid_rad_act_a",
+   "name": "mid_rad_act_a",
+   "zh": "右舷散热板液压作动筒（后）",
+   "en": "Radiator Hydraulic Actuator A",
+   "group": "detail",
+   "order": 160,
+   "explode": [
+    0.405,
+    2.546,
+    0.217
+   ],
+   "note": "缸筒 φ80 + 活塞杆 φ44，两端耳座分别贴壳 / 贴板",
+   "center": [
+    -1.78434,
+    2.04538,
+    0.25257
+   ],
+   "tris": 320
+  },
+  {
+   "id": "mid_rad_act_ap",
+   "name": "mid_rad_act_ap",
+   "zh": "左舷散热板液压作动筒（后）",
+   "en": "Radiator Hydraulic Actuator AP",
+   "group": "detail",
+   "order": 161,
+   "explode": [
+    0.406,
+    -2.555,
+    0.217
+   ],
+   "note": "缸筒 φ80 + 活塞杆 φ44，两端耳座分别贴壳 / 贴板",
+   "center": [
+    -1.78434,
+    -2.04538,
+    0.25257
+   ],
+   "tris": 320
+  },
+  {
+   "id": "mid_cable_stbd",
+   "name": "mid_cable_stbd",
+   "zh": "右舷电缆束",
+   "en": "Cable Harness (Stbd)",
+   "group": "detail",
+   "order": 162,
+   "explode": [
+    -1.055,
+    2.381,
+    0.057
+   ],
+   "note": "2 条沿舷线走线，φ40 / φ26",
+   "center": [
+    1.99,
+    1.96321,
+    0.19085
+   ],
+   "tris": 816
+  },
+  {
+   "id": "mid_cable_port",
+   "name": "mid_cable_port",
+   "zh": "左舷电缆束",
+   "en": "Cable Harness (Port)",
+   "group": "detail",
+   "order": 163,
+   "explode": [
+    -1.059,
+    -2.388,
+    0.057
+   ],
+   "note": "2 条沿舷线走线，φ40 / φ26",
+   "center": [
+    1.99,
+    -1.96321,
+    0.19085
+   ],
+   "tris": 816
+  },
+  {
+   "id": "mid_no_step",
+   "name": "mid_no_step.001",
+   "zh": "禁止踩踏标识",
+   "en": "NO STEP Marking",
+   "group": "detail",
+   "order": 164,
+   "explode": [
+    -0.48,
+    -1.177,
+    2.293
+   ],
+   "note": "甲板平贴，标出承力区禁踩范围",
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tris": 1200
+  }
+ ]
+}
