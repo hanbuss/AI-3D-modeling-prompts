@@ -1637,13 +1637,19 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
       if (!pivot) return;
       var rig = _rigAround(st, pivot);
       var rigW = wh ? _rigAround(wh, pivot) : null;
-      var doorRig = null;
+      var doorRig = null, doorZ = 0;
       if (dr) {
-        var dp = _pivotOf([dr], true);
-        doorRig = dp ? _rigAround(dr, dp) : null;
+        /* 舱门是"挂在肚子下面"的姿态（=打开）：铰链在**外侧上缘**，
+           绕长轴（X）向内上翻 90° 才刚好盖住舱口。铰点放 bbox 中心会翻到船体里面去。 */
+        dr.node.updateMatrixWorld(true);
+        var db = new THREE.Box3().setFromObject(dr.node);
+        doorZ = (Math.abs(db.max.z) >= Math.abs(db.min.z)) ? db.max.z : db.min.z;
+        var dc = db.getCenter(new THREE.Vector3());
+        var dp = new THREE.Vector3(dc.x, db.max.y, doorZ);
+        doorRig = _rigAround(dr, dp);
       }
       out.push({ key: d.key, rig: rig, rigW: rigW, doorRig: doorRig, pivot: pivot.clone(),
-                 doorSgn: pivot.z >= 0 ? 1 : -1 });
+                 doorSgn: doorZ >= 0 ? 1 : -1 });
     });
     out.forEach(function (r) {
       if (r.doorRig) r.doorBaseRot = r.doorRig.rotation.clone();
@@ -1666,11 +1672,13 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
     if (G.state < G.target) G.state = Math.min(G.target, G.state + step);
     else if (G.state > G.target) G.state = Math.max(G.target, G.state - step);
     var t = G.state;
-    var doorK = t < 0.32 ? t / 0.32 : (t < 0.78 ? 1 : 1 - (t - 0.78) / 0.22);
-    var fold = easeInOut(clamp01((t - 0.22) / 0.5));
+    /* 建模出来的舱门姿态是"开着下垂"的，所以收起时门要往壳体里收（±90°），
+       不是先开再回原位——之前就是这样，收起后两块门板还挂在肚子下面。 */
+    var fold = easeInOut(clamp01((t - 0.15) / 0.60));
+    var doorClose = easeInOut(clamp01((t - 0.55) / 0.40));   /* 轮组进舱之后才关门 */
     G.rigs.forEach(function (r) {
       if (r.doorRig) {
-        r.doorRig.rotation.set(r.doorBaseRot.x + r.doorSgn * (Math.PI * 0.46) * doorK,
+        r.doorRig.rotation.set(r.doorBaseRot.x + r.doorSgn * (Math.PI * 0.5) * doorClose,
                                r.doorBaseRot.y, r.doorBaseRot.z);
       }
       var ang = -Math.PI * (102 / 180) * fold;
@@ -1679,6 +1687,9 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:1px solid rgba
       var vis = fold < 0.985;
       if (r.rig) r.rig.visible = vis;
       if (r.rigW) r.rigW.visible = vis;
+      /* 门翻到位后也不必再画：壳体没有"关闭态"舱盖，留着会露出内侧暗面；
+         直接藏掉，读起来就是一个带凹框的闭合舱口 */
+      if (r.doorRig) r.doorRig.visible = doorClose < 0.92;
     });
   }
 
